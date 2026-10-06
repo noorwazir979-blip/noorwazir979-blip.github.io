@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speakly · speak it, and the invoice is ready</title>
+<meta name="description" content="Speakly turns your voice into a finished invoice in seconds. Built for small businesses in the UAE. Coming soon: join the waitlist.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .sp-hero { background: radial-gradient(ellipse 60% 70% at 70% 40%, #2a2350 0%, var(--navy) 62%); color: #fff; padding-block: 80px 96px; }
+  .sp-hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+  .soon { display: inline-block; background: var(--gold); color: var(--navy); font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; }
+  .sp-hero h1 { font-size: clamp(38px, 5.6vw, 64px); margin-top: 18px; }
+  .sp-hero h1 em { font-style: normal; color: var(--teal); }
+  .mock { background: #fff; color: var(--ink); border-radius: 22px; padding: 22px; box-shadow: 0 40px 80px rgba(0,0,0,.45); max-width: 360px; justify-self: center; width: 100%; }
+  .mic { display: flex; align-items: center; gap: 12px; background: #f2f4f7; border-radius: 14px; padding: 12px 14px; font-size: 15px; }
+  .mic span:first-child { width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: var(--gold); display: grid; place-items: center; flex: none; }
+  .bars { display: flex; gap: 3px; align-items: center; height: 26px; margin: 14px 0; }
+  .bars i { width: 5px; border-radius: 3px; background: var(--teal); animation: b 1s ease-in-out infinite; }
+  @keyframes b { 50% { transform: scaleY(.35); } }
+  .inv { border: 1px solid var(--line); border-radius: 12px; padding: 14px; font-size: 14px; }
+  .inv h4 { margin: 0 0 8px; font-family: var(--display); display: flex; justify-content: space-between; }
+  .inv div { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed var(--line); font-variant-numeric: tabular-nums; }
+  .inv div.t { border: 0; font-weight: 800; font-size: 16px; }
+  .ex { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  @media (max-width: 860px) { .sp-hero .wrap { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/logo.png" alt="">Noor AI Concierge</a>
+    <nav class="nav"><a href="index.html#services">Services</a><a href="index.html#pricing">Prices</a><a class="btn btn-gold" href="#waitlist">Join the waitlist</a></nav>
+  </div>
+</header>
+
+<section class="sp-hero">
+  <div class="wrap">
+    <div>
+      <span class="soon">Coming soon</span>
+      <h1>Speak it. <em>The invoice is ready.</em></h1>
+      <p class="lead" style="color:#c7d0de;margin:22px 0 30px">Speakly turns what you say into a finished invoice in seconds. No typing, no queue at the typing center, no paying AED 10-20 every time you need one.</p>
+      <a class="btn btn-gold" href="#waitlist">Join the waitlist</a>
+    </div>
+    <div class="mock" aria-label="Example of Speakly">
+      <div class="mic"><span>🎙️</span><span>"Invoice for ABC Trading: 20 cartons of water at 12 dirhams, delivery 50."</span></div>
+      <div class="bars" aria-hidden="true"><i style="height:12px"></i><i style="height:22px;animation-delay:.1s"></i><i style="height:16px;animation-delay:.2s"></i><i style="height:26px;animation-delay:.3s"></i><i style="height:14px;animation-delay:.4s"></i><i style="height:20px;animation-delay:.5s"></i><i style="height:10px;animation-delay:.6s"></i><i style="height:24px;animation-delay:.7s"></i></div>
+      <div class="inv">
+        <h4><span>INVOICE</span><span style="font-family:var(--mono);font-size:12px;color:var(--muted)">#0001</span></h4>
+        <div><span>Bill to</span><span>ABC Trading</span></div>
+        <div><span>Water carton × 20 @ AED 12</span><span>AED 240</span></div>
+        <div><span>Delivery</span><span>AED 50</span></div>
+        <div class="t"><span>Total</span><span>AED 290</span></div>
+      </div>
+      <div class="ex">Example only. Names and prices are made up.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Why Speakly</div>
+    <h2 style="margin-top:10px">Built for the shop owner, not the accountant</h2>
+    <div class="grid3">
+      <div class="card"><div class="ico">🎙️</div><h3>Just talk</h3><p>Say the customer, the items and the prices the way you would say them to a person.</p></div>
+      <div class="card"><div class="ico">⚡</div><h3>Ready in seconds</h3><p>Speakly writes a clean, professional invoice while you stay with your customer.</p></div>
+      <div class="card"><div class="ico">💸</div><h3>Stop paying per invoice</h3><p>Many small businesses pay a typing center AED 10-20 for each invoice. Speakly makes them yourself.</p></div>
+    </div>
+    <h3 style="margin-top:48px">What we're building next</h3>
+    <div class="grid2">
+      <div class="card"><p>• Invoices you can send straight to the customer on WhatsApp or email</p><p>• Your logo and business details on every invoice</p><p>• Speak in your own language</p></div>
+      <div class="card"><p>• VAT-ready invoices for UAE businesses</p><p>• Quotations and receipts the same way</p><p>• A simple history of everything you invoiced</p></div>
+    </div>
+    <p class="note">Speakly is in development and not launched yet. Features and launch date may change. Waitlist members hear first and help shape it.</p>
+  </div>
+</section>
+
+<section id="waitlist" class="contact">
+  <div class="wrap" style="max-width:720px">
+    <div class="eyebrow" style="color:var(--teal)">Be first</div>
+    <h2 style="margin-top:10px">Join the Speakly waitlist</h2>
+    <p class="lead">Get early access and tell us what your invoices need.</p>
+    <div class="formcard" style="margin-top:26px">
+      <form data-kind="speakly" data-label="Join the waitlist">
+        <div class="row2"><label>Your name<input name="name" required autocomplete="name"></label><label>WhatsApp or email<input name="contact" required></label></div>
+        <div class="row2"><label>Business type<input name="business" placeholder="e.g. trading, garage, shop"></label><label>Invoices per month<select name="volume"><option>Under 20</option><option>20-100</option><option>100-500</option><option>500+</option></select></label></div>
+        <label>Anything your invoices must have? (optional)<textarea name="message" placeholder="e.g. Arabic text, VAT number, delivery notes"></textarea></label>
+        <button class="btn btn-gold" type="submit">Join the waitlist</button>
+        <div class="ok">You're on the list. Thank you!</div><div class="err"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:#fff">Speakly</b> by Noor AI Concierge · Abu Dhabi, UAE</div>
+    <div><a href="index.html">Home</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · © <span data-year></span> Noor Zaman</div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>
