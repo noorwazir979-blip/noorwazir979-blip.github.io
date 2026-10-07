@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 29 375 63"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset=".55" stop-color="#ffb84d"/><stop offset="1" stop-color="#ff8a4c"/></linearGradient><mask id="mrr" maskUnits="userSpaceOnUse" x="-50" y="-50" width="600" height="300"><rect x="-50" y="-50" width="600" height="300" fill="#fff"/><circle cx="85" cy="56" r="24" fill="#000"/></mask><mask id="mdr" maskUnits="userSpaceOnUse" x="-50" y="-50" width="600" height="300"><rect x="-50" y="-50" width="600" height="300" fill="#fff"/><circle cx="103" cy="56" r="19" fill="none" stroke="#000" stroke-width="10"/></mask><mask id="irr" maskUnits="userSpaceOnUse" x="-50" y="-50" width="200" height="200"><rect x="-50" y="-50" width="200" height="200" fill="#fff"/><circle cx="38" cy="50" r="29" fill="#000"/></mask><mask id="idr" maskUnits="userSpaceOnUse" x="-50" y="-50" width="200" height="200"><rect x="-50" y="-50" width="200" height="200" fill="#fff"/><circle cx="62" cy="50" r="24" fill="none" stroke="#000" stroke-width="10"/></mask></defs><g>
+<path d="M10 79V56A19 19 0 0 1 48 56V79" fill="none" stroke="#f6f2e9" stroke-width="10"/>
+<circle cx="103" cy="56" r="19" fill="none" stroke="#f6f2e9" stroke-width="10" mask="url(#mrr)"/>
+<circle cx="85" cy="56" r="24" fill="#f6f2e9" mask="url(#mdr)"/>
+<path d="M94 39.27A19 19 0 0 1 94 72.73A19 19 0 0 1 94 39.27Z" fill="url(#gr)" mask="url(#mdr)"/>
+<path d="M140 79V56A19 19 0 0 1 159 37H162" fill="none" stroke="#f6f2e9" stroke-width="10"/>
+</g><g transform="translate(176 52.5) scale(.78)"><g><g fill="none" stroke="#f6f2e9" stroke-width="4.6">
+<circle cx="11" cy="23" r="8.7"/><path d="M19.7 14.3V34"/><path d="M29.3 14.3V34"/>
+<path d="M61.26 28.59A8.7 8.7 0 1 1 61.26 17.41"/><path d="M99.9 34V23A8.7 8.7 0 0 1 117.3 23V34"/>
+<path d="M142.26 28.59A8.7 8.7 0 1 1 142.26 17.41"/><path d="M153.9 14.3V34"/>
+<path d="M163.8 23H181.2A8.7 8.7 0 1 0 178.65 29.15"/><path d="M190.8 34V23A8.7 8.7 0 0 1 199.5 14.3H201.5"/>
+<circle cx="217.5" cy="23" r="8.7"/><path d="M226.2 14.3V37A8.7 8.7 0 0 1 217.5 45.7H212"/>
+<path d="M235.8 23H253.2A8.7 8.7 0 1 0 250.65 29.15"/></g>
+<circle cx="81.6" cy="23" r="11" fill="#f6f2e9"/>
+<circle cx="29.3" cy="6.5" r="3.1" fill="url(#gr)"/><circle cx="153.9" cy="6.5" r="3.1" fill="url(#gr)"/></g></g></svg>

@@ -743,3 +743,9 @@ body::after { mix-blend-mode: normal; opacity: .025; }
 .palette { display: none !important; }
 @media (max-width: 600px) { .theme { left: 14px; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); } .t-btn { width: 40px; height: 40px; } }
 .embed .theme { display: none; }
+
+/* approved logo (7 Oct 2026): one-line lockup in the header and footer, the Eclipse icon on phones */
+.brand .logo { height: 30px; width: auto; border-radius: 0; display: block; }
+.brand picture { display: block; }
+@media (max-width: 600px) { .brand .logo { height: 32px; } }
+footer .fb .logo { height: 26px; width: auto; border-radius: 0; }
