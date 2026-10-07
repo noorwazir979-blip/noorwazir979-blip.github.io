@@ -754,3 +754,5 @@ footer .soc { display: flex; gap: 8px; }
 footer .soc a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); color: var(--muted); transition: color .2s, border-color .2s; }
 footer .soc a:hover { color: var(--text); border-color: var(--text); }
 footer .soc svg { width: 17px; height: 17px; }
+/* industry page links in the footer (7 Oct 2026) */
+footer .ind { flex-basis: 100%; order: 9; font-size: 13.5px; line-height: 1.8; }

@@ -1,6 +1,9 @@
 /* Industry landing pages (clinics, garages, real estate, salons) in the v6 "Always On" look. 7 Oct 2026 */
 :root { --bg: #07080c; --bg2: #0d0e14; --text: #f3f1ec; --muted: #a4a6b4; --line: rgba(255,255,255,.09);
-  --gold: #ffc56b; --gold2: #ff8a4c; --mint: #7ef0c8; --serif: "Instrument Serif", Georgia, serif; color-scheme: dark; }
+  --gold: #ffc56b; --gold2: #ff8a4c; --mint: #7ef0c8; --g-rgb: 255,184,77; --serif: "Instrument Serif", Georgia, serif; color-scheme: dark; }
+/* follows the colour theme picked on the homepage (Gold, Ocean, Silver) */
+[data-c="ocean"] { --gold: #7cc8ff; --gold2: #6d7dff; --mint: #5eead4; --g-rgb: 124,200,255; }
+[data-c="silver"] { --gold: #f1f3f8; --gold2: #9fb0cc; --mint: #7ef0c8; --g-rgb: 214,222,236; }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.65 "Geist", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -21,7 +24,7 @@ svg { width: 18px; height: 18px; flex: none; }
 .btn.big { min-height: 52px; padding: 0 24px; font-size: 16px; }
 .btn.ghost { background: transparent; color: var(--text); border-color: var(--line); }
 
-.hero { padding: 72px 0 56px; background: radial-gradient(ellipse 70% 80% at 85% 0%, rgba(255,184,77,.13), transparent 60%); }
+.hero { padding: 72px 0 56px; background: radial-gradient(ellipse 70% 80% at 85% 0%, rgba(var(--g-rgb),.13), transparent 60%); }
 .eyebrow { margin: 0 0 18px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
 .hero h1 { font-size: clamp(38px, 6.4vw, 72px); line-height: 1.02; font-weight: 650; max-width: 16ch; }
 .hero h1 em { display: block; }
@@ -44,7 +47,7 @@ svg { width: 18px; height: 18px; flex: none; }
 .human { margin: 26px 0 0; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--line); color: var(--muted); }
 .human b { color: var(--text); }
 
-.phone { margin: 0; border: 1px solid var(--line); border-radius: 28px; padding: 18px 16px 20px; background: #0a0b10; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 30px 80px -40px rgba(255,184,77,.35); }
+.phone { margin: 0; border: 1px solid var(--line); border-radius: 28px; padding: 18px 16px 20px; background: #0a0b10; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 30px 80px -40px rgba(var(--g-rgb),.35); }
 .phone figcaption { font-size: 12px; color: var(--muted); text-align: center; letter-spacing: .04em; margin-bottom: 4px; }
 .b { margin: 0; max-width: 85%; padding: 10px 13px; border-radius: 16px; font-size: 15px; line-height: 1.45; }
 .b.in { align-self: flex-start; background: #1c1d25; border-bottom-left-radius: 5px; }
@@ -67,7 +70,7 @@ svg { width: 18px; height: 18px; flex: none; }
 .qa h3 { font-size: 17px; letter-spacing: -.01em; margin-bottom: 6px; }
 .qa p { margin: 0; color: var(--muted); }
 
-.closing { padding: 80px 0; text-align: center; background: radial-gradient(ellipse 60% 70% at 50% 100%, rgba(255,184,77,.12), transparent 65%); border-top: 1px solid var(--line); }
+.closing { padding: 80px 0; text-align: center; background: radial-gradient(ellipse 60% 70% at 50% 100%, rgba(var(--g-rgb),.12), transparent 65%); border-top: 1px solid var(--line); }
 .closing h2 { margin-bottom: 14px; }
 .closing p { color: var(--muted); margin: 0; }
 .closing .ctas { justify-content: center; }
