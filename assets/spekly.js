@@ -1,45 +1,38 @@
-// Spekly page: language switch, the mic example, early-access form.
+// Spekly intro page: language switch, the voice example building an invoice, the "help me set it up" form.
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const RTL = { ar: true, ur: true };
 const SP = {
-  en: { slogan: "Speak it. We'll handle the rest.", said: "Sold 2 tyres for 400, customer paid 200 cash" },
-  ar: { slogan: "تكلّم، ونحن نتولى الباقي.", said: "بعت إطارين بـ 400، الزبون دفع 200 كاش" },
-  hi: { slogan: "बोलिए, बाकी हम संभाल लेंगे।", said: "2 टायर 400 में बेचे, ग्राहक ने 200 कैश दिए" },
-  ur: { slogan: "بولیں، باقی ہم سنبھال لیں گے۔", said: "2 ٹائر 400 میں بیچے، گاہک نے 200 کیش دیے" },
+  en: { slogan: "Speak it.<br><span>We'll handle the rest.</span>", said: "Sold 2 tyres for 400, customer paid 200 cash" },
+  ar: { slogan: "تكلّم،<br><span>ونحن نتولى الباقي.</span>", said: "بعت إطارين بـ 400، الزبون دفع 200 كاش" },
+  ur: { slogan: "بولیں،<br><span>باقی ہم سنبھال لیں گے۔</span>", said: "2 ٹائر 400 میں بیچے، گاہک نے 200 کیش دیے" },
+  hi: { slogan: "बोलिए,<br><span>बाकी हम संभाल लेंगे।</span>", said: "2 टायर 400 में बेचे, ग्राहक ने 200 कैश दिए" },
 };
-function liquid(el, onChange) {
-  const blob = $(".blob", el), btns = $$("button", el);
-  const place = () => { const b = btns.find((x) => x.getAttribute("aria-pressed") === "true") || btns[0]; blob.style.left = b.offsetLeft + "px"; blob.style.width = b.offsetWidth + "px"; };
-  btns.forEach((b) => b.addEventListener("click", () => { btns.forEach((x) => x.setAttribute("aria-pressed", x === b)); place(); onChange(b.dataset.v); }));
-  addEventListener("resize", place); document.fonts && document.fonts.ready.then(place); place();
-}
-let spLang = "en", spRun = 0;
+let lang = "en", run = 0;
 async function speak() {
-  const id = ++spRun, said = $("#said"), mic = $("#mic"), rows = $$("#inv .row"), owe = $("#inv .owe");
-  rows.forEach((r) => r.classList.remove("show")); owe.classList.remove("show");
-  said.dir = RTL[spLang] ? "rtl" : "ltr"; mic.classList.add("on");
-  const text = SP[spLang].said;
-  for (let i = 0; i <= text.length; i++) { if (id !== spRun) return; said.innerHTML = "“" + esc(text.slice(0, i)) + '<span class="caret"></span>'; await wait(reduce ? 0 : 38); }
-  said.innerHTML = "“" + esc(text) + "”"; mic.classList.remove("on");
-  for (const r of rows) { if (id !== spRun) return; await wait(reduce ? 0 : 260); r.classList.add("show"); }
-  await wait(reduce ? 0 : 300); owe.classList.add("show");
+  const id = ++run, said = $("#said"), mic = $("#mic"), parts = $$("#inv .l, #inv .tot, #inv .owes");
+  parts.forEach((p) => p.classList.remove("show"));
+  said.dir = lang === "ar" || lang === "ur" ? "rtl" : "ltr"; said.className = "said " + lang; mic.classList.add("on");
+  const t = SP[lang].said;
+  for (let i = 0; i <= t.length; i++) { if (id !== run) return; said.textContent = "“" + t.slice(0, i); await wait(reduce ? 0 : 38); }
+  said.textContent = "“" + t + "”"; mic.classList.remove("on");
+  for (const p of parts) { if (id !== run) return; await wait(reduce ? 0 : 300); p.classList.add("show"); }
 }
-liquid($("#spLang"), (v) => { spLang = v; const s = $("#spSlogan"); s.textContent = SP[v].slogan; s.dir = RTL[v] ? "rtl" : "ltr"; speak(); });
+$$("#lang button").forEach((b) => b.addEventListener("click", () => {
+  $$("#lang button").forEach((x) => x.setAttribute("aria-pressed", x === b)); lang = b.dataset.v;
+  const s = $("#slogan"); s.innerHTML = SP[lang].slogan; s.dir = lang === "ar" || lang === "ur" ? "rtl" : "ltr"; s.className = lang === "ur" || lang === "hi" ? lang : "";
+  speak();
+}));
 $("#mic").addEventListener("click", speak);
-new IntersectionObserver((es) => { if (es[0].isIntersecting && !spRun) speak(); }, { threshold: .4 }).observe($("#inv"));
+new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { speak(); o.disconnect(); } }, { threshold: .4 }).observe($("#inv"));
 $("#early-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.target, msg = $("#early-msg"), btn = $("button[type=submit]", f), data = Object.fromEntries(new FormData(f));
   btn.disabled = true; btn.textContent = "Sending…";
-  const wa = `https://wa.me/971589358857?text=${encodeURIComponent("Hi Noor, I'd like Spekly early access. Business: " + (data.business || "") + ", " + (data.volume || "") + " invoices a month.")}`;
+  const wa = `https://wa.me/971589358857?text=${encodeURIComponent("Hi Noor, I'd like help setting up Spekly. Name: " + (data.name || "") + ". Business: " + (data.business || ""))}`;
   try {
-    const r = await fetch("https://formsubmit.co/ajax/imnoorzamn@gmail.com", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ _subject: "Spekly early access", _template: "table", _captcha: "false", ...data }) });
-    if (!r.ok) throw 0;
-    f.reset(); msg.innerHTML = '<span class="ok">You\'re on the list. Noor will message you on WhatsApp.</span>';
+    const r = await fetch("https://formsubmit.co/ajax/imnoorzamn@gmail.com", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ _subject: "Spekly: help setting up", _template: "table", _captcha: "false", ...data }) });
+    if (!r.ok) throw 0; f.reset(); msg.innerHTML = '<span class="ok">Sent ✓ Noor will message you on WhatsApp.</span>';
   } catch (x) { msg.innerHTML = `It didn't send. Please <a href="${wa}" target="_blank" rel="noopener">message Noor on WhatsApp</a> instead.`; }
-  btn.disabled = false; btn.textContent = "Request early access";
+  btn.disabled = false; btn.textContent = "Message me";
 });
-$$("[data-year]").forEach((e) => (e.textContent = new Date().getFullYear()));

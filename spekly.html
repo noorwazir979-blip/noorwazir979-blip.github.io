@@ -4,132 +4,115 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Spekly · Speak it. We'll handle the rest.</title>
-<meta name="description" content="Spekly: voice-first invoicing and bookkeeping for UAE shops, traders and transport businesses. Speak a sale, expense or payment. Early access.">
+<meta name="description" content="Spekly: voice-first invoicing and bookkeeping for UAE shops, traders and transport businesses. Say a sale, an expense or a payment. Try it free.">
 <meta name="theme-color" content="#0b0b0c">
+<meta name="color-scheme" content="dark only">
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Noto+Naskh+Arabic:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<style>
-  .feat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .feat .glass { padding: 24px; }
-  .feat h3 { font-size: 20px; margin: 12px 0 6px; }
-  .feat p { margin: 0; color: var(--muted); font-size: 15.5px; }
-  .ico { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--gold) 16%, transparent); color: var(--gold); font-size: 22px; }
-  .say { font: 600 clamp(22px, 3vw, 32px)/1.3 var(--display); }
-  .say i { font-style: normal; color: var(--gold); }
-  .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: f; }
-  .flow .glass { padding: 26px; }
-  .flow .glass::before { counter-increment: f; content: "0" counter(f); font: 600 13px var(--mono); color: var(--gold); letter-spacing: .14em; }
-  .trust { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--muted); font-size: 14.5px; margin-top: 22px; }
-  @media (max-width: 900px) { .feat, .flow { grid-template-columns: 1fr; } }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Readex+Pro:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/spekly.css?v=1">
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="index.html"><img src="assets/logo.png" alt="">Noor AI Concierge</a>
-    <nav class="toplinks"><a href="index.html#try">AI Concierge</a><a href="#features">Features</a><a href="#early">Early access</a></nav>
-    <a class="btn gold" href="#early" style="height:44px">Join early access</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="s-radio" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4.9 19.1a10 10 0 0 1 0-14.2M7.8 16.2a6 6 0 0 1 0-8.4M16.2 7.8a6 6 0 0 1 0 8.4M19.1 4.9a10 10 0 0 1 0 14.2"/><circle cx="12" cy="12" r="2" fill="currentColor"/></symbol>
+  <symbol id="s-mic" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></symbol>
+  <symbol id="s-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M9 7h8v8"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="bar">
+    <a class="back" href="index.html" aria-label="Back to Noor AI Concierge">←</a>
+    <a class="brand" href="#"><span class="tile"><svg><use href="#s-radio"/></svg></span><b>Spekly</b></a>
+    <a class="gbtn sm" href="https://ai-invoice-928b5.web.app" target="_blank" rel="noopener">Try free<svg><use href="#s-arrow"/></svg></a>
   </div>
 </header>
 
 <main>
-<section class="s spekly" style="padding-top:70px">
-  <div class="wrap sp">
-    <div>
-      <span class="k">Early access · Made in the UAE</span>
-      <h2 style="margin-top:14px;font-size:clamp(52px,8vw,104px)">Spekly</h2>
-      <div class="slogan" id="spSlogan">Speak it. We'll handle the rest.</div>
-      <p class="muted" style="font-size:19px;max-width:52ch">Voice-first invoicing and bookkeeping for shop owners, traders and transport businesses. Say a sale, an expense or a payment. Spekly turns it into an invoice, a ledger entry or a report.</p>
-      <div class="liquid" id="spLang" role="group" aria-label="Language" style="margin-top:6px">
-        <span class="blob"></span>
-        <button data-v="en" aria-pressed="true">English</button>
-        <button data-v="ar" aria-pressed="false">العربية</button>
-        <button data-v="hi" aria-pressed="false">हिंदी</button>
-        <button data-v="ur" aria-pressed="false">اردو</button>
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="copy">
+        <p class="kicker"><span></span>Voice-first invoicing · Made in the UAE</p>
+        <h1 id="slogan">Speak it.<br><span>We'll handle the rest.</span></h1>
+        <p class="sub">Say a sale, an expense or a payment. Spekly writes the invoice, updates who owes what and keeps your books, in English, Arabic, Urdu or Hindi.</p>
+        <div class="ctas">
+          <a class="gbtn" href="https://ai-invoice-928b5.web.app" target="_blank" rel="noopener">Try Spekly free<svg><use href="#s-arrow"/></svg></a>
+          <a class="gbtn ghost" href="#demo">See it work</a>
+        </div>
+        <p class="note">Works in your browser. Nothing to install.</p>
       </div>
-      <div class="trust"><span>🔒 Private</span><span>☁️ Backed up daily</span><span>Early access</span><span>Made in the UAE</span></div>
-    </div>
-    <div>
-      <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
-        <button class="mic" id="mic" aria-label="Play the Spekly voice example"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg></button>
-        <div style="flex:1;min-width:220px"><span class="k">Tap the mic</span><div class="said" id="said">"Sold 2 tyres for 400, customer paid 200 cash"</div></div>
-      </div>
-      <div class="glass inv" id="inv" style="margin-top:22px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="font:700 18px var(--display)">INVOICE</b><span class="k" style="font-size:11px">#0142 · example</span></div>
-        <div class="row"><span>Tyre × 2</span><span>AED 400.00</span></div>
-        <div class="row"><span>VAT 5%</span><span>AED 20.00</span></div>
-        <div class="row total"><span>Total</span><span>AED 420.00</span></div>
-        <div class="row"><span>Paid (cash)</span><span style="color:#5ee0a0">AED 200.00</span></div>
-        <div class="owe"><span>Customer still owes<br><small class="muted">WhatsApp reminder ready</small></span><b>AED 220</b></div>
+      <div class="stage3d" id="stage3d" aria-hidden="true">
+        <div class="fallback"><span class="tile big"><svg><use href="#s-radio"/></svg></span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="s">
-  <div class="wrap">
-    <div class="head"><span class="k">How it works</span><h2>You talk. Spekly does the paperwork.</h2></div>
-    <div class="flow">
-      <div class="glass"><h3 style="font-size:22px;margin:10px 0 8px">Speak</h3><p class="muted" style="margin:0">Say it the way you'd tell a person: <i style="color:var(--gold);font-style:normal">"Paid 150 for diesel"</i>, <i style="color:var(--gold);font-style:normal">"Sold 3 batteries to the garage on credit"</i>.</p></div>
-      <div class="glass"><h3 style="font-size:22px;margin:10px 0 8px">Spekly understands</h3><p class="muted" style="margin:0">It works out if it's a sale, an expense or a payment, who it's for, the items and the amounts, and asks you to confirm.</p></div>
-      <div class="glass"><h3 style="font-size:22px;margin:10px 0 8px">It's done</h3><p class="muted" style="margin:0">The invoice is made, the ledger is updated, stock goes down and today's totals move. Send it on WhatsApp in one tap.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="s" id="features" style="padding-top:10px">
-  <div class="wrap">
-    <div class="head"><span class="k">Inside Spekly</span><h2>Everything a small business writes down, in one app</h2><p>Numbers first, big and clear. Built for people who read numbers, colours and icons faster than paragraphs.</p></div>
-    <div class="feat">
-      <div class="glass"><div class="ico">🧾</div><h3>Invoices &amp; quotations</h3><p>Professional PDFs with your logo and design, invoice numbers handled for you, and quotations the same way.</p></div>
-      <div class="glass"><div class="ico">📒</div><h3>Ledger: who owes what</h3><p>Every customer and supplier balance, statements, and payment reminders you can send on WhatsApp.</p></div>
-      <div class="glass"><div class="ico">💸</div><h3>Expenses &amp; payments</h3><p>Speak an expense and it's sorted into a category. Payments in and out, cash flow at a glance.</p></div>
-      <div class="glass"><div class="ico">📦</div><h3>Stock</h3><p>Items, quantities and cost. Sales take stock down by themselves; best sellers show up in reports.</p></div>
-      <div class="glass"><div class="ico">👷</div><h3>Staff &amp; timesheets</h3><p>Timesheets, payslips and end-of-service gratuity, plus team access with roles for your staff.</p></div>
-      <div class="glass"><div class="ico">📊</div><h3>Reports &amp; VAT</h3><p>Overview, cash flow, expenses, best sellers, VAT report and a full export for your accountant.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="s">
-  <div class="wrap">
-    <div class="glass founder">
-      <img src="media/noor.jpg" alt="Noor Zaman" width="260" height="260">
-      <div>
-        <span class="k">From the founder</span>
-        <blockquote style="margin-top:14px">"Every day I see shop owners, drivers and traders doing real business, and losing money on paperwork. The tools out there were built for accountants. Spekly is built for you."</blockquote>
-        <div class="sig"><b style="color:var(--ink)">Noor Zaman</b> · Founder, Spekly · "Tell me what would make it better. I read every message."</div>
-        <a class="btn wa" style="margin-top:20px" href="https://wa.me/971589358857?text=Hi%20Noor%2C%20I%27m%20interested%20in%20Spekly." target="_blank" rel="noopener">Message Noor on WhatsApp</a>
+  <section class="s" id="demo">
+    <div class="wrap">
+      <p class="kicker"><span></span>Try saying it</p>
+      <h2>One sentence. <span>A finished invoice.</span></h2>
+      <div class="langs" id="lang" role="group" aria-label="Language">
+        <button data-v="en" aria-pressed="true">English</button><button data-v="ar" lang="ar" aria-pressed="false">العربية</button><button data-v="ur" lang="ur" aria-pressed="false">اردو</button><button data-v="hi" lang="hi" aria-pressed="false">हिंदी</button>
+      </div>
+      <div class="demo">
+        <div class="voice glass">
+          <button class="mic" id="mic" aria-label="Play the voice example"><svg><use href="#s-mic"/></svg></button>
+          <div><p class="lbl">What you say</p><p class="said" id="said">“Sold 2 tyres for 400, customer paid 200 cash”</p></div>
+        </div>
+        <div class="inv" id="inv">
+          <div class="ih"><span>Invoice #0142 · example</span><span>VAT 5%</span></div>
+          <div class="l"><span>Tyre × 2</span><span>AED 400.00</span></div>
+          <div class="l"><span>VAT 5%</span><span>AED 20.00</span></div>
+          <div class="l"><span>Paid, cash</span><span>AED 200.00</span></div>
+          <div class="tot"><span>Total</span><b>AED 420.00</b></div>
+          <div class="owes"><span>Customer still owes<small>WhatsApp reminder ready</small></span><b>AED 220</b></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="s" id="early" style="padding-top:10px">
-  <div class="wrap" style="max-width:760px">
-    <div class="head" style="text-align:center;margin-inline:auto"><span class="k">Early access</span><h2>Be one of the first businesses on Spekly</h2><p>Spekly is in early access. Leave your details and Noor will get you set up and listen to what your business needs.</p></div>
-    <form class="glass form" id="early-form">
-      <div class="two"><label>Your name<input name="name" required autocomplete="name"></label><label>WhatsApp number<input name="whatsapp" required inputmode="tel" autocomplete="tel" placeholder="05x xxx xxxx"></label></div>
-      <div class="two"><label>Business type<input name="business" placeholder="Shop, trading, transport, garage…"></label>
-        <label>Invoices per month<select name="volume"><option>Under 20</option><option>20-100</option><option>100-500</option><option>500+</option></select></label></div>
-      <label>Language you'd speak to it in<select name="language"><option>English</option><option>Arabic</option><option>Urdu</option><option>Hindi</option></select></label>
-      <label>Anything your invoices must have? (optional)<textarea name="message" rows="3" placeholder="VAT number, Arabic text, delivery notes…"></textarea></label>
-      <button class="btn gold" type="submit">Request early access</button>
-      <p id="early-msg" class="fine" style="margin:0"></p>
-    </form>
-  </div>
-</section>
+  <section class="s" id="features">
+    <div class="wrap">
+      <p class="kicker"><span></span>What it does</p>
+      <h2>Everything you write down, <span>without writing.</span></h2>
+      <div class="grid">
+        <div class="glass f"><i>01</i><h3>Invoices &amp; quotations</h3><p>PDFs with your logo and design. VAT and totals done for you.</p></div>
+        <div class="glass f"><i>02</i><h3>Who owes what</h3><p>Customer and supplier balances, statements and WhatsApp reminders.</p></div>
+        <div class="glass f"><i>03</i><h3>Expenses</h3><p>Say an expense and it's sorted into a category. Cash flow at a glance.</p></div>
+        <div class="glass f"><i>04</i><h3>Stock</h3><p>Sales take stock down by themselves. Best sellers in reports.</p></div>
+        <div class="glass f"><i>05</i><h3>Staff</h3><p>Timesheets, payslips, end-of-service gratuity and team access.</p></div>
+        <div class="glass f"><i>06</i><h3>Reports &amp; VAT</h3><p>Overview, cash flow, VAT report and an export for your accountant.</p></div>
+      </div>
+      <div class="for"><span>Made for</span><b>Shops</b><b>Traders</b><b>Transport</b><b>Garages</b><b>Small offices</b></div>
+    </div>
+  </section>
+
+  <section class="s last" id="start">
+    <div class="wrap end">
+      <div class="end-cta">
+        <span class="tile big"><svg><use href="#s-radio"/></svg></span>
+        <h2>Try it on your next sale.</h2>
+        <p>Open Spekly, pick Shopkeeper or Business Owner, and say your first sale.</p>
+        <a class="gbtn" href="https://ai-invoice-928b5.web.app" target="_blank" rel="noopener">Open Spekly<svg><use href="#s-arrow"/></svg></a>
+      </div>
+      <div class="glass help">
+        <div class="who"><img src="media/noor.jpg" alt="Noor Zaman" width="56" height="56"><div><b>Want help setting it up?</b><small>Noor Zaman, founder · Abu Dhabi</small></div></div>
+        <form id="early-form">
+          <input name="name" required autocomplete="name" placeholder="Your name" aria-label="Your name">
+          <input name="whatsapp" required inputmode="tel" autocomplete="tel" placeholder="WhatsApp number" aria-label="WhatsApp number">
+          <input name="business" placeholder="Business type (shop, trading, transport…)" aria-label="Business type">
+          <button class="gbtn" type="submit">Message me</button>
+          <p id="early-msg" class="msg"></p>
+        </form>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <div><b style="color:var(--ink)">Spekly</b> by Noor Zaman · Abu Dhabi, UAE</div>
-    <div><a href="index.html">Noor AI Concierge</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · © <span data-year></span></div>
-  </div>
-</footer>
-<a class="fab" href="index.html#book" aria-label="Chat with the booking assistant"><span class="bubble">Book a call in chat</span><span class="btn-round"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span></a>
-<script src="assets/spekly.js"></script>
+<footer><div class="wrap"><span><b>Spekly</b> by Noor Zaman · Abu Dhabi</span><span><a href="index.html">Noor AI Concierge</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span></div></footer>
+
+<script src="assets/spekly.js?v=5"></script>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/" } }</script>
+<script type="module" src="assets/spekly3d.js?v=2"></script>
 </body>
 </html>
