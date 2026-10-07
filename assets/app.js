@@ -298,7 +298,18 @@ async function summary() {
   bopts.append(send, again);
 }
 let bookStarted = false;
-new IntersectionObserver((es) => { if (es[0].isIntersecting && !bookStarted) { bookStarted = true; ask(); } }, { threshold: .3 }).observe($(".booking"));
+const startBooking = () => { if (!bookStarted) { bookStarted = true; ask(); } };
+new IntersectionObserver((es) => { if (es[0].isIntersecting) startBooking(); }, { threshold: .3 }).observe($(".booking"));
+// floating chat sign: jump to the booking assistant, start it, and put the cursor in the answer box
+$("#fab").addEventListener("click", (e) => {
+  e.preventDefault();
+  $(".booking").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  startBooking();
+  setTimeout(() => { if (!bform.hidden) bin.focus({ preventScroll: true }); }, 900);
+});
+// hide the sign while the booking chat itself is on screen
+new IntersectionObserver((es) => $("#fab").classList.toggle("hide", es[0].isIntersecting), { threshold: .25 }).observe($(".booking"));
+if (location.hash === "#book") startBooking();
 
 // ---------- mobile dock ----------
 const dock = liquid($("#dock"), (v) => $("#" + v).scrollIntoView({ behavior: reduce ? "auto" : "smooth" }));

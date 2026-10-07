@@ -258,6 +258,17 @@ footer a { color: var(--ink); }
 .dock .liquid button svg { width: 21px; height: 21px; }
 @media (max-width: 760px) { .dock { display: block; } footer { padding-bottom: 130px; } }
 
+/* floating chat sign: opens the booking assistant */
+.fab { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 45; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.fab .bubble { font: 600 14px var(--display); background: var(--elev); color: var(--ink); border: 1px solid var(--line-2); padding: 10px 14px; border-radius: 16px 16px 4px 16px; box-shadow: 0 12px 30px -10px var(--shadow); white-space: nowrap; transition: opacity .3s, transform .3s; }
+.fab .btn-round { position: relative; width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; color: var(--on-gold); background: radial-gradient(circle at 35% 30%, #f8d993, var(--gold) 55%, var(--gold-deep)); box-shadow: 0 16px 34px -10px var(--gold), inset 0 1px 0 rgba(255,255,255,.5); }
+.fab .btn-round svg { width: 28px; height: 28px; }
+.fab .btn-round::after { content: ""; position: absolute; top: 4px; right: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--pos); border: 2px solid var(--bg); }
+.fab:active .btn-round { transform: scale(.94); }
+.fab.hide { opacity: 0; pointer-events: none; transform: translateY(10px); }
+.fab { transition: opacity .3s, transform .3s; }
+@media (max-width: 760px) { body:not(:has(.dock)) .fab { bottom: calc(20px + env(safe-area-inset-bottom, 0px)); } .fab { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); right: 14px; } .fab .bubble { display: none; } .fab .btn-round { width: 56px; height: 56px; } }
+
 /* simple pages (privacy, terms, spekly page) */
 .page { padding-block: 60px 90px; }
 .page .wrap { max-width: 780px; }
