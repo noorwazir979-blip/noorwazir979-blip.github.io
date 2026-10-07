@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Space+Grotesk:wght@500;600;700&family=Instrument+Serif:ital@0;1&family=Readex+Pro:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
 <script>try{if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add("embed")}catch(e){}</script>
-<script>try{var m=location.search.match(/[?&]c=(gold|ocean|silver)\b/);if(m)document.documentElement.dataset.c=m[1]}catch(e){}</script>
-<link rel="stylesheet" href="assets/home.css?v=22">
+<script>try{var m=location.search.match(/[?&]c=(gold|ocean|silver)\b/),c=m?m[1]:localStorage.getItem("nc-theme");if(/^(gold|ocean|silver)$/.test(c))document.documentElement.dataset.c=c}catch(e){}</script>
+<link rel="stylesheet" href="assets/home.css?v=23">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -335,7 +335,10 @@
     <p class="sh-msg" id="shMsg">First 7 days free. Nothing is charged now. Noor replies the same day.</p>
   </form>
 </div>
-<div class="palette" id="palette" hidden><span>Colours</span><a data-c="gold" href="?c=gold">Gold</a><a data-c="ocean" href="?c=ocean">Ocean</a><a data-c="silver" href="?c=silver">Silver</a></div>
+<div class="theme" id="theme">
+  <div class="t-opts" id="tOpts" role="group" aria-label="Colour theme"><button data-c="gold" aria-label="Gold colours"></button><button data-c="ocean" aria-label="Ocean colours"></button><button data-c="silver" aria-label="Silver colours"></button></div>
+  <button class="t-btn" id="tBtn" aria-label="Change colours" aria-expanded="false" aria-controls="tOpts"><i></i></button>
+</div>
 <div class="teaser" id="teaser" role="button" tabindex="0"><b>Questions?</b>Ask me about prices, setup or Noor. I can also book you a free call.<button id="teaserX" aria-label="Close">×</button></div>
 <button class="fab" id="fab" aria-label="Open the booking assistant" aria-expanded="false" aria-controls="chat"><svg class="c"><use href="#i-chat"/></svg><svg class="x"><use href="#i-x"/></svg><span class="badge">1</span></button>
 <div class="chat" id="chat" role="dialog" aria-label="Booking assistant">
@@ -346,8 +349,8 @@
   <a class="wa-alt" href="https://wa.me/971589358857?text=Hi%20Noor%2C%20I%20saw%20your%20website" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Prefer WhatsApp? Message Noor directly</a>
 </div>
 
-<script src="assets/home.js?v=13"></script>
+<script src="assets/home.js?v=14"></script>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/" } }</script>
-<script type="module" src="assets/hero3d.js?v=13"></script>
+<script type="module" src="assets/hero3d.js?v=14"></script>
 </body>
 </html>

@@ -726,3 +726,20 @@ body::after { mix-blend-mode: normal; opacity: .025; }
 .halo.css3d span { transform: translateZ(0); }
 @keyframes r3d { 0%, 100% { transform: perspective(700px) rotateX(22deg) rotateY(-16deg) rotateZ(-4deg); } 50% { transform: perspective(700px) rotateX(14deg) rotateY(16deg) rotateZ(4deg); } }
 .off .r3d, .closing.off .r3d { animation-play-state: paused; }
+
+/* ---------- colour theme switcher: round button bottom-left, mirrors the chat bubble ---------- */
+.theme { position: fixed; left: 20px; bottom: calc(26px + env(safe-area-inset-bottom, 0px)); z-index: 58; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.t-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-2); background: rgba(16,18,25,.85); cursor: pointer; display: grid; place-items: center; box-shadow: 0 10px 24px -8px rgba(0,0,0,.7); }
+.t-btn i { width: 20px; height: 20px; border-radius: 50%; background: conic-gradient(#ffc56b 0 33%, #6d7dff 0 66%, #e6eaf2 0); box-shadow: inset 0 0 0 2px rgba(0,0,0,.35); transition: transform .3s; }
+.theme.open .t-btn i { transform: rotate(120deg); }
+.t-opts { display: grid; gap: 8px; opacity: 0; transform: translateY(10px) scale(.9); pointer-events: none; transition: opacity .2s, transform .25s cubic-bezier(.2,.8,.2,1); }
+.theme.open .t-opts { opacity: 1; transform: none; pointer-events: auto; }
+.t-opts button { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,.18); cursor: pointer; box-shadow: 0 8px 18px -6px rgba(0,0,0,.8); transition: transform .2s, border-color .2s; }
+.t-opts button[data-c="gold"] { background: linear-gradient(135deg, #ffc56b, #ff8a4c 60%, #7ef0c8); }
+.t-opts button[data-c="ocean"] { background: linear-gradient(135deg, #7cc8ff, #6d7dff 60%, #5eead4); }
+.t-opts button[data-c="silver"] { background: linear-gradient(135deg, #f1f3f8, #9fb0cc 60%, #7ef0c8); }
+.t-opts button[aria-pressed="true"] { border-color: #fff; transform: scale(1.1); }
+.t-opts button:hover { transform: scale(1.1); }
+.palette { display: none !important; }
+@media (max-width: 600px) { .theme { left: 14px; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); } .t-btn { width: 40px; height: 40px; } }
+.embed .theme { display: none; }

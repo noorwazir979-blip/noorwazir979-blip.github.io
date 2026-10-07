@@ -461,10 +461,18 @@ $("#teaser").addEventListener("keydown", (e) => { if (e.key === "Enter") openCha
 $("#teaserX").addEventListener("click", () => { $("#teaser").classList.remove("show"); fab.classList.add("seen"); store.set("teased", "1"); });
 $$("[data-year]").forEach((e) => (e.textContent = new Date().getFullYear()));
 
-// ---------- colour preview picker (shown only when the link has ?c= or ?pick) ----------
-if (/[?&](c|pick)=?/.test(location.search)) {
-  const p = $("#palette"), cur = document.documentElement.dataset.c || "gold"; p.hidden = false;
-  $$("a", p).forEach((a) => { a.classList.toggle("on", a.dataset.c === cur); a.href = "?c=" + a.dataset.c + (/[?&]night\b/.test(location.search) ? "&night" : ""); });
+// ---------- colour theme switcher (bottom-left): instant, remembered on this device ----------
+{
+  const box = $("#theme"), btn = $("#tBtn"), root = document.documentElement;
+  const mark = () => $$("#tOpts button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.c === (root.dataset.c || "gold")));
+  const toggle = (o) => { box.classList.toggle("open", o); btn.setAttribute("aria-expanded", o); };
+  btn.addEventListener("click", () => toggle(!box.classList.contains("open")));
+  $$("#tOpts button").forEach((b) => b.addEventListener("click", () => {
+    root.dataset.c = b.dataset.c; try { localStorage.setItem("nc-theme", b.dataset.c); } catch (e) {}
+    mark(); dispatchEvent(new Event("themechange")); setTimeout(() => toggle(false), 350);
+  }));
+  addEventListener("click", (e) => { if (!box.contains(e.target)) toggle(false); });
+  mark();
 }
 
 // ---------- reels play only while on screen ----------
@@ -528,7 +536,7 @@ if (/[?&](c|pick)=?/.test(location.search)) {
 // ---------- closing ring on phones: the same segmented ring as the 3D one, drawn in SVG + CSS 3D (no WebGL) ----------
 {
   const halo = $(".halo");
-  if (halo && !matchMedia("(min-width: 900px) and (hover: hover)").matches) {
+  const buildRing = () => {
     const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
     const hex = (h) => { h = h.replace("#", ""); if (h.length === 3) h = [...h].map((c) => c + c).join(""); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); };
     const S = [hex(css("--c1") || "#ffc56b"), hex(css("--c2") || "#ff8a4c"), hex(css("--c3") || "#7ef0c8")];
@@ -547,6 +555,8 @@ if (/[?&](c|pick)=?/.test(location.search)) {
     }
     const div = document.createElement("div"); div.className = "r3d"; div.setAttribute("aria-hidden", "true");
     div.innerHTML = `<svg class="r-back" viewBox="0 0 200 200">${backs}</svg><svg class="r-front" viewBox="0 0 200 200"><g class="seg">${segs}</g><g class="lite">${lights}</g><g class="tk">${ticks}</g></svg>`;
+    const old = halo.querySelector(".r3d"); if (old) old.remove();
     halo.prepend(div); halo.classList.add("css3d");
-  }
+  };
+  if (halo && !matchMedia("(min-width: 900px) and (hover: hover)").matches) { buildRing(); addEventListener("themechange", buildRing); }
 }
