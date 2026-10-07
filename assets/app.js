@@ -45,6 +45,7 @@ function uae() {
 function tick() {
   const { t, h } = uae();
   $("#clock").textContent = t;
+  const pt2 = $("#phoneTime"); if (pt2) pt2.textContent = t.replace(/\s?[AP]M/i, "");
   const L = T[lang], kind = h >= 22 || h < 6 ? "night" : h < 9 ? "morning" : h < 17 ? "day" : "eve";
   const st = $("#status"); st.textContent = L[kind](t); st.dir = RTL[lang] ? "rtl" : "ltr";
 }
