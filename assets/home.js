@@ -109,6 +109,7 @@ function startFeed() {
 function group(el, onChange) { $$("button", el).forEach((b) => b.addEventListener("click", () => { $$("button", el).forEach((x) => x.setAttribute("aria-pressed", x === b)); onChange(b.dataset.v); })); }
 
 const NAME = { garage: ["Your Garage", "YG"], clinic: ["Your Clinic", "YC"], salon: ["Your Salon", "YS"], laundry: ["Your Laundry", "YL"] };
+Object.assign(NAME, {"printing":["Your Print Shop","YP"],"tyres":["Your Tyre Shop","YT"],"restaurant":["Your Restaurant","YR"],"realestate":["Your Property Office","YO"],"maintenance":["Your AC & Maintenance","YM"],"trading":["Your Trading Co.","YT"]});
 const S = {
   garage: {
     en: [["c", "Hi, my car AC is blowing hot air. Can you check it tomorrow?"], ["a", "Hello! Yes 👍 An AC check is AED 80. What car is it?"], ["c", "Camry 2019"], ["a", "We have 9:00 or 11:00 tomorrow. Which suits you?"], ["c", "9 please"], ["a", "Booked ✅ Tomorrow 9:00, AC check for your Camry. The workshop team confirms by 8:30."]],
@@ -135,12 +136,14 @@ const S = {
     hi: [["c", "क्या आप मुसफ्फह से पिकअप करते हैं? मेरे पास 2 कालीन हैं।"], ["a", "जी, पिकअप और डिलीवरी फ्री है 🚚 कालीन धुलाई 15 दिरहम प्रति वर्ग मीटर। कल 10 बजे पिकअप ठीक है?"], ["c", "हाँ"], ["a", "हो गया ✅ कल 10 बजे पिकअप। बिल्डिंग का नाम भेज दीजिए।"]],
   },
 };
+Object.assign(S, {"printing":{"en":[["c","Hi, I need 500 business cards. How much?"],["a","Hello! 500 standard business cards are AED 245, ready in 2 days. Is your design ready?"],["c","Yes, I have the design"],["a","Great 👍 Send it here as a PDF. I'll make your quotation now and the team will confirm the order."]],"ar":[["c","مرحبا، أحتاج 500 بطاقة عمل. كم السعر؟"],["a","أهلاً! 500 بطاقة عمل عادية بـ 245 درهم، جاهزة خلال يومين. هل التصميم جاهز؟"],["c","نعم، التصميم جاهز"],["a","ممتاز 👍 أرسله هنا بصيغة PDF. سأجهز عرض السعر الآن والفريق يؤكد الطلب."]],"ur":[["c","السلام علیکم، 500 بزنس کارڈ چاہئیں۔ کتنے کے ہوں گے؟"],["a","وعلیکم السلام! 500 عام بزنس کارڈ 245 درہم کے ہیں، 2 دن میں تیار۔ کیا ڈیزائن تیار ہے؟"],["c","جی، ڈیزائن تیار ہے"],["a","زبردست 👍 یہاں PDF بھیج دیں۔ میں ابھی کوٹیشن بنا دیتا ہوں، ٹیم آرڈر کنفرم کرے گی۔"]],"hi":[["c","नमस्ते, 500 बिज़नेस कार्ड चाहिए। कितने के होंगे?"],["a","नमस्ते! 500 नॉर्मल बिज़नेस कार्ड 245 दिरहम के हैं, 2 दिन में तैयार। क्या डिज़ाइन तैयार है?"],["c","जी, डिज़ाइन तैयार है"],["a","बढ़िया 👍 यहाँ PDF भेज दीजिए। मैं अभी कोटेशन बना देता हूँ, टीम ऑर्डर कन्फर्म करेगी।"]]},"tyres":{"en":[["c","Price for 4 tyres 265/65 R17?"],["a","Hello! For 265/65 R17: budget AED 1,280, mid-range AED 1,680, premium AED 2,240 for all 4, fitting and VAT included. Which one?"],["c","Mid-range. Today possible?"],["a","Yes 👍 We can fit them today at 4:30 pm at the shop. Shall I book it?"],["c","Yes"],["a","Booked ✅ Today 4:30 pm, 4 mid-range tyres. See you at the shop."]],"ar":[["c","كم سعر 4 إطارات 265/65 R17؟"],["a","أهلاً! مقاس 265/65 R17: اقتصادي 1,280 درهم، متوسط 1,680 درهم، ممتاز 2,240 درهم للأربعة، شامل التركيب والضريبة. أيهم تفضل؟"],["c","المتوسط. ممكن اليوم؟"],["a","نعم 👍 نقدر نركبها اليوم الساعة 4:30 عصراً في المحل. أحجز لك؟"],["c","نعم"],["a","تم الحجز ✅ اليوم 4:30 عصراً، 4 إطارات متوسطة. نشوفك في المحل."]],"ur":[["c","265/65 R17 کے 4 ٹائر کتنے کے ہیں؟"],["a","السلام علیکم! 265/65 R17: سستے 1,280 درہم، درمیانے 1,680 درہم، اچھے برانڈ 2,240 درہم، چاروں کے، فٹنگ اور VAT سمیت۔ کون سے چاہئیں؟"],["c","درمیانے۔ آج ہو سکتا ہے؟"],["a","جی 👍 آج شام 4:30 بجے دکان پر لگ سکتے ہیں۔ بک کر دوں؟"],["c","جی"],["a","بکنگ ہو گئی ✅ آج 4:30 بجے، 4 درمیانے ٹائر۔ دکان پر ملتے ہیں۔"]],"hi":[["c","265/65 R17 के 4 टायर कितने के हैं?"],["a","नमस्ते! 265/65 R17: सस्ते 1,280 दिरहम, मीडियम 1,680 दिरहम, प्रीमियम 2,240 दिरहम, चारों के, फिटिंग और VAT के साथ। कौन से चाहिए?"],["c","मीडियम। आज हो सकता है?"],["a","जी 👍 आज शाम 4:30 बजे दुकान पर लग सकते हैं। बुक कर दूँ?"],["c","हाँ"],["a","बुकिंग हो गई ✅ आज 4:30 बजे, 4 मीडियम टायर। दुकान पर मिलते हैं।"]]},"restaurant":{"en":[["c","Do you deliver to Khalifa City? I want 2 chicken biryani."],["a","Yes, we deliver to Khalifa City 👍 2 chicken biryani are AED 50, delivery free above AED 40. Shall I place the order?"],["c","Yes please"],["a","Order taken ✅ 2 chicken biryani, about 40 minutes. Please send your location pin."]],"ar":[["c","توصلون لمدينة خليفة؟ أبغى 2 برياني دجاج."],["a","نعم نوصل لمدينة خليفة 👍 2 برياني دجاج بـ 50 درهم، والتوصيل مجاني فوق 40 درهم. أسجل الطلب؟"],["c","نعم لو سمحت"],["a","تم الطلب ✅ 2 برياني دجاج، حوالي 40 دقيقة. أرسل لنا موقعك."]],"ur":[["c","خلیفہ سٹی ڈیلیوری کرتے ہیں؟ 2 چکن بریانی چاہئیں۔"],["a","جی، خلیفہ سٹی ڈیلیوری ہے 👍 2 چکن بریانی 50 درہم، 40 درہم سے اوپر ڈیلیوری فری۔ آرڈر لگا دوں؟"],["c","جی لگا دیں"],["a","آرڈر ہو گیا ✅ 2 چکن بریانی، تقریباً 40 منٹ۔ اپنی لوکیشن بھیج دیں۔"]],"hi":[["c","खलीफा सिटी डिलीवरी करते हैं? 2 चिकन बिरयानी चाहिए।"],["a","जी, खलीफा सिटी डिलीवरी है 👍 2 चिकन बिरयानी 50 दिरहम, 40 दिरहम से ऊपर डिलीवरी फ्री। ऑर्डर कर दूँ?"],["c","हाँ कर दीजिए"],["a","ऑर्डर हो गया ✅ 2 चिकन बिरयानी, लगभग 40 मिनट। अपनी लोकेशन भेज दीजिए।"]]},"realestate":{"en":[["c","Hi, any 2 bedroom flat for rent in Al Reem?"],["a","Hello! Yes, we have 3 options in Al Reem from AED 95,000 a year. Do you want to see photos?"],["c","Yes, and can I visit Saturday?"],["a","Sending the photos now 📸 Saturday we have 11 am or 5 pm for a viewing. Which suits you?"],["c","5 pm"],["a","Booked ✅ Saturday 5 pm viewing in Al Reem. The agent will call you before."]],"ar":[["c","مرحبا، عندكم شقة غرفتين للإيجار في جزيرة الريم؟"],["a","أهلاً! نعم، عندنا 3 خيارات في الريم تبدأ من 95,000 درهم سنوياً. تحب أرسل الصور؟"],["c","نعم، وممكن أزورها يوم السبت؟"],["a","أرسل الصور الآن 📸 يوم السبت عندنا 11 صباحاً أو 5 مساءً للمعاينة. أيهما يناسبك؟"],["c","5 مساءً"],["a","تم الحجز ✅ السبت 5 مساءً معاينة في الريم. الوكيل يتصل بك قبلها."]],"ur":[["c","السلام علیکم، الریم میں 2 بیڈروم فلیٹ کرائے پر ملے گا؟"],["a","وعلیکم السلام! جی، الریم میں 3 فلیٹ ہیں، 95,000 درہم سالانہ سے۔ تصویریں بھیج دوں؟"],["c","جی، اور ہفتے کو دیکھ سکتے ہیں؟"],["a","تصویریں بھیج رہا ہوں 📸 ہفتے کو صبح 11 یا شام 5 بجے دیکھ سکتے ہیں۔ کون سا وقت ٹھیک ہے؟"],["c","شام 5 بجے"],["a","بکنگ ہو گئی ✅ ہفتہ شام 5 بجے، الریم میں فلیٹ دیکھنا۔ ایجنٹ پہلے کال کرے گا۔"]],"hi":[["c","नमस्ते, अल रीम में 2 बेडरूम फ्लैट किराए पर मिलेगा?"],["a","नमस्ते! जी, अल रीम में 3 फ्लैट हैं, 95,000 दिरहम सालाना से। फोटो भेज दूँ?"],["c","जी, और शनिवार को देख सकते हैं?"],["a","फोटो भेज रहा हूँ 📸 शनिवार को सुबह 11 या शाम 5 बजे देख सकते हैं। कौन सा समय ठीक है?"],["c","शाम 5 बजे"],["a","बुकिंग हो गई ✅ शनिवार शाम 5 बजे, अल रीम में फ्लैट देखना। एजेंट पहले कॉल करेगा।"]]},"maintenance":{"en":[["c","My AC is leaking water. Can someone come today?"],["a","Sorry about that! An AC visit is AED 150, and we can come today at 6 pm. What is your area?"],["c","Mohammed Bin Zayed City"],["a","Booked ✅ Today 6 pm, AC check in MBZ City. The technician will call when he is on the way."]],"ar":[["c","المكيف عندي يسرّب ماء. ممكن أحد يجي اليوم؟"],["a","نأسف لذلك! زيارة فني المكيف 150 درهم، ونقدر نجي اليوم الساعة 6 مساءً. وين منطقتك؟"],["c","مدينة محمد بن زايد"],["a","تم الحجز ✅ اليوم 6 مساءً، فحص المكيف في مدينة محمد بن زايد. الفني يتصل وهو في الطريق."]],"ur":[["c","AC سے پانی ٹپک رہا ہے۔ آج کوئی آ سکتا ہے؟"],["a","معذرت! AC وزٹ 150 درہم ہے، آج شام 6 بجے آ سکتے ہیں۔ آپ کا ایریا کون سا ہے؟"],["c","محمد بن زاید سٹی"],["a","بکنگ ہو گئی ✅ آج شام 6 بجے، MBZ سٹی میں AC چیک۔ ٹیکنیشن راستے میں کال کرے گا۔"]],"hi":[["c","AC से पानी टपक रहा है। आज कोई आ सकता है?"],["a","माफ़ कीजिए! AC विज़िट 150 दिरहम है, आज शाम 6 बजे आ सकते हैं। आपका एरिया कौन सा है?"],["c","मोहम्मद बिन ज़ायद सिटी"],["a","बुकिंग हो गई ✅ आज शाम 6 बजे, MBZ सिटी में AC चेक। टेक्नीशियन रास्ते में कॉल करेगा।"]]},"trading":{"en":[["c","Need a quote for 40 office chairs, delivered to Musaffah."],["a","Hello! 40 office chairs at AED 350 each = AED 14,000, plus delivery AED 600. Total AED 14,600. Shall I send the quotation as PDF?"],["c","Yes, in the company name Al Noor Trading"],["a","Done ✅ Quotation for Al Noor Trading is ready for the manager's OK. You'll get the PDF on WhatsApp shortly."]],"ar":[["c","أحتاج عرض سعر لـ 40 كرسي مكتب، التوصيل لمصفح."],["a","أهلاً! 40 كرسي مكتب × 350 درهم = 14,000 درهم، والتوصيل 600 درهم. الإجمالي 14,600 درهم. أرسل لك عرض السعر PDF؟"],["c","نعم، باسم شركة النور للتجارة"],["a","تم ✅ عرض السعر لشركة النور للتجارة جاهز لموافقة المدير. يصلك الـ PDF على واتساب قريباً."]],"ur":[["c","40 آفس چیئرز کی کوٹیشن چاہیے، مصفح ڈیلیوری۔"],["a","السلام علیکم! 40 آفس چیئرز × 350 درہم = 14,000 درہم، ڈیلیوری 600 درہم۔ ٹوٹل 14,600 درہم۔ کوٹیشن PDF میں بھیج دوں؟"],["c","جی، کمپنی کا نام النور ٹریڈنگ"],["a","ہو گیا ✅ النور ٹریڈنگ کی کوٹیشن مینیجر کی منظوری کے لیے تیار ہے۔ PDF جلد واٹس ایپ پر آ جائے گی۔"]],"hi":[["c","40 ऑफिस चेयर का कोटेशन चाहिए, मुसफ्फह डिलीवरी।"],["a","नमस्ते! 40 ऑफिस चेयर × 350 दिरहम = 14,000 दिरहम, डिलीवरी 600 दिरहम। कुल 14,600 दिरहम। कोटेशन PDF में भेज दूँ?"],["c","जी, कंपनी का नाम अल नूर ट्रेडिंग"],["a","हो गया ✅ अल नूर ट्रेडिंग का कोटेशन मैनेजर की मंज़ूरी के लिए तैयार है। PDF जल्द WhatsApp पर आ जाएगा।"]]}});
 const PRICE = {
   garage: { en: "An AC check is AED 80, an oil change from AED 120", ar: "فحص المكيف 80 درهم، وتغيير الزيت من 120 درهم", ur: "AC چیک 80 درہم، آئل چینج 120 درہم سے", hi: "AC चेक 80 दिरहम, ऑयल चेंज 120 दिरहम से" },
   clinic: { en: "A consultation is AED 150, cleaning from AED 250", ar: "الاستشارة 150 درهم، والتنظيف من 250 درهم", ur: "مشورہ 150 درہم، صفائی 250 درہم سے", hi: "परामर्श 150 दिरहम, सफ़ाई 250 दिरहम से" },
   salon: { en: "Threading AED 30, haircut from AED 60", ar: "الخيط 30 درهم، وقص الشعر من 60 درهم", ur: "تھریڈنگ 30 درہم، ہیئر کٹ 60 درہم سے", hi: "थ्रेडिंग 30 दिरहम, हेयरकट 60 दिरहम से" },
   laundry: { en: "Shirts AED 5 each, carpets AED 15 per m², free pickup", ar: "القميص 5 دراهم، السجاد 15 درهم للمتر، والاستلام مجاني", ur: "شرٹ 5 درہم، قالین 15 درہم فی مربع میٹر، پک اپ فری", hi: "शर्ट 5 दिरहम, कालीन 15 दिरहम प्रति वर्ग मीटर, पिकअप फ्री" },
 };
+Object.assign(PRICE, {"printing":{"en":"500 business cards AED 245, A5 flyers from AED 180 for 1,000","ar":"500 بطاقة عمل 245 درهم، و1,000 فلاير A5 من 180 درهم","ur":"500 بزنس کارڈ 245 درہم، 1,000 A5 فلائر 180 درہم سے","hi":"500 बिज़नेस कार्ड 245 दिरहम, 1,000 A5 फ़्लायर 180 दिरहम से"},"tyres":{"en":"A set of 4 from AED 1,280, fitting and VAT included","ar":"طقم 4 إطارات من 1,280 درهم شامل التركيب والضريبة","ur":"4 ٹائروں کا سیٹ 1,280 درہم سے، فٹنگ اور VAT سمیت","hi":"4 टायर का सेट 1,280 दिरहम से, फिटिंग और VAT के साथ"},"restaurant":{"en":"Chicken biryani AED 25, family meal from AED 89, free delivery above AED 40","ar":"برياني دجاج 25 درهم، وجبة عائلية من 89 درهم، توصيل مجاني فوق 40 درهم","ur":"چکن بریانی 25 درہم، فیملی میل 89 درہم سے، 40 درہم سے اوپر ڈیلیوری فری","hi":"चिकन बिरयानी 25 दिरहम, फैमिली मील 89 दिरहम से, 40 दिरहम से ऊपर डिलीवरी फ्री"},"realestate":{"en":"2-bedroom flats from AED 95,000 a year, studios from AED 45,000","ar":"شقق غرفتين من 95,000 درهم سنوياً، واستوديو من 45,000 درهم","ur":"2 بیڈروم 95,000 درہم سالانہ سے، اسٹوڈیو 45,000 درہم سے","hi":"2 बेडरूम 95,000 दिरहम सालाना से, स्टूडियो 45,000 दिरहम से"},"maintenance":{"en":"An AC visit is AED 150, AC cleaning from AED 120 per unit","ar":"زيارة فني المكيف 150 درهم، وتنظيف المكيف من 120 درهم للوحدة","ur":"AC وزٹ 150 درہم، AC صفائی 120 درہم فی یونٹ سے","hi":"AC विज़िट 150 दिरहम, AC सफ़ाई 120 दिरहम प्रति यूनिट से"},"trading":{"en":"Office chairs from AED 350 each, delivery from AED 600","ar":"كراسي المكتب من 350 درهم للقطعة، والتوصيل من 600 درهم","ur":"آفس چیئر 350 درہم فی پیس سے، ڈیلیوری 600 درہم سے","hi":"ऑफिस चेयर 350 दिरहम प्रति पीस से, डिलीवरी 600 दिरहम से"}});
 const REPLY = {
   price: { en: (p) => `${p} (example prices). Shall I book you a time?`, ar: (p) => `${p} (أسعار للمثال). هل أحجز لك موعداً؟`, ur: (p) => `${p} (مثال کے ریٹ)۔ کیا آپ کے لیے وقت بک کر دوں؟`, hi: (p) => `${p} (उदाहरण के रेट)। क्या आपके लिए समय बुक कर दूँ?` },
   hours: { en: "We're open 8 am to 10 pm, and I can book you in right now.", ar: "نحن مفتوحون من 8 صباحاً حتى 10 مساءً، ويمكنني حجزك الآن.", ur: "ہم صبح 8 سے رات 10 بجے تک کھلے ہیں، اور ابھی بکنگ ہو سکتی ہے۔", hi: "हम सुबह 8 से रात 10 बजे तक खुले हैं, और अभी बुकिंग हो सकती है।" },
@@ -191,7 +194,7 @@ async function ask(q) {
 }
 $("#askForm").addEventListener("submit", (e) => { e.preventDefault(); const q = $("#askIn").value.trim(); if (!q) return; $("#askIn").value = ""; ask(q); });
 $$(".tryq button").forEach((b) => b.addEventListener("click", () => ask(b.dataset.q)));
-group($("#trade"), (v) => { trade = v; play(); });
+$("#trade").addEventListener("change", (e) => { trade = e.target.value; play(); });
 group($("#lang"), (v) => { lang = v; play(); });
 $("#replay").addEventListener("click", play);
 { let started = false; new IntersectionObserver(([e], o) => { if (e.isIntersecting && !started) { started = true; o.disconnect(); play(); } }, { threshold: .35 }).observe(log); }
@@ -273,14 +276,15 @@ const A = {
   hello: { a: "Hi! 👋 I'm Noor's assistant. I can tell you what we do, the prices and how it starts, or book you a free 10-minute call.", c: ["What do you do?", "Prices", "Book a free call"] },
   thanks: { a: "You're welcome! Anything else?", c: ["Prices", "Book a free call"] },
   what: { a: "We put an AI assistant on your WhatsApp and phone. It answers customers in seconds, in their language, books them in and hands the job to your team, even at 11 pm. We also automate office jobs like quotes, reminders and reports.", c: ["Prices", "How does it start?", "Who is Noor?"] },
-  prices: { a: "All plans start with 7 days free:<br>• <b>WhatsApp & chat</b>: AED 999/month + AED 500 setup<br>• <b>WhatsApp + calls</b>: AED 1,299/month + AED 1,000 setup<br>• <b>Office automation</b>: from AED 500/month + setup from AED 1,500<br>No contract, stop any month.", c: ["Which plan suits me?", "Book a free call"] },
-  chat: { a: "<b>WhatsApp & chat</b>: AED 999/month + AED 500 setup. It answers WhatsApp, Instagram and website chat day and night, takes bookings and orders, and hands over to your team.", c: ["Calls plan", "Book a free call"] },
-  calls: { a: "<b>WhatsApp + calls</b>: AED 1,299/month + AED 1,000 setup. Everything in chat, plus it picks up missed and after-hours calls: about 500 call minutes a month, extra minutes AED 1 each.", c: ["Free 7 days?", "Book a free call"] },
-  office: { a: "<b>Office automation</b>: from AED 500/month, setup from AED 1,500, priced per job. For example quotes from enquiries, follow-ups, payment reminders, reports and data entry.", c: ["Book a free call"] },
-  video: { a: "<b>Business videos</b>: 3 reels for AED 450, made for your business for Instagram and TikTok.", c: ["Order videos", "Book a free call"] },
-  website: { a: "Yes, Noor designs websites like this one, made for phones, with the assistant built in. Every site is different, so Noor gives you the price after a short call.", c: ["Ask Noor on WhatsApp", "Book a free call"] },
+  prices: { a: "<b>Pay monthly</b> (we look after it, 7 days free):<br>• <b>Starter</b>, your WhatsApp: AED 499/month + AED 499 to set up<br>• <b>Growth</b>, WhatsApp, Instagram, Facebook and website chat: AED 999/month + AED 799 to set up<br>• <b>Complete</b>, adds emails, phone calls and quotes: AED 1,999/month + AED 2,499 to set up<br>Or <b>pay once</b> and own it: from AED 2,999. Stop any month.", c: ["Which plan suits me?", "Pay once?", "Book a free call"] },
+  chat: { a: "<b>Growth</b>: AED 999/month + AED 799 setup. It answers WhatsApp, Instagram, Facebook and website chat day and night from your own catalogue and prices, takes bookings and orders, and hands over to your team. Just WhatsApp? <b>Starter</b> is AED 499/month + AED 499 setup.", c: ["Calls plan", "Book a free call"] },
+  calls: { a: "<b>Phone calls</b>: AED 799/month + AED 999 setup, about 500 call minutes a month, extra minutes AED 1 each. It picks up missed and after-hours calls. You keep your own du or e& number; if you need a new line, it is added at cost. Calls are included in <b>Complete</b> (AED 1,999/month).", c: ["Free 7 days?", "Book a free call"] },
+  office: { a: "<b>Quotes and paperwork</b>: from AED 499/month + from AED 1,499 to set up, priced per job. For example quotes from enquiries (QuickBooks too), follow-ups, payment reminders, reports and data entry. One automation is included in <b>Complete</b>.", c: ["Book a free call"] },
+  video: { a: "Right now Noor focuses on AI assistants and websites. For anything else, ask Noor directly.", c: ["Ask Noor on WhatsApp", "Book a free call"] },
+  website: { a: "Yes, Noor builds websites like this one, made for phones:<br>• <b>Simple website</b> (1-5 pages): AED 2,499 + AED 199/month care<br>• <b>Business website</b> (English and Arabic): AED 4,499 + AED 299/month<br>• <b>Price list that updates itself</b>: AED 7,999 + AED 499/month<br>• <b>Online shop</b>: AED 8,999 + AED 799/month<br>20% off with Growth or Complete.", c: ["Book a free call", "Ask Noor on WhatsApp"] },
   spekly: { a: "Spekly is Noor's voice invoicing app: say a sale, an expense or a payment and it writes the invoice and tracks who owes what. You can try it free.", c: ["Try Spekly", "Prices"] },
-  which: { a: "Mostly WhatsApp messages? Start with <b>chat</b>. Losing customers to missed calls? <b>WhatsApp + calls</b>. Too many quotes and reminders? <b>Office automation</b>. Noor can advise on a free 10-minute call.", c: ["Book a free call"] },
+  which: { a: "Mostly WhatsApp messages? <b>Starter</b>. Messages on WhatsApp, Instagram and your website? <b>Growth</b>. Missed calls and too many quotes too? <b>Complete</b>. Prefer to pay once and own it? Ask about <b>paying once</b>. Noor can advise on a free 10-minute call.", c: ["Book a free call"] },
+  once: { a: "<b>Pay once</b>: Noor sets it up on your own WhatsApp and accounts, so it is yours, with no monthly fee to us.<br>• <b>Starter</b> (WhatsApp): AED 2,999<br>• <b>Growth</b> (WhatsApp, Instagram, Facebook and website chat): AED 5,999<br>• <b>Complete</b> (adds emails, phone calls and quotes): AED 11,999<br>Small running costs (AI, WhatsApp and call fees, usually AED 150-400 a month) go straight to those companies. Training and 14 days of free fixes included.", c: ["Prices", "Book a free call"] },
   trial: { a: "Every plan starts with <b>7 days free</b>. You only keep it if it helps. No contract, stop any month.", c: ["How does it start?", "Book a free call"] },
   how: { a: "Live in 5 days:<br><b>Day 1</b> a 10-minute call about your prices and hours<br><b>Day 2-3</b> Noor builds it<br><b>Day 4</b> you test it<br><b>Day 5</b> it goes live, free for 7 days", c: ["Book a free call"] },
   noor: { a: "Noor Zaman builds every assistant himself. He's based in Abu Dhabi and speaks English, Urdu and Hindi. It's a small, new business, not a big company, so you deal with him directly.", c: ["Book a free call", "Ask Noor on WhatsApp"] },
@@ -297,7 +301,7 @@ const A = {
   contact: { a: `WhatsApp or call Noor on <a href="https://wa.me/971589358857" target="_blank" rel="noopener">058 935 8857</a>, or email <a href="mailto:imnoorzamn@gmail.com">imnoorzamn@gmail.com</a>.`, c: ["Book a free call"] },
   demo: { a: `You can try it on this page: <a href="#try" data-close>open the demo</a>, pick a business and ask anything.`, c: ["Book a free call"] },
 };
-const CHIP_Q = { "What do you do?": "what", "Prices": "prices", "How does it start?": "how", "Who is Noor?": "noor", "Which plan suits me?": "which", "Free 7 days?": "trial", "Calls plan": "calls", "Websites?": "website", "Videos?": "video" };
+const CHIP_Q = { "What do you do?": "what", "Prices": "prices", "How does it start?": "how", "Who is Noor?": "noor", "Which plan suits me?": "which", "Free 7 days?": "trial", "Calls plan": "calls", "Pay once?": "once", "Websites?": "website", "Websites?": "website" };
 
 // --- understanding a question: topic (what it's about) + aspect (what they want to know) ---
 const R = {
@@ -316,6 +320,7 @@ const R = {
   calls: /\b(calls? plan|phone calls?|missed calls?|answer(s|ing)? (my |the )?(calls?|phone)|call minutes?|minutes|voice (agent|assistant)|whatsapp \+ calls)\b/i,
   chat: /\b(chat plan|whatsapp (&|and) chat|instagram|website chat|dms?|whatsapp replies|messages?)\b/i,
   office: /\b(office automation|automation|automate|paperwork|quotations?|quotes|invoices|payment reminders?|reminders|reports?|data entry|follow-?ups?)\b/i,
+  once: /\b(one[- ]?time|one[- ]?off|pay once|own it|buy (it )?outright|no monthly|lifetime)\b/i,
   // aspects
   price: /\b(price|prices|pricing|cost|costs|how much|fee|fees|charges?|rates?|aed|dhs?|dirhams?|budget|expensive|cheap|afford|pay|monthly|packages?|plans?)\b|كم|سعر|قیمت|کتن|कितन|कीमत/i,
   time: /\b(how long|how many days|how fast|how soon|when can|time ?line|time ?frame|deadline|turnaround|go live|ready by)\b/i,
@@ -345,6 +350,7 @@ const TABLE = { // topic -> what we can answer for each aspect; a missing aspect
   calls: { what: "calls", price: "calls", howWork: "calls" },
   chat: { what: "chat", price: "chat", howWork: "chat" },
   office: { what: "office", price: "office" },
+  once: { what: "once", price: "once", howWork: "once" },
 };
 function think(raw) {
   const q = raw.trim(), words = q.split(/\s+/).length;
@@ -354,7 +360,7 @@ function think(raw) {
   if (R.thanks.test(q)) return { id: "thanks" };
   if (R.book.test(q)) return { book: true };
   if (R.unstated.test(q)) return { refer: "detail" };
-  const topic = ["website", "video", "spekly", "calls", "chat", "office"].find((t) => R[t].test(q));
+  const topic = ["once", "website", "video", "spekly", "calls", "chat", "office"].find((t) => R[t].test(q));
   const aspect = R.price.test(q) ? "price" : R.time.test(q) ? "time" : R.howWork.test(q) ? "howWork" : "what";
   if (topic) { const id = TABLE[topic][aspect]; return id ? { id } : { refer: "detail", topic }; }
   for (const id of ["noor", "clients", "which", "trial", "langOther", "lang", "number", "wrong", "aiknow", "data", "stop", "where", "contact", "demo", "fit"]) if (R[id].test(q)) return { id };
@@ -455,7 +461,14 @@ $("#chatX").addEventListener("click", closeChat);
 addEventListener("keydown", (e) => { if (e.key === "Escape" && chat.classList.contains("open")) closeChat(); });
 $$("[data-open-chat]").forEach((b) => b.addEventListener("click", () => openChat(b.dataset.plan, true)));
 // a gentle teaser once per visit, after 10 seconds
-if (!store.get("teased") && !document.documentElement.classList.contains("embed")) setTimeout(() => { if (!chat.classList.contains("open")) $("#teaser").classList.add("show"); }, 10000);
+// never on top of the demo chat or the prices (on phones it would cover them): wait until they're off screen
+const busy = () => ["#try", "#prices"].some((q) => { const el = $(q); if (!el) return false; const r = el.getBoundingClientRect(); return r.top < innerHeight * .8 && r.bottom > innerHeight * .2; });
+if (!store.get("teased") && !document.documentElement.classList.contains("embed")) setTimeout(function tease() {
+  if (chat.classList.contains("open")) return;
+  if (busy()) return setTimeout(tease, 3000);
+  $("#teaser").classList.add("show");
+}, 10000);
+addEventListener("scroll", () => { if (busy()) $("#teaser").classList.remove("show"); }, { passive: true });
 $("#teaser").addEventListener("click", (e) => { if (e.target.id !== "teaserX") openChat(); });
 $("#teaser").addEventListener("keydown", (e) => { if (e.key === "Enter") openChat(); });
 $("#teaserX").addEventListener("click", () => { $("#teaser").classList.remove("show"); fab.classList.add("seen"); store.set("teased", "1"); });
@@ -506,7 +519,7 @@ $$("[data-year]").forEach((e) => (e.textContent = new Date().getFullYear()));
   const sh = $("#sheet"), bg = $("#sheetBg"), f = $("#orderForm"), msg = $("#shMsg"), base = msg.textContent; let item = "", price = "", last = null;
   const open = (b) => {
     item = b.dataset.order; price = b.dataset.price || ""; last = b;
-    $("#shTitle").textContent = item === "A website" ? "Website quote" : "Order: " + item; $("#shSub").textContent = price;
+    $("#shTitle").textContent = item === "A website" ? "Website quote" : item === "An app" ? "Your app idea" : "Order: " + item; $("#shSub").textContent = price;
     msg.textContent = base; sh.classList.add("open"); bg.classList.add("open");
     if (fine) setTimeout(() => f.name.focus(), 50);
   };
@@ -559,4 +572,17 @@ $$("[data-year]").forEach((e) => (e.textContent = new Date().getFullYear()));
     halo.prepend(div); halo.classList.add("css3d");
   };
   if (halo && !matchMedia("(min-width: 900px) and (hover: hover)").matches) { buildRing(); addEventListener("themechange", buildRing); }
+}
+
+// Prices: Monthly (default) / One-time setup switch. Opens One-time when the link ends in #one-time.
+{
+  const tabs = [["tabMonthly", "payMonthly"], ["tabOnce", "payOnce"]];
+  const show = (id) => tabs.forEach(([t, p]) => {
+    const on = t === id, tb = document.getElementById(t), pn = document.getElementById(p);
+    if (!tb || !pn) return;
+    tb.setAttribute("aria-selected", on); pn.hidden = !on;
+    if (on) pn.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+  });
+  tabs.forEach(([t]) => { const b = document.getElementById(t); if (b) b.addEventListener("click", () => show(t)); });
+  if (location.hash === "#one-time") { show("tabOnce"); document.getElementById("prices")?.scrollIntoView(); }
 }
