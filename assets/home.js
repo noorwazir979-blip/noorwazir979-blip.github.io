@@ -108,6 +108,10 @@ function startFeed() {
 }
 function group(el, onChange) { $$("button", el).forEach((b) => b.addEventListener("click", () => { $$("button", el).forEach((x) => x.setAttribute("aria-pressed", x === b)); onChange(b.dataset.v); })); }
 
+// Roman Urdu / Roman Hindi (Urdu or Hindi typed in English letters): "kitne ka hai", "kya aap website banate ho"
+const RU_WORDS = new Set("ka ke ki ko kya kia hai hain hy hoga hogi hota hoti kitna kitne kitni kaise kese kaisay kab kahan kahaan kidhar aap ap apka aapka apki aapki apna apne mujhe mjhe muje humein hamein hamara mera meri chahiye chahye chahie chaiye karna karta karte karti karo karein karen nahi nai nahin haan jee bhai yaar kaun kon konsa kaunsa kis mein bhi sirf theek thik acha accha bata batao bataye bataen batayein samajh paisa paise qeemat keemat wala wali wale sakte sakta skte sakti dukaan dukan kaam salam assalam shukriya meherbani milega milegi chalega lagega lagta banate banta banwana bhejo bhejein abhi kal aaj".split(" "));
+const isRoman = (q) => { if (/[^\x00-\x7F]/.test(q)) return false; const w = q.toLowerCase().match(/[a-z]+/g) || []; const hits = new Set(w.filter((x) => RU_WORDS.has(x))).size; return hits >= 2 || (hits >= 1 && w.length <= 3); };
+
 const NAME = { garage: ["Your Garage", "YG"], clinic: ["Your Clinic", "YC"], salon: ["Your Salon", "YS"], laundry: ["Your Laundry", "YL"] };
 Object.assign(NAME, {"printing":["Your Print Shop","YP"],"tyres":["Your Tyre Shop","YT"],"restaurant":["Your Restaurant","YR"],"realestate":["Your Property Office","YO"],"maintenance":["Your AC & Maintenance","YM"],"trading":["Your Trading Co.","YT"]});
 const S = {
@@ -152,11 +156,27 @@ const REPLY = {
   other: { en: "Good question. I've passed it to the team and they'll reply first thing in the morning ✅", ar: "سؤال جيد. حوّلته للفريق وسيردون أول شيء صباحاً ✅", ur: "اچھا سوال ہے۔ ٹیم کو بھیج دیا ہے، وہ صبح سب سے پہلے جواب دیں گے ✅", hi: "अच्छा सवाल है। टीम को भेज दिया है, वे सुबह सबसे पहले जवाब देंगे ✅" },
 };
 const INTENT = [
-  ["price", /price|cost|how much|charge|rate|كم|سعر|قیمت|کتن|ریٹ|پیسے|कितन|रेट|दाम|कीमत/i],
-  ["hours", /open|close|hour|timing|when|متى|ساعات|دوام|وقت|ٹائم|کب|खुल|समय|कब/i],
-  ["where", /where|location|address|map|وين|أين|موقع|عنوان|کہاں|لوکیشن|पता|कहाँ|लोकेशन/i],
-  ["book", /book|appointment|slot|tomorrow|today|حجز|موعد|بكرة|بکنگ|اپوائنٹ|کل|बुक|अपॉइंट|कल/i],
+  ["price", /price|cost|how much|charge|rate|kitn|qeemat|keemat|paise|paisay|daam|fees|كم|سعر|قیمت|کتن|ریٹ|پیسے|कितन|रेट|दाम|कीमत/i],
+  ["hours", /open|close|hour|timing|when|khul|kab tak|kab se|band hot|band ho|متى|ساعات|دوام|وقت|ٹائم|کب|खुल|समय|कब/i],
+  ["where", /where|location|address|map|kahan|kahaan|kidhar|jagah|pata bhej|وين|أين|موقع|عنوان|کہاں|لوکیشن|पता|कहाँ|लोकेशन/i],
+  ["book", /book|appointment|slot|tomorrow|today|\bkal\b|\baaj\b|time mil|waqt|order kar|حجز|موعد|بكرة|بکنگ|اپوائنٹ|کل|बुक|अपॉइंट|कल/i],
 ];
+// Roman Urdu answers for the demo chat
+const REPLY_RU = {
+  price: (p) => p + " (misaal ke rate). Kya aap ke liye time book kar doon?",
+  hours: "Hum subah 8 se raat 10 baje tak khule hain, aur main abhi booking kar sakta hoon.",
+  where: "Hum Musaffah, Abu Dhabi mein hain (misaal). Location bhej doon?",
+  book: "Zaroor! Kaun sa din aur time theek hai? Main slot rakh leta hoon, team confirm karegi.",
+  other: "Acha sawal hai. Team ko bhej diya hai, woh subah sab se pehle jawab denge ✅",
+};
+const PRICE_RU = {
+  garage: "AC check 80 dirham, oil change 120 dirham se", clinic: "Mashwara 150 dirham, safai 250 dirham se",
+  salon: "Threading 30 dirham, haircut 60 dirham se", laundry: "Shirt 5 dirham, qaleen 15 dirham fi square meter, pickup free",
+  printing: "500 business card 245 dirham, 1,000 A5 flyer 180 dirham se", tyres: "4 tyre ka set 1,280 dirham se, fitting aur VAT ke saath",
+  restaurant: "Chicken biryani 25 dirham, family meal 89 dirham se, 40 dirham se upar delivery free", realestate: "2 bedroom flat 95,000 dirham saalana se, studio 45,000 se",
+  maintenance: "AC visit 150 dirham, AC safai 120 dirham fi unit se", trading: "Office chair 350 dirham fi piece se, delivery 600 dirham se",
+};
+
 const ONLINE = { en: "online", ar: "متصل", ur: "آن لائن", hi: "ऑनलाइन" }, TYPING = { en: "typing…", ar: "يكتب…", ur: "لکھ رہا ہے…", hi: "टाइप कर रहा है…" };
 const PH4 = { en: "Ask it something…", ar: "اسأل كعميل…", ur: "کچھ پوچھیں…", hi: "कुछ पूछिए…" };
 
@@ -190,6 +210,7 @@ async function ask(q) {
   const ql = /[؀-ۿ]/.test(q) ? (URDU.test(q) ? "ur" : "ar") : /[ऀ-ॿ]/.test(q) ? "hi" : lang;
   bubble("c", q, ql);
   const hit = INTENT.find(([, re]) => re.test(q)), k = hit ? hit[0] : "other";
+  if (ql === "en" && isRoman(q)) return say("a", k === "price" ? REPLY_RU.price(PRICE_RU[trade]) : REPLY_RU[k], "en", id);
   await say("a", k === "price" ? REPLY.price[ql](PRICE[trade][ql]) : REPLY[k][ql], ql, id);
 }
 $("#askForm").addEventListener("submit", (e) => { e.preventDefault(); const q = $("#askIn").value.trim(); if (!q) return; $("#askIn").value = ""; ask(q); });
@@ -289,7 +310,7 @@ const A = {
   how: { a: "Live in 5 days:<br><b>Day 1</b> a 10-minute call about your prices and hours<br><b>Day 2-3</b> Noor builds it<br><b>Day 4</b> you test it<br><b>Day 5</b> it goes live, free for 7 days", c: ["Book a free call"] },
   noor: { a: "Noor Zaman builds every assistant himself. He's based in Abu Dhabi and speaks English, Urdu and Hindi. It's a small, new business, not a big company, so you deal with him directly.", c: ["Book a free call", "Ask Noor on WhatsApp"] },
   clients: { a: "Honest answer: we're new, so no long client list yet. That's why the first 7 days are free: you see it work on your business before you pay.", c: ["Free 7 days?", "Book a free call"] },
-  lang: { a: "English, Arabic, Urdu and Hindi. It replies in the language the customer writes in.", c: ["Prices"] },
+  lang: { a: "English, Arabic, Urdu and Hindi, also Roman Urdu (Urdu typed in English letters). It replies in the language the customer writes in.", c: ["Prices"] },
   langOther: { a: "Right now it speaks English, Arabic, Urdu and Hindi. For any other language, please ask Noor.", c: ["Ask Noor on WhatsApp"] },
   number: { a: "Usually you keep your number: it connects to your existing WhatsApp Business. No new app to learn.", c: ["How does it start?"] },
   wrong: { a: "It answers only from your own prices, services and hours. If it isn't sure, it passes the question to your team. You test it before it goes live.", c: ["Book a free call"] },
@@ -343,6 +364,42 @@ const R = {
   contact: /\b(contact|phone number|your number|email|reach (you|noor)|whatsapp number)\b/i,
   demo: /\b(demo|example|show me|see it working|try it out)\b/i,
 };
+
+// Roman Urdu / Hindi words for the same topics (checked next to R)
+const RR = {
+  offtopic: /\b(mausam|cricket|film|gaana|gana|shayari|lateefa|joke)\b/i,
+  book: /\b(book kar\w*|meeting|milna|mil sakte|baat karni|baat karna|call kar\w*|call karo|appointment|shuru kar\w*|start kar\w*|lena hai|chahiye bas)\b/i,
+  hello: /^(salam|assalam\w*|aoa|aslam\w*|adaab|namaste|hello ji|hi ji)[\s!.,]*(bhai|ji|noor)?[\s!.,]*$/i,
+  thanks: /^(shukriya|meherbani|thank you ji|theek hai|thik hai|ok ji|acha|accha)[\s!.,]*(ji|bhai)?[\s!.,]*$/i,
+  unstated: /\b(qist\w*|installment|discount|riyayat|kam kar\w*|vat|tax|cash|card se)\b/i,
+  context: /\b(aap|ap|apka|aapka|yeh|ye|ismein|iska|is ka|plan|package|service|assistant|whatsapp|mahina|mahine|setup|kya|bata\w*|bhai|ji|kaam|karta|karte|hota|hoti|chalta)\b/i,
+  website: /\b(website|web site|site bana\w*|webpage|online dukaan|online shop)\b/i,
+  video: /\b(video|reel|tiktok|youtube)\b/i,
+  spekly: /\b(spekly|speakly|bill bana\w*|invoice app|khata|hisab kitab)\b/i,
+  calls: /\b(call|calls|phone utha\w*|phone sun\w*|phone ka jawab|missed call|minute)\b/i,
+  chat: /\b(whatsapp ka jawab|messages?|instagram|facebook|chat)\b/i,
+  office: /\b(quotation|quote|kotation|bill|hisab|reminder|yaad dila\w*|report|data entry|kaghaz|kagaz|paperwork)\b/i,
+  once: /\b(ek (hi )?(baar|dafa|bar)|hamesha ke liye|khareed\w*|apna ban|monthly nahi|mahina nahi)\b/i,
+  price: /\b(kitn[aei]\w*|qeemat|keemat|rate|paise|paisay|daam|fees|charges|kharcha|kharch|mehnga|sasta|plan|package)\b/i,
+  time: /\b(kitne din|kab tak|kitna time|kitna waqt|kab se|kab shuru|jaldi)\b/i,
+  howWork: /\b(kaise kaam|kese kaam|kaise chal|kaise hota|kaise shuru|kaise karta|kaise karte|tareeqa|process)\b/i,
+  whatIs: /\b(kya karte|kya karta|kya kaam|kya hai ye|kya hai yeh|ye kya hai|yeh kya hai|kya service|kya milta|kya dete)\b/i,
+  noor: /\b(kaun ho|kon ho|aap kaun|ap kon|noor kaun|noor kon|malik|owner kaun|kis ki company)\b/i,
+  clients: /\b(client|clients|customer hain|kis ke saath|kaam kiya|review)\b/i,
+  which: /\b(kaun sa plan|konsa plan|kaunsa|konsa|kya lena chahiye|kya loon|kya lun|mere liye kya|best kya)\b/i,
+  trial: /\b(free|muft|trial|aazma|try kar)\b/i,
+  lang: /\b(zaban|zubaan|zuban|urdu|hindi|arabi|english mein)\b/i,
+  number: /\b(number wahi|wahi number|apna number|naya number|number badal\w*|number change)\b/i,
+  wrong: /\b(ghalat|galat|ghalti|galti|sahi jawab|bharosa)\b/i,
+  aiknow: /\b(insaan hai|insan hai|robot hai|bot hai|pata chalega)\b/i,
+  data: /\b(data|privacy|mehfooz|safe hai|raaz)\b/i,
+  stop: /\b(band kar\w*|cancel|contract|chhor\w*|chor sakte|rok sakte)\b/i,
+  fit: /\b(mere kaam|meri dukaan|meri dukan|mere business|garage|clinic|salon|laundry|restaurant|dukaan ke liye)\b/i,
+  where: /\b(kahan ho|kahan hain|kidhar ho|office kahan|kahan se|kahaan)\b/i,
+  contact: /\b(number do|number dein|rabta|contact|kaise milein|whatsapp number)\b/i,
+  demo: /\b(demo|dikhao|dikha do|dekhna hai|test kar)\b/i,
+};
+const T = (k, q) => R[k].test(q) || (RR[k] ? RR[k].test(q) : false);
 const TABLE = { // topic -> what we can answer for each aspect; a missing aspect goes to Noor
   website: { what: "website", price: "website" },
   video: { what: "video", price: "video" },
@@ -355,18 +412,18 @@ const TABLE = { // topic -> what we can answer for each aspect; a missing aspect
 function think(raw) {
   const q = raw.trim(), words = q.split(/\s+/).length;
   if (!q || !/[\p{L}\p{N}]/u.test(q)) return { refer: "unclear" };
-  if (R.offtopic.test(q)) return { refer: "offtopic" };
-  if (R.hello.test(q)) return { id: "hello" };
-  if (R.thanks.test(q)) return { id: "thanks" };
-  if (R.book.test(q)) return { book: true };
-  if (R.unstated.test(q)) return { refer: "detail" };
-  const topic = ["once", "website", "video", "spekly", "calls", "chat", "office"].find((t) => R[t].test(q));
-  const aspect = R.price.test(q) ? "price" : R.time.test(q) ? "time" : R.howWork.test(q) ? "howWork" : "what";
+  if (T("offtopic", q)) return { refer: "offtopic" };
+  if (T("hello", q)) return { id: "hello" };
+  if (T("thanks", q)) return { id: "thanks" };
+  if (T("book", q)) return { book: true };
+  if (T("unstated", q)) return { refer: "detail" };
+  const topic = ["once", "website", "video", "spekly", "calls", "chat", "office"].find((t) => T(t, q));
+  const aspect = T("price", q) ? "price" : T("time", q) ? "time" : T("howWork", q) ? "howWork" : "what";
   if (topic) { const id = TABLE[topic][aspect]; return id ? { id } : { refer: "detail", topic }; }
-  for (const id of ["noor", "clients", "which", "trial", "langOther", "lang", "number", "wrong", "aiknow", "data", "stop", "where", "contact", "demo", "fit"]) if (R[id].test(q)) return { id };
-  if (R.price.test(q) && (words <= 3 || R.context.test(q))) return { id: "prices" };
-  if ((R.time.test(q) || R.howWork.test(q)) && R.context.test(q)) return { id: "how" };
-  if (R.whatIs.test(q)) return { id: "what" };
+  for (const id of ["noor", "clients", "which", "trial", "langOther", "lang", "number", "wrong", "aiknow", "data", "stop", "where", "contact", "demo", "fit"]) if (T(id, q)) return { id };
+  if (T("price", q) && (words <= 3 || T("context", q))) return { id: "prices" };
+  if ((T("time", q) || T("howWork", q)) && T("context", q)) return { id: "how" };
+  if (T("whatIs", q)) return { id: "what" };
   return { refer: "unclear" };
 }
 const REFER = {
@@ -374,6 +431,44 @@ const REFER = {
   unclear: "Sorry, I don't have this information. You can ask Noor, he knows about this.",
   detail: "Sorry, I don't have this information. Noor knows about this, you can ask him directly.",
 };
+
+// the same answers in Roman Urdu, used when the visitor writes that way
+const A_RU = {
+  hello: "Salam! 👋 Main Noor ka assistant hoon. Main bata sakta hoon hum kya karte hain, prices kya hain aur kaise shuru hota hai, ya Noor ke saath free 10 minute ki call book kar sakta hoon.",
+  thanks: "Koi baat nahi! Aur kuch poochna hai?",
+  what: "Hum aap ke WhatsApp aur phone par AI assistant lagate hain. Yeh customers ko seconds mein unki zaban mein jawab deta hai, aap ki asli prices batata hai, booking leta hai aur kaam aap ki team ko de deta hai, raat 11 baje bhi. Hum quotations, reminders aur reports bhi khud kar dete hain.",
+  prices: "<b>Har mahine</b> (hum sambhalte hain, 7 din free):<br>• <b>Starter</b>, sirf WhatsApp: 499 dirham mahina + 499 setup<br>• <b>Growth</b>, WhatsApp, Instagram, Facebook aur website chat: 999 dirham mahina + 799 setup<br>• <b>Complete</b>, saath mein emails, phone calls aur quotations: 1,999 dirham mahina + 2,499 setup<br>Ya <b>ek hi baar</b> paise dein aur system aap ka: 2,999 dirham se. Kisi bhi mahine band kar sakte hain.",
+  chat: "<b>Growth</b>: 999 dirham mahina + 799 setup. Yeh WhatsApp, Instagram, Facebook aur website chat par din raat jawab deta hai, aap ki asli prices ke saath, booking aur order leta hai. Sirf WhatsApp chahiye? <b>Starter</b> 499 dirham mahina + 499 setup.",
+  calls: "<b>Phone calls</b>: 799 dirham mahina + 999 setup, takreeban 500 minute mahina, us ke baad 1 dirham fi minute. Yeh missed aur raat ki calls uthata hai. Aap ka du ya e& number wahi rehta hai; naya number chahiye to sirf du ya e& ka kharcha. Calls <b>Complete</b> (1,999 dirham mahina) mein shamil hain.",
+  office: "<b>Quotations aur kaghazi kaam</b>: 499 dirham mahina se + 1,499 setup se, kaam ke hisab se. Jaise enquiry se quotation (QuickBooks mein bhi), follow-up, payment reminder, reports aur data entry. Ek kaam <b>Complete</b> mein shamil hai.",
+  video: "Abhi Noor AI assistants aur websites par kaam karte hain. Kuch aur chahiye to Noor se seedha poochein.",
+  website: "Ji, Noor is jaisi websites banate hain, phone ke liye:<br>• <b>Simple website</b> (1-5 page): 2,499 dirham + 199 mahina<br>• <b>Business website</b> (English aur Arabic): 4,499 + 299 mahina<br>• <b>Price list jo khud update ho</b>: 7,999 + 499 mahina<br>• <b>Online shop</b>: 8,999 + 799 mahina<br>Growth ya Complete ke saath 20% off.",
+  spekly: "Spekly Noor ki voice invoice app hai: sale, kharcha ya payment bol dein, yeh invoice bana deti hai aur hisab rakhti hai ke kis ne kitna dena hai. Free try kar sakte hain.",
+  which: "Zyada tar WhatsApp messages aate hain? <b>Starter</b>. WhatsApp, Instagram aur website par messages? <b>Growth</b>. Missed calls aur bohat saari quotations bhi? <b>Complete</b>. Ek hi baar paise dena chahte hain? <b>Pay once</b> ka poochein. Noor free 10 minute ki call par sahi mashwara de denge.",
+  once: "<b>Ek hi baar paise</b>: Noor sab kuch aap ke apne WhatsApp aur accounts par lagate hain, system aap ka, hamein koi monthly fee nahi.<br>• <b>Starter</b> (WhatsApp): 2,999 dirham<br>• <b>Growth</b> (WhatsApp, Instagram, Facebook, website chat): 5,999 dirham<br>• <b>Complete</b> (emails, calls aur quotations bhi): 11,999 dirham<br>Chhota running kharcha (AI, WhatsApp, calls, aam taur par 150-400 dirham mahina) seedha un companies ko jata hai. Training aur 14 din free fixes shamil.",
+  trial: "Har plan <b>7 din free</b> se shuru hota hai. Faida ho to rakhein, warna nahi. Koi contract nahi, kisi bhi mahine band karein.",
+  how: "5 din mein chalu:<br><b>Din 1</b> 10 minute ki call: aap ki prices aur timing<br><b>Din 2-3</b> Noor banate hain<br><b>Din 4</b> aap test karte hain<br><b>Din 5</b> chalu, 7 din free",
+  noor: "Noor Zaman har assistant khud banate hain. Abu Dhabi mein hain aur English, Urdu aur Hindi bolte hain. Yeh chhota naya business hai, bari company nahi, is liye aap seedha unhi se baat karte hain.",
+  clients: "Sach baat: hum naye hain, abhi lambi client list nahi. Isi liye pehle 7 din free hain: pehle apne business par kaam karta dekhein, phir paise dein.",
+  lang: "English, Arabic, Urdu aur Hindi, Roman Urdu bhi. Customer jis zaban mein likhe, usi mein jawab deta hai.",
+  langOther: "Abhi English, Arabic, Urdu aur Hindi bolta hai. Kisi aur zaban ke liye Noor se poochein.",
+  number: "Aam taur par number wahi rehta hai: aap ke WhatsApp Business se jur jata hai. Koi nayi app seekhne ki zaroorat nahi.",
+  wrong: "Yeh sirf aap ki di hui prices, services aur timing se jawab deta hai. Pakka na ho to sawal aap ki team ko de deta hai. Chalu karne se pehle aap khud test karte hain.",
+  aiknow: "Ji, agar woh poochein to bata deta hai. Aur koi zaati baat aap ki team ko jati hai.",
+  data: "Baat cheet aap ke apne accounts mein rehti hai. Privacy policy page ke neeche hai.",
+  stop: "Koi contract nahi. Kisi bhi mahine band karein.",
+  fit: "Clinic, garage, tyre shop, salon, laundry, printing, restaurant, maintenance, real estate aur trading: har woh business jis ko WhatsApp ya phone par enquiries aati hain.",
+  where: "Noor Abu Dhabi mein hain aur poore UAE ke businesses ke saath kaam karte hain. Woh call bhi kar sakte hain aur aap ke paas aa bhi sakte hain.",
+  contact: 'Noor ko WhatsApp ya call karein <a href="https://wa.me/971589358857" target="_blank" rel="noopener">058 935 8857</a>, ya email <a href="mailto:imnoorzamn@gmail.com">imnoorzamn@gmail.com</a>.',
+  demo: 'Isi page par try karein: <a href="#try" data-close>demo kholein</a>, business chunein aur kuch bhi poochein.',
+};
+const REFER_RU = {
+  offtopic: "Maaf kijiye, main sirf Noor AI Concierge ke baare mein madad kar sakta hoon: hum kya karte hain, prices aur booking. Baqi sab Noor se poochein.",
+  unclear: "Maaf kijiye, yeh maloomat mere paas nahi. Noor se poochein, unhein pata hai.",
+  detail: "Maaf kijiye, yeh maloomat mere paas nahi. Noor ko pata hai, aap seedha unse pooch sakte hain.",
+};
+const STEPS_RU = { name: "Bohat acha, book karte hain. Aap ka naam?", business: (a) => a.name + " ji, aap ke business ka naam kya hai?", type: "Kis qisam ka business hai?", need: "Hum aap ka kaun sa kaam sambhalein?", how: "Call karein, ya Noor aap ke paas aayein?", when: "Kab theek rahega?", whatsapp: "Aakhri sawal: aap ka WhatsApp number, taake Noor confirm kar sakein?" };
+let ru = false;
 let lastQ = "";
 const waLink = () => `https://wa.me/${WA}?text=${encodeURIComponent("Hi Noor, I saw your website")}`;
 
@@ -381,7 +476,7 @@ const STEPS = [
   { k: "name", q: "Great, let's book it. What's your name?", type: "text", ac: "name" },
   { k: "business", q: (a) => `Nice to meet you, ${a.name}. What's your business called?`, type: "text", ac: "organization" },
   { k: "type", q: "What kind of business is it?", opts: ["Garage / auto", "Clinic", "Salon / spa", "Laundry", "AC / maintenance", "Real estate", "Restaurant", "Office / other"] },
-  { k: "need", q: "What should we take off your hands?", opts: ["WhatsApp replies", "Phone calls", "Quotes & follow-ups", "A website", "Videos", "Not sure yet"] },
+  { k: "need", q: "What should we take off your hands?", opts: ["WhatsApp replies", "Phone calls", "Quotes & follow-ups", "A website", "Not sure yet"] },
   { k: "how", q: "A call, or should Noor visit you?", opts: ["Phone / WhatsApp call", "Visit my business"] },
   { k: "when", q: "When suits you?", opts: ["Today", "Tomorrow", "This weekend", "Next week"] },
   { k: "whatsapp", q: "Last one: your WhatsApp number, so Noor can confirm?", type: "tel", ac: "tel", ph: "05x xxx xxxx" },
@@ -392,15 +487,15 @@ const bot = (cls, html) => { const d = document.createElement("div"); d.classNam
 async function botSay(html) { const t = bot("qq typing-dots", "<i></i><i></i><i></i>"); await wait(reduce ? 0 : 450 + Math.min(700, html.length * 3)); t.remove(); bot("qq", html); }
 function chips(list) { opts.innerHTML = ""; list.forEach((o) => { const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = o; b.onclick = () => pick(o); opts.appendChild(b); }); }
 function inputMode(s) { ci.type = s && s.type === "tel" ? "tel" : "text"; ci.autocomplete = (s && s.ac) || "off"; ci.placeholder = s ? s.ph || "Type here…" : "Ask a question…"; ci.value = ""; }
-async function askStep() { const s = STEPS[step]; await botSay(esc(typeof s.q === "function" ? s.q(ans) : s.q)); if (s.opts) chips(s.opts); else opts.innerHTML = ""; inputMode(s); if (chat.classList.contains("open") && !s.opts && fine) ci.focus({ preventScroll: true }); }
+async function askStep() { const s = STEPS[step], q = ru && STEPS_RU[s.k] ? STEPS_RU[s.k] : s.q; await botSay(esc(typeof q === "function" ? q(ans) : q)); if (s.opts) chips(s.opts); else opts.innerHTML = ""; inputMode(s); if (chat.classList.contains("open") && !s.opts && fine) ci.focus({ preventScroll: true }); }
 function startBooking() { step = 0; askStep(); }
 async function reply(r) {
   if (r.book) return startBooking();
   if (r.refer) {
-    await botSay(`${esc(REFER[r.refer])}<br><a href="${waLink()}" target="_blank" rel="noopener">Noor on WhatsApp: 058 935 8857</a>`);
+    await botSay(`${esc((ru ? REFER_RU : REFER)[r.refer])}<br><a href="${waLink()}" target="_blank" rel="noopener">Noor on WhatsApp: 058 935 8857</a>`);
     return chips(["Ask Noor on WhatsApp", "Book a free call", "Prices"]);
   }
-  const x = A[r.id]; await botSay(x.a); chips(x.c);
+  const x = A[r.id]; await botSay(ru && A_RU[r.id] ? A_RU[r.id] : x.a); chips(x.c);
 }
 function pick(o) {
   if (step >= 0) return answer(o);
@@ -413,7 +508,7 @@ function pick(o) {
 }
 function answer(v) {
   const s = STEPS[step];
-  if (s.type === "tel" && v.replace(/\D/g, "").length < 9) { bot("aa", esc(v)); botSay("That looks short. Please include the area code, like 050 123 4567."); return; }
+  if (s.type === "tel" && v.replace(/\D/g, "").length < 9) { bot("aa", esc(v)); botSay(ru ? "Number chhota lag raha hai. Area code ke saath likhein, jaise 050 123 4567." : "That looks short. Please include the area code, like 050 123 4567."); return; }
   ans[s.k] = v; bot("aa", esc(v)); step++; step < STEPS.length ? askStep() : done();
 }
 cf.addEventListener("submit", (e) => {
@@ -424,7 +519,7 @@ cf.addEventListener("submit", (e) => {
     if (r && r.id) { bot("aa", esc(v)); lastQ = v; reply(r).then(() => askStep()); return; }
     return answer(v);
   }
-  bot("aa", esc(v)); lastQ = v; reply(think(v));
+  ru = isRoman(v) ? true : v.trim().split(/\s+/).length >= 3 ? false : ru; bot("aa", esc(v)); lastQ = v; reply(think(v));
 });
 cl.addEventListener("click", (e) => { if (e.target.closest("[data-close]")) closeChat(); });
 const summary = () => `Booking request${ans.plan ? " (" + ans.plan + ")" : ""}\nName: ${ans.name}\nBusiness: ${ans.business} (${ans.type})\nNeeds: ${ans.need}\nHow: ${ans.how}\nWhen: ${ans.when}\nWhatsApp: ${ans.whatsapp}`;
@@ -451,7 +546,7 @@ function openChat(plan, book) {
   if (!started) {
     started = true;
     if (book) { bot("qq", plan ? `Hi! Let's book your free call about <b>${esc(plan)}</b>.` : "Hi! I'm Noor's assistant. Let's book your free 10-minute call."); startBooking(); }
-    else { botSay("Hi! 👋 I'm Noor's assistant. Ask me what we do, the prices or how it starts, or book a free 10-minute call with Noor."); chips(["What do you do?", "Prices", "How does it start?", "Who is Noor?", "Book a free call"]); inputMode(null); }
+    else { botSay("Hi! 👋 I'm Noor's assistant. Ask me what we do, the prices or how it starts, or book a free 10-minute call with Noor.<br><small>Roman Urdu / Hindi bhi chalegi: \"kitne ka hai?\"</small>"); chips(["What do you do?", "Prices", "How does it start?", "Who is Noor?", "Book a free call"]); inputMode(null); }
   } else if (book && step < 0) { if (plan) bot("qq", `Booking a call about <b>${esc(plan)}</b>.`); startBooking(); }
   if (fine) ci.focus({ preventScroll: true });
 }
