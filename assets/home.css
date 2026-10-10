@@ -862,3 +862,12 @@ button.pc:active { transform: scale(.99); }
 .app-t h3 { font-size: 21px; letter-spacing: -.02em; margin: 0; } .app-t h3 em { font-family: var(--serif); font-weight: 400; font-style: italic; }
 .app-t p { color: var(--muted); font-size: 15px; margin: 4px 0 0; }
 @media (max-width: 760px) { .app-in { grid-template-columns: auto minmax(0, 1fr); } .app-in .btn { grid-column: 1 / -1; width: 100%; min-height: 46px; } .app-t h3 { font-size: 18px; } .app-t p { font-size: 14px; } }
+/* Spekly: say plainly what it is (11 Oct 2026) */
+.spekly-panel .sk-kicker { margin: 16px 0 0; font: 600 12.5px "Space Grotesk", var(--f); letter-spacing: .06em; text-transform: uppercase; color: var(--sk-gold); }
+.spekly-panel .sk-kicker + h3 { margin-top: 8px; }
+.sk-feats { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 6px; max-width: 46ch; }
+.sk-feats li { font-size: 13px; color: var(--sk-ink); padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(217,169,78,.3); background: rgba(217,169,78,.08); }
+.sk-copy > p.sk-fine { font-size: 13.5px; margin: 14px 0 0; color: var(--sk-muted); }
+@media (max-width: 600px) { .sk-feats li { font-size: 12px; padding: 4px 9px; } .spekly-panel .sk-kicker { font-size: 11.5px; } }
+/* phones: show the Spekly example too (it explains the app better than words) */
+@media (max-width: 760px) { .spekly-panel .sk-demo { display: grid; margin-top: 18px; } .spekly-panel .sk-inv { transform: none; } }
