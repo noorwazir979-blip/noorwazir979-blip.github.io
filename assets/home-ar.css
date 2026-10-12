@@ -1,0 +1,91 @@
+/* Arabic page (ar/index.html): loads after home.css and turns the layout right-to-left.
+   Rules: Arabic fonts, no letter-spacing or italics (they break joined letters), taller line heights,
+   and every left/right placement in home.css mirrored. The 24-hour ring stays a normal clock. */
+:root {
+  --f: "IBM Plex Sans Arabic", "Readex Pro", "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Noto Naskh Arabic", "IBM Plex Sans Arabic", serif;
+  --ar: var(--f);
+}
+html[dir="rtl"] body { line-height: 1.75; }
+html[dir="rtl"] body *, html[dir="rtl"] body *::before, html[dir="rtl"] body *::after { letter-spacing: normal !important; text-transform: none !important; }
+[dir="rtl"] em, [dir="rtl"] i, [dir="rtl"] .c-lang .hello { font-style: normal; }
+
+/* headings: sans for the line, naskh (calligraphic) in gold for the emphasis, like the serif italic in English */
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 { font-weight: 700; }
+[dir="rtl"] h1 em, [dir="rtl"] h2 em, [dir="rtl"] .app-t h3 em { font-family: var(--serif); font-weight: 700; padding: 0 0 0 .06em; }
+[dir="rtl"] .hero h1 { font-size: clamp(36px, 4.7vw, 68px); line-height: 1.32; }
+[dir="rtl"] .head h2 { font-size: clamp(32px, 4.4vw, 58px); line-height: 1.35; }
+[dir="rtl"] .closing h2 { line-height: 1.35; }
+[dir="rtl"] .eyebrow, [dir="rtl"] .lbl { font-size: 14px; font-weight: 600; }
+[dir="rtl"] .steps .d, [dir="rtl"] .pb-row > span, [dir="rtl"] .pc-log .m .who { font-size: 12.5px; }
+[dir="rtl"] .founder blockquote { line-height: 1.7; }
+[dir="rtl"] .sub, [dir="rtl"] .lead { line-height: 1.8; }
+
+
+/* header */
+[dir="rtl"] .brand { margin-right: 0; margin-left: auto; }
+
+/* hero ring: the ring itself is a clock, keep it; move the message cards to the outside edge */
+[dir="rtl"] .ring { direction: ltr; }
+[dir="rtl"] .feed { left: auto; right: -6%; }
+[dir="rtl"] .note-card .nh time { margin-left: 0; margin-right: auto; }
+[dir="rtl"] .ring-core b, [dir="rtl"] .badge-time { direction: rtl; unicode-bidi: plaintext; }
+
+/* chats: bubble tails sit on the mirrored corner */
+[dir="rtl"] .mini-chat .q { border-bottom-left-radius: 16px; border-bottom-right-radius: 5px; }
+[dir="rtl"] .mini-chat .a { border-bottom-right-radius: 16px; border-bottom-left-radius: 5px; }
+[dir="rtl"] .pc-log .m.c { border-bottom-left-radius: 18px; border-bottom-right-radius: 6px; }
+[dir="rtl"] .pc-log .m.a { border-bottom-right-radius: 18px; border-bottom-left-radius: 6px; }
+[dir="rtl"] .badge-time { margin-left: 0; margin-right: auto; }
+[dir="rtl"] .pc-ask button svg, [dir="rtl"] .btn svg use[href="#i-arrow"] { transform: scaleX(-1); }
+[dir="rtl"] .bsel select { padding: 0 14px 0 38px; }
+[dir="rtl"] .bsel::after { right: auto; left: 14px; }
+
+/* prices */
+[dir="rtl"] .plan .tag, [dir="rtl"] .own .tag { left: auto; right: 26px; }
+[dir="rtl"] .plan-strip b { margin-right: 0; margin-left: 6px; }
+[dir="rtl"] .price small { margin: 0 4px; }
+[dir="rtl"] .pc-p { text-align: left; }
+[dir="rtl"] .pc-p small { margin-left: 0; margin-right: 4px; }
+[dir="rtl"] button.pc { text-align: right; }
+[dir="rtl"] .parts th { text-align: right; }
+[dir="rtl"] .parts th:not(:first-child), [dir="rtl"] .parts td:not(:first-child) { text-align: left; }
+@media (max-width: 760px) {
+  [dir="rtl"] .plan, [dir="rtl"] .plan .setup { text-align: right; }
+  [dir="rtl"] .plan .tag { left: auto; right: 18px; }
+}
+
+/* steps line fills from the right */
+[dir="rtl"] .steps::after { transform-origin: right; }
+[dir="rtl"] .steps li::before { left: auto; right: 10px; }
+@media (max-width: 860px) {
+  [dir="rtl"] .steps::before, [dir="rtl"] .steps::after { left: auto; right: 21px; transform-origin: top; }
+  [dir="rtl"] .steps li { padding: 0 50px 0 0; }
+}
+
+/* the chat bubble and its panel sit bottom-left on a right-to-left page; the colour button moves bottom-right */
+[dir="rtl"] .fab { right: auto; left: 20px; }
+[dir="rtl"] .fab .badge { right: auto; left: -2px; }
+[dir="rtl"] .teaser { right: auto; left: 20px; border-radius: 18px 18px 18px 6px; padding: 12px 14px 12px 36px; }
+[dir="rtl"] .teaser button { right: auto; left: 4px; }
+[dir="rtl"] .chat { right: auto; left: 20px; transform-origin: bottom left; }
+[dir="rtl"] .chat .ch button { margin-left: 0; margin-right: auto; }
+[dir="rtl"] .theme { left: auto; right: 20px; }
+@media (max-width: 560px) {
+  [dir="rtl"] .chat { left: 12px; right: 12px; }
+  [dir="rtl"] .fab { left: 16px; right: auto; }
+  [dir="rtl"] .teaser { left: 16px; right: auto; }
+}
+@media (max-width: 600px) { [dir="rtl"] .theme { left: auto; right: 14px; } }
+
+/* order sheet */
+[dir="rtl"] .sheet .sh-x { margin-left: 0; margin-right: auto; }
+
+/* websites card + Spekly panel */
+[dir="rtl"] .live-tag { left: auto; right: 14px; padding: 3px 7px 3px 9px; }
+[dir="rtl"] .devices { direction: ltr; }
+[dir="rtl"] .spekly-panel, [dir="rtl"] .sk-new, [dir="rtl"] .sk-kicker, [dir="rtl"] .sk-ih, [dir="rtl"] .sk-btn, [dir="rtl"] .spekly-panel h3 { font-family: var(--f); }
+[dir="rtl"] .spekly-panel h3 { line-height: 1.35; }
+[dir="rtl"] .pc-log .m { line-height: 1.7; }
+[dir="rtl"] .chat .cl > div { line-height: 1.7; }
+@media (max-width: 600px) { [dir="rtl"] .steps li { padding: 0; } }

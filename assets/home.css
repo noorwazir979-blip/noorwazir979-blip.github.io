@@ -871,3 +871,8 @@ button.pc:active { transform: scale(.99); }
 @media (max-width: 600px) { .sk-feats li { font-size: 12px; padding: 4px 9px; } .spekly-panel .sk-kicker { font-size: 11.5px; } }
 /* phones: show the Spekly example too (it explains the app better than words) */
 @media (max-width: 760px) { .spekly-panel .sk-demo { display: grid; margin-top: 18px; } .spekly-panel .sk-inv { transform: none; } }
+/* language switch (English <-> Arabic page) */
+.lang-sw { font: 600 14px var(--ar); color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); pointer-events: auto; white-space: nowrap; }
+.lang-sw:hover { color: var(--text); border-color: var(--text); }
+.lang-sw[lang="en"] { font-family: "Geist", system-ui, sans-serif; }
+@media (max-width: 600px) { .top .lang-sw { display: none; } }
