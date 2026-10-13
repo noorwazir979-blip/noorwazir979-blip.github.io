@@ -876,3 +876,23 @@ button.pc:active { transform: scale(.99); }
 .lang-sw:hover { color: var(--text); border-color: var(--text); }
 .lang-sw[lang="en"] { font-family: "Geist", system-ui, sans-serif; }
 @media (max-width: 600px) { .top .lang-sw { display: none; } }
+
+/* ---------- sales-psychology pass (13 Oct 2026): try-first link, price anchor, safety strip, folded single parts, honest timing ---------- */
+.try-first { margin: 14px 0 0; font-size: 14.5px; color: var(--muted); }
+.try-first a { color: var(--text); text-decoration-color: rgba(var(--c1-rgb),.6); }
+.anchor { text-align: center; color: var(--muted); font-size: 15px; max-width: 46ch; margin: 12px auto 0; }
+.anchor b { color: var(--text); font-weight: 600; }
+.safe { list-style: none; max-width: 860px; margin: 22px auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.safe li { padding: 14px 16px; border-radius: 16px; border: 1px solid rgba(var(--c3-rgb),.22); background: rgba(var(--c3-rgb),.05); font-size: 14px; color: var(--muted); line-height: 1.45; }
+.safe b { display: block; color: var(--text); font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+@media (max-width: 760px) { .safe { grid-template-columns: 1fr; gap: 8px; } .safe li { padding: 12px 14px; } }
+.parts { max-width: 860px; margin: 28px auto 0; }
+.parts > summary { list-style: none; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,.03); font: 500 15px var(--f); color: var(--muted); }
+.parts > summary::-webkit-details-marker { display: none; }
+.parts > summary span { color: var(--text); font-weight: 600; }
+.parts > summary span::after { content: " ›"; display: inline-block; transition: transform .2s; }
+.parts[open] > summary span::after { transform: rotate(90deg); }
+.parts[open] > summary { margin-bottom: 14px; }
+.steps-note { margin: 22px 0 0; font-size: 13.5px; color: var(--dim); }
+html[dir="rtl"] .parts > summary span::after { content: " ‹"; }
+html[dir="rtl"] .parts[open] > summary span::after { transform: rotate(-90deg); }

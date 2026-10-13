@@ -26,7 +26,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@500;600;700&family=Geist:wght@400..700&family=Readex+Pro:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
 <script>try{if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add("embed")}catch(e){}</script>
 <script>try{var m=location.search.match(/[?&]c=(gold|ocean|silver)\b/),c=m?m[1]:localStorage.getItem("nc-theme");if(/^(gold|ocean|silver)$/.test(c))document.documentElement.dataset.c=c}catch(e){}</script>
-<link rel="stylesheet" href="../assets/home.css?v=38">
+<link rel="stylesheet" href="../assets/home.css?v=39">
 <link rel="stylesheet" href="../assets/home-ar.css?v=1">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Noor AI Concierge","url":"https://nooraiconcierge.com/ar/","logo":"https://nooraiconcierge.com/assets/brand/logo-line.svg","telephone":"+971589358857","email":"imnoorzamn@gmail.com","inLanguage":"ar","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"founder":{"@type":"Person","name":"Noor Zaman","jobTitle":"Founder"},"sameAs":["https://www.facebook.com/nooraiconcierge","https://www.instagram.com/nooraiconcierge/","https://www.linkedin.com/in/noor-zaman-615b32300/","https://x.com/nooraiconcierge","https://www.tiktok.com/@imnoorzaman","https://www.google.com/maps?cid=4371601908040004547"]}</script>
 </head>
@@ -82,6 +82,7 @@
           <button class="btn primary" data-open-chat><svg><use href="#i-cal"/></svg>احجز مكالمة مجانية</button>
           <a class="btn ghost" href="https://wa.me/971589358857?text=Hi%20Noor%2C%20I%20saw%20your%20Arabic%20website%20%28%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%86%D9%88%D8%B1%29" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>واتساب</a>
         </div>
+        <p class="try-first">لست متأكداً بعد؟ <a href="#try">جرّبه بنفسك أولاً</a>، دون تسجيل.</p>
         <ul class="proof">
           <li><b>4</b>لغات</li>
           <li><b>5</b>أيام للتشغيل</li>
@@ -201,6 +202,7 @@
       <div class="head reveal">
         <p class="eyebrow">الأسعار</p>
         <h2>أسعار واضحة. <em>7 أيام مجاناً.</em></h2>
+        <p class="anchor">للمقارنة: موظف الاستقبال في أبوظبي يكلّف نحو <b>4,500 درهم شهرياً</b>، وينتهي دوامه عند السادسة.</p>
       </div>
       <div class="pswitch reveal" role="tablist" aria-label="طريقة الدفع">
         <button role="tab" id="tabMonthly" aria-selected="true" aria-controls="payMonthly">اشتراك شهري<small>نحن نتابعه عنك</small></button>
@@ -219,7 +221,7 @@
             <div class="acts"><button class="btn ghost" data-order="Starter" data-ar="باقة البداية" data-price="AED 499/month + AED 499 setup" data-price-ar="499 درهماً شهرياً ورسوم إعداد 499 درهماً">اطلب الآن</button><button class="lnk" data-open-chat data-plan="Starter">أو احجز مكالمة</button></div>
           </article>
           <article class="plan rec reveal">
-            <span class="tag">الأفضل قيمة</span>
+            <span class="tag">الأفضل قيمة · اختيار نور</span>
             <h3>باقة النمو</h3>
             <p class="pd">نردّ على جميع رسائلك.</p>
             <div class="price"><b>999</b><small>درهم</small><span>شهرياً</span></div>
@@ -239,9 +241,11 @@
           </article>
         </div>
         <div class="plan-points" aria-hidden="true"><span>واتساب الخاص بك</span><span>واتساب، إنستغرام، فيسبوك، الموقع</span><span>كل الرسائل + المكالمات + عروض الأسعار</span></div>
+        <ul class="safe"><li><b>7 أيام للتجربة.</b> لم يُفدك؟ نعيد لك رسوم الإعداد.</li><li><b>لا يخمّن أبداً.</b> إن لم يكن متأكداً، يحوّل العميل إلى فريقك.</li><li><b>أوقفه في أي شهر.</b> دون عقد طويل.</li></ul>
 
-        <h3 class="parts-h reveal">أو اختر ما تحتاجه فقط</h3>
-        <div class="pgrid reveal">
+        <details class="parts">
+          <summary>تحتاج جزءاً واحداً فقط؟ <span>اعرض الأجزاء السبعة</span></summary>
+          <div class="pgrid">
           <button type="button" class="pc" data-order="WhatsApp replies (monthly)" data-ar="الرد على واتساب" data-price="AED 499/month + AED 499 setup" data-price-ar="499 درهماً شهرياً ورسوم إعداد 499 درهماً" aria-label="اطلب: الرد على واتساب"><div class="pc-t"><b>الرد على واتساب</b><span>يردّ على العملاء، ويرسل الأسعار، ويسجّل الحجوزات</span></div><div class="pc-p"><b>499</b><small>شهرياً</small><i>و499 للإعداد</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
           <button type="button" class="pc" data-order="Instagram &amp; Facebook (monthly)" data-ar="إنستغرام وفيسبوك" data-price="AED 499/month + AED 499 setup" data-price-ar="499 درهماً شهرياً ورسوم إعداد 499 درهماً" aria-label="اطلب: إنستغرام وفيسبوك"><div class="pc-t"><b>إنستغرام وفيسبوك</b><span>يردّ على الرسائل والتعليقات (ويوتيوب أيضاً)</span></div><div class="pc-p"><b>499</b><small>شهرياً</small><i>و499 للإعداد</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
           <button type="button" class="pc" data-order="Chat on your website (monthly)" data-ar="دردشة على موقعك" data-price="AED 299/month + AED 299 setup" data-price-ar="299 درهماً شهرياً ورسوم إعداد 299 درهماً" aria-label="اطلب: دردشة على موقعك"><div class="pc-t"><b>دردشة على موقعك</b><span>نافذة دردشة تردّ على زوار موقعك</span></div><div class="pc-p"><b>299</b><small>شهرياً</small><i>و299 للإعداد</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
@@ -250,6 +254,7 @@
           <button type="button" class="pc" data-order="Quotes and paperwork (monthly)" data-ar="عروض الأسعار والأعمال المكتبية" data-price="from AED 499/month + setup from AED 1,499" data-price-ar="من 499 درهماً شهرياً ورسوم إعداد من 1,499 درهماً" aria-label="اطلب: عروض الأسعار والأعمال المكتبية"><div class="pc-t"><b>عروض الأسعار والأعمال المكتبية</b><span>يكتب عروض الأسعار (وفي QuickBooks أيضاً)، ويرسل التذكيرات والتقارير</span></div><div class="pc-p"><em>تبدأ من</em><b>499</b><small>شهرياً</small><i>والإعداد من 1,499</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
           <button type="button" class="pc" data-order="Your products and prices (monthly)" data-ar="منتجاتك وأسعارك" data-price="AED 499 setup, then free" data-price-ar="رسوم إعداد 499 درهماً، ثم مجاناً" aria-label="اطلب: منتجاتك وأسعارك"><div class="pc-t"><b>منتجاتك وأسعارك</b><span>نُدخل قائمة أسعارك وكتالوجك، ليكون كل ردّ صحيحاً</span></div><div class="pc-p"><b>مجاناً</b><i>بعد رسوم إعداد 499</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
         </div>
+        </details>
         <ul class="pfine">
           <li>ادفع سنة كاملة مقدماً: <b>شهران مجاناً</b>.</li>
           <li>أضف أيّاً منها إلى باقتك: <b>خصم 20%</b>.</li>
@@ -269,7 +274,7 @@
             <div class="acts"><button class="btn ghost" data-order="Starter (pay once)" data-ar="باقة البداية (دفعة واحدة)" data-price="AED 2,999 one time" data-price-ar="2,999 درهماً دفعة واحدة">اطلب الآن</button><button class="lnk" data-open-chat data-plan="Starter (pay once)">أو احجز مكالمة</button></div>
           </article>
           <article class="plan rec reveal">
-            <span class="tag">الأفضل قيمة</span>
+            <span class="tag">الأفضل قيمة · اختيار نور</span>
             <h3>باقة النمو</h3>
             <p class="pd">كل رسائلك، والنظام ملكك.</p>
             <div class="price"><b>5,999</b><small>درهم</small></div>
@@ -289,9 +294,11 @@
           </article>
         </div>
         <div class="plan-points" aria-hidden="true"><span>واتساب الخاص بك</span><span>واتساب، إنستغرام، فيسبوك، الموقع</span><span>كل الرسائل + المكالمات + عروض الأسعار</span></div>
+        <ul class="safe"><li><b>ادفع النصف الآن،</b> والنصف عندما يعمل.</li><li><b>لا يخمّن أبداً.</b> إن لم يكن متأكداً، يحوّل العميل إلى فريقك.</li><li><b>14 يوماً من الإصلاحات المجانية</b> بعد التشغيل.</li></ul>
 
-        <h3 class="parts-h reveal">أو اختر ما تحتاجه فقط</h3>
-        <div class="pgrid reveal">
+        <details class="parts">
+          <summary>تحتاج جزءاً واحداً فقط؟ <span>اعرض الأجزاء السبعة</span></summary>
+          <div class="pgrid">
           <button type="button" class="pc" data-order="WhatsApp replies (pay once)" data-ar="الرد على واتساب (دفعة واحدة)" data-price="AED 2,999 one time" data-price-ar="2,999 درهماً دفعة واحدة" aria-label="اطلب: الرد على واتساب"><div class="pc-t"><b>الرد على واتساب</b><span>يردّ على العملاء، ويرسل الأسعار، ويسجّل الحجوزات</span></div><div class="pc-p"><b>2,999</b><i>دفعة واحدة</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
           <button type="button" class="pc" data-order="Instagram &amp; Facebook (pay once)" data-ar="إنستغرام وفيسبوك (دفعة واحدة)" data-price="AED 2,499 one time" data-price-ar="2,499 درهماً دفعة واحدة" aria-label="اطلب: إنستغرام وفيسبوك"><div class="pc-t"><b>إنستغرام وفيسبوك</b><span>يردّ على الرسائل والتعليقات (ويوتيوب أيضاً)</span></div><div class="pc-p"><b>2,499</b><i>دفعة واحدة</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
           <button type="button" class="pc" data-order="Chat on your website (pay once)" data-ar="دردشة على موقعك (دفعة واحدة)" data-price="AED 1,499 one time" data-price-ar="1,499 درهماً دفعة واحدة" aria-label="اطلب: دردشة على موقعك"><div class="pc-t"><b>دردشة على موقعك</b><span>نافذة دردشة تردّ على زوار موقعك</span></div><div class="pc-p"><b>1,499</b><i>دفعة واحدة</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
@@ -300,6 +307,7 @@
           <button type="button" class="pc" data-order="Quotes and paperwork (pay once)" data-ar="عروض الأسعار والأعمال المكتبية (دفعة واحدة)" data-price="from AED 3,999 one time" data-price-ar="من 3,999 درهماً دفعة واحدة" aria-label="اطلب: عروض الأسعار والأعمال المكتبية"><div class="pc-t"><b>عروض الأسعار والأعمال المكتبية</b><span>مهمة مكتبية واحدة، مثل إدخال عروض الأسعار في QuickBooks</span></div><div class="pc-p"><em>تبدأ من</em><b>3,999</b><i>دفعة واحدة</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
           <button type="button" class="pc" data-order="Your products and prices (pay once)" data-ar="منتجاتك وأسعارك (دفعة واحدة)" data-price="AED 999 one time" data-price-ar="999 درهماً دفعة واحدة" aria-label="اطلب: منتجاتك وأسعارك"><div class="pc-t"><b>منتجاتك وأسعارك</b><span>نُدخل قائمة أسعارك وكتالوجك، ليكون كل ردّ صحيحاً</span></div><div class="pc-p"><b>999</b><i>دفعة واحدة</i></div><span class="pc-go" aria-hidden="true">اطلب ‹</span></button>
         </div>
+        </details>
         <ul class="pfine">
           <li>يشمل تدريب فريقك و<b>14 يوماً من الإصلاحات المجانية</b>.</li>
           <li>تدفع 50% عند البدء، و50% عندما يعمل النظام.</li>
@@ -324,6 +332,7 @@
         <li class="reveal"><span class="d">اليوم 4</span><b>تجرّبه بنفسك</b><p>اسأله ما تشاء، وعدّل ما تريد.</p></li>
         <li class="reveal"><span class="d">اليوم 5</span><b>يبدأ العمل</b><p>مجاناً لمدة 7 أيام. احتفظ به فقط إن كان مفيداً لك.</p></li>
       </ol>
+      <p class="steps-note">قد يستغرق واتساب بضعة أيام إضافية حتى تتحقق Meta من نشاطك التجاري.</p>
     </div>
   </section>
 
@@ -335,7 +344,7 @@
         <div>
           <p class="eyebrow">مع من تتعامل</p>
           <blockquote>«أرى كل يوم أعمالاً ناجحة تخسر عملاءها بسبب هاتف لم يردّ عليه أحد. أبني كل مساعد بنفسي، وأجرّبه معك، وأنا الشخص الذي تراسله عندما تحتاج أي تعديل.»</blockquote>
-          <p class="lead">مشروع صغير في أبوظبي، تتعامل فيه معي مباشرة. أتحدث الإنجليزية والأردية والهندية، أما المساعد فيتحدث العربية مع عملائك بطلاقة.</p>
+          <p class="lead">مشروع صغير وجديد في أبوظبي، تتعامل فيه معي مباشرة. ستكون من أوائل عملائي، لذلك تحظى باهتمامي الكامل. أتحدث الإنجليزية والأردية والهندية، أما المساعد فيتحدث العربية مع عملائك بطلاقة.</p>
           <div class="ctas"><button class="btn primary" data-open-chat><svg><use href="#i-cal"/></svg>احجز مكالمة مجانية</button><a class="btn ghost" href="tel:+971589358857"><svg><use href="#i-phone"/></svg><bdi dir="ltr">058 935 8857</bdi></a></div>
         </div>
       </div>
@@ -463,7 +472,7 @@
   <a class="wa-alt" href="https://wa.me/971589358857?text=Hi%20Noor%2C%20I%20saw%20your%20Arabic%20website%20%28%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%86%D9%88%D8%B1%29" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>تفضّل واتساب؟ راسل نور مباشرة</a>
 </div>
 
-<script src="../assets/home-ar.js?v=1"></script>
+<script src="../assets/home-ar.js?v=2"></script>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/" } }</script>
 <script type="module" src="../assets/hero3d.js?v=14"></script>
 </body>

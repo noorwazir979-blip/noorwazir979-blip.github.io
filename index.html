@@ -27,7 +27,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Space+Grotesk:wght@500;600;700&family=Instrument+Serif:ital@0;1&family=Readex+Pro:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
 <script>try{if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add("embed")}catch(e){}</script>
 <script>try{var m=location.search.match(/[?&]c=(gold|ocean|silver)\b/),c=m?m[1]:localStorage.getItem("nc-theme");if(/^(gold|ocean|silver)$/.test(c))document.documentElement.dataset.c=c}catch(e){}</script>
-<link rel="stylesheet" href="assets/home.css?v=38">
+<link rel="stylesheet" href="assets/home.css?v=39">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Noor AI Concierge","url":"https://nooraiconcierge.com","logo":"https://nooraiconcierge.com/assets/brand/logo-line.svg","telephone":"+971589358857","email":"imnoorzamn@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"founder":{"@type":"Person","name":"Noor Zaman","jobTitle":"Founder","image":"https://nooraiconcierge.com/media/noor.jpg","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"sameAs":["https://www.linkedin.com/in/noor-zaman-615b32300/","https://www.tiktok.com/@imnoorzaman"]},"sameAs":["https://www.facebook.com/nooraiconcierge","https://www.instagram.com/nooraiconcierge/","https://www.linkedin.com/in/noor-zaman-615b32300/","https://x.com/nooraiconcierge","https://www.tiktok.com/@imnoorzaman","https://www.google.com/maps?cid=4371601908040004547"]}</script>
 </head>
 <body>
@@ -82,6 +82,7 @@
           <button class="btn primary" data-open-chat><svg><use href="#i-cal"/></svg>Book a free call</button>
           <a class="btn ghost" href="https://wa.me/971589358857?text=Hi%20Noor%2C%20I%20saw%20your%20website" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp</a>
         </div>
+        <p class="try-first">Not sure yet? <a href="#try">Try it yourself first</a>. No sign-up.</p>
         <ul class="proof">
           <li><b>4</b>languages</li>
           <li><b>5</b>days to go live</li>
@@ -201,6 +202,7 @@
       <div class="head reveal">
         <p class="eyebrow">Prices</p>
         <h2>Simple prices. <em>7 days free.</em></h2>
+        <p class="anchor">For comparison: one receptionist in Abu Dhabi costs about <b>AED 4,500 a month</b>, and goes home at 6.</p>
       </div>
       <div class="pswitch reveal" role="tablist" aria-label="How you pay">
         <button role="tab" id="tabMonthly" aria-selected="true" aria-controls="payMonthly">Pay monthly<small>we look after it</small></button>
@@ -219,7 +221,7 @@
             <div class="acts"><button class="btn ghost" data-order="Starter" data-price="AED 499/month + AED 499 setup">Order</button><button class="lnk" data-open-chat data-plan="Starter">or book a call</button></div>
           </article>
           <article class="plan rec reveal">
-            <span class="tag">Best value</span>
+            <span class="tag">Best value · Noor's pick</span>
             <h3>Growth</h3>
             <p class="pd">We answer all your messages.</p>
             <div class="price"><small>AED</small><b>999</b><span>/month</span></div>
@@ -239,9 +241,11 @@
           </article>
         </div>
         <div class="plan-points" aria-hidden="true"><span>Your WhatsApp</span><span>WhatsApp, Instagram, Facebook, website</span><span>All messages + calls + quotes</span></div>
+        <ul class="safe"><li><b>7 days to try it.</b> Not helping? Your setup fee back.</li><li><b>It never guesses.</b> Not sure? It passes the customer to your team.</li><li><b>Stop any month.</b> No long contract.</li></ul>
 
-        <h3 class="parts-h reveal">Or pick only what you need</h3>
-        <div class="pgrid reveal">
+        <details class="parts">
+          <summary>Only need one part? <span>See all 7</span></summary>
+          <div class="pgrid">
           <button type="button" class="pc" data-order="WhatsApp replies (monthly)" data-price="AED 499/month + AED 499 setup" aria-label="Order WhatsApp replies"><div class="pc-t"><b>WhatsApp replies</b><span>Answers customers, sends prices, takes bookings</span></div><div class="pc-p"><b>499</b><small>/month</small><i>+ 499 to set up</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
           <button type="button" class="pc" data-order="Instagram &amp; Facebook (monthly)" data-price="AED 499/month + AED 499 setup" aria-label="Order Instagram &amp; Facebook"><div class="pc-t"><b>Instagram &amp; Facebook</b><span>Replies to messages and comments (YouTube too)</span></div><div class="pc-p"><b>499</b><small>/month</small><i>+ 499 to set up</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
           <button type="button" class="pc" data-order="Chat on your website (monthly)" data-price="AED 299/month + AED 299 setup" aria-label="Order Chat on your website"><div class="pc-t"><b>Chat on your website</b><span>A chat box that answers your visitors</span></div><div class="pc-p"><b>299</b><small>/month</small><i>+ 299 to set up</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
@@ -250,6 +254,7 @@
           <button type="button" class="pc" data-order="Quotes and paperwork (monthly)" data-price="from AED 499/month + setup from AED 1,499" aria-label="Order Quotes and paperwork"><div class="pc-t"><b>Quotes and paperwork</b><span>Writes quotes (QuickBooks too), sends reminders and reports</span></div><div class="pc-p"><em>from</em><b>499</b><small>/month</small><i>+ from 1,499 to set up</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
           <button type="button" class="pc" data-order="Your products and prices (monthly)" data-price="AED 499 setup, then free" aria-label="Order Your products and prices"><div class="pc-t"><b>Your products and prices</b><span>We load your price list and catalogue so every answer is right</span></div><div class="pc-p"><b>Free</b><small>/month</small><i>+ 499 to set up</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
         </div>
+        </details>
         <ul class="pfine">
           <li>Pay for a full year: <b>2 months free</b>.</li>
           <li>Add any of these to a package: <b>20% off</b>.</li>
@@ -269,7 +274,7 @@
             <div class="acts"><button class="btn ghost" data-order="Starter (pay once)" data-price="AED 2,999 one time">Order</button><button class="lnk" data-open-chat data-plan="Starter (pay once)">or book a call</button></div>
           </article>
           <article class="plan rec reveal">
-            <span class="tag">Best value</span>
+            <span class="tag">Best value · Noor's pick</span>
             <h3>Growth</h3>
             <p class="pd">All your messages, yours to keep.</p>
             <div class="price"><small>AED</small><b>5,999</b></div>
@@ -289,9 +294,11 @@
           </article>
         </div>
         <div class="plan-points" aria-hidden="true"><span>Your WhatsApp</span><span>WhatsApp, Instagram, Facebook, website</span><span>All messages + calls + quotes</span></div>
+        <ul class="safe"><li><b>Pay half now,</b> half when it works.</li><li><b>It never guesses.</b> Not sure? It passes the customer to your team.</li><li><b>14 days of free fixes</b> after it goes live.</li></ul>
 
-        <h3 class="parts-h reveal">Or pick only what you need</h3>
-        <div class="pgrid reveal">
+        <details class="parts">
+          <summary>Only need one part? <span>See all 7</span></summary>
+          <div class="pgrid">
           <button type="button" class="pc" data-order="WhatsApp replies (pay once)" data-price="AED 2,999 one time" aria-label="Order WhatsApp replies"><div class="pc-t"><b>WhatsApp replies</b><span>Answers customers, sends prices, takes bookings</span></div><div class="pc-p"><b>2,999</b><i>pay once</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
           <button type="button" class="pc" data-order="Instagram &amp; Facebook (pay once)" data-price="AED 2,499 one time" aria-label="Order Instagram &amp; Facebook"><div class="pc-t"><b>Instagram &amp; Facebook</b><span>Replies to messages and comments (YouTube too)</span></div><div class="pc-p"><b>2,499</b><i>pay once</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
           <button type="button" class="pc" data-order="Chat on your website (pay once)" data-price="AED 1,499 one time" aria-label="Order Chat on your website"><div class="pc-t"><b>Chat on your website</b><span>A chat box that answers your visitors</span></div><div class="pc-p"><b>1,499</b><i>pay once</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
@@ -300,6 +307,7 @@
           <button type="button" class="pc" data-order="Quotes and paperwork (pay once)" data-price="from AED 3,999 one time" aria-label="Order Quotes and paperwork"><div class="pc-t"><b>Quotes and paperwork</b><span>One office job, e.g. quotes into QuickBooks</span></div><div class="pc-p"><em>from</em><b>3,999</b><i>pay once</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
           <button type="button" class="pc" data-order="Your products and prices (pay once)" data-price="AED 999 one time" aria-label="Order Your products and prices"><div class="pc-t"><b>Your products and prices</b><span>We load your price list and catalogue so every answer is right</span></div><div class="pc-p"><b>999</b><i>pay once</i></div><span class="pc-go" aria-hidden="true">Order ›</span></button>
         </div>
+        </details>
         <ul class="pfine">
           <li>Includes training for your team and <b>14 days of free fixes</b>.</li>
           <li>Pay 50% to start and 50% when it's working.</li>
@@ -324,6 +332,7 @@
         <li class="reveal"><span class="d">Day 4</span><b>You test it</b><p>Ask it anything and change what you like.</p></li>
         <li class="reveal"><span class="d">Day 5</span><b>It goes live</b><p>Free for 7 days. Keep it only if it helps.</p></li>
       </ol>
+      <p class="steps-note">WhatsApp can take a few extra days while Meta checks your business.</p>
     </div>
   </section>
 
@@ -335,7 +344,7 @@
         <div>
           <p class="eyebrow">Who you deal with</p>
           <blockquote>"Every day I see good businesses lose customers to a phone nobody picked up. I build each assistant myself, test it with you, and I'm the person you message when something needs changing."</blockquote>
-          <p class="lead">A small Abu Dhabi business. You deal with me directly.</p>
+          <p class="lead">A small, new Abu Dhabi business. You'd be one of my first clients, so you get my full attention.</p>
           <div class="ctas"><button class="btn primary" data-open-chat><svg><use href="#i-cal"/></svg>Book a free call</button><a class="btn ghost" href="tel:+971589358857"><svg><use href="#i-phone"/></svg>058 935 8857</a></div>
         </div>
       </div>
@@ -464,7 +473,7 @@
   <a class="wa-alt" href="https://wa.me/971589358857?text=Hi%20Noor%2C%20I%20saw%20your%20website" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Prefer WhatsApp? Message Noor directly</a>
 </div>
 
-<script src="assets/home.js?v=24"></script>
+<script src="assets/home.js?v=25"></script>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/" } }</script>
 <script type="module" src="assets/hero3d.js?v=14"></script>
 </body>

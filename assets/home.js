@@ -296,15 +296,20 @@ const APP_URL = "https://ai-invoice-928b5.web.app";
 const A = {
   hello: { a: "Hi! 👋 I'm Noor's assistant. I can tell you what we do, the prices and how it starts, or book you a free 10-minute call.", c: ["What do you do?", "Prices", "Book a free call"] },
   thanks: { a: "You're welcome! Anything else?", c: ["Prices", "Book a free call"] },
+  howru: { a: "I'm doing well, thank you for asking! 😊 How can I help your business today?", c: ["What do you do?", "Prices", "Book a free call"] },
+  whoami: { a: "I'm Noor's assistant, an AI that answers questions about Noor AI Concierge. I can explain our services and prices, or book you a free call with Noor. It's the same kind of assistant we set up for businesses.", c: ["What do you do?", "Prices", "Book a free call"] },
+  whatsapp: { a: "The <b>WhatsApp assistant</b> replies to every WhatsApp message in seconds, day and night, with your real prices and hours. It sends prices and your location, takes bookings and orders, and passes them to your staff. It works on your existing WhatsApp Business number. <b>Starter</b>: AED 499/month + AED 499 setup.", c: ["Prices", "Book a free call"] },
+  social: { a: "It answers your <b>Instagram and Facebook</b> messages and comments (YouTube comments too), the same way it answers WhatsApp: AED 499/month + AED 499 setup, or included in <b>Growth</b> (AED 999/month).", c: ["Prices", "Book a free call"] },
+  email: { a: "The <b>email assistant</b> sorts your incoming emails and writes the replies for you: AED 299/month + AED 299 setup, or included in <b>Complete</b> (AED 1,999/month).", c: ["Prices", "Book a free call"] },
   what: { a: "We put an AI assistant on your WhatsApp and phone. It answers customers in seconds, in their language, books them in and hands the job to your team, even at 11 pm. We also automate office jobs like quotes, reminders and reports.", c: ["Prices", "How does it start?", "Who is Noor?"] },
   prices: { a: "<b>Pay monthly</b> (we look after it, 7 days free):<br>• <b>Starter</b>, your WhatsApp: AED 499/month + AED 499 to set up<br>• <b>Growth</b>, WhatsApp, Instagram, Facebook and website chat: AED 999/month + AED 799 to set up<br>• <b>Complete</b>, adds emails, phone calls and quotes: AED 1,999/month + AED 2,499 to set up<br>Or <b>pay once</b> and own it: from AED 2,999. Stop any month.", c: ["Which plan suits me?", "Pay once?", "Book a free call"] },
   chat: { a: "<b>Growth</b>: AED 999/month + AED 799 setup. It answers WhatsApp, Instagram, Facebook and website chat day and night from your own catalogue and prices, takes bookings and orders, and hands over to your team. Just WhatsApp? <b>Starter</b> is AED 499/month + AED 499 setup.", c: ["Calls plan", "Book a free call"] },
   calls: { a: "<b>Phone calls</b>: AED 799/month + AED 999 setup, about 500 call minutes a month, extra minutes AED 1 each. It picks up missed and after-hours calls. You keep your own du or e& number; if you need a new line, it is added at cost. Calls are included in <b>Complete</b> (AED 1,999/month).", c: ["Free 7 days?", "Book a free call"] },
-  office: { a: "<b>Quotes and paperwork</b>: from AED 499/month + from AED 1,499 to set up, priced per job. For example quotes from enquiries (QuickBooks too), follow-ups, payment reminders, reports and data entry. One automation is included in <b>Complete</b>.", c: ["Book a free call"] },
+  office: { a: "<b>Office automation</b> takes repeated office jobs off your team. For example: an enquiry comes in and a quotation is ready for your OK (QuickBooks too), customers who went quiet get a follow-up, payment and appointment reminders go out on time, and you get a daily report. Data entry from emails or Excel too. From AED 499/month + from AED 1,499 setup, priced per job. One job is included in <b>Complete</b>.", c: ["Book a free call"] },
   video: { a: "Right now Noor focuses on AI assistants and websites. For anything else, ask Noor directly.", c: ["Ask Noor on WhatsApp", "Book a free call"] },
   website: { a: "Yes, Noor builds websites like this one, made for phones:<br>• <b>Simple website</b> (1-5 pages): AED 2,499 + AED 199/month care<br>• <b>Business website</b> (English and Arabic): AED 4,499 + AED 299/month<br>• <b>Price list that updates itself</b>: AED 7,999 + AED 499/month<br>• <b>Online shop</b>: AED 8,999 + AED 799/month<br>20% off with Growth or Complete.", c: ["Book a free call", "Ask Noor on WhatsApp"] },
   spekly: { a: "<b>Spekly</b> is Noor's free app (in beta) for small and medium businesses: say a sale, an expense or a payment in English, Arabic, Urdu or Hindi, and it writes the invoice with VAT, tracks who owes you money and gets WhatsApp reminders ready. It also does quotes, expenses, stock, staff payslips and VAT reports. It works in your phone's browser, nothing to install.", c: ["Try Spekly", "Prices"] },
-  which: { a: "Mostly WhatsApp messages? <b>Starter</b>. Messages on WhatsApp, Instagram and your website? <b>Growth</b>. Missed calls and too many quotes too? <b>Complete</b>. Prefer to pay once and own it? Ask about <b>paying once</b>. Noor can advise on a free 10-minute call.", c: ["Book a free call"] },
+  which: { a: "For most businesses I'd pick <b>Growth</b> (AED 999/month): it answers WhatsApp, Instagram, Facebook and your website chat, so no customer waits. Only WhatsApp? <b>Starter</b> is enough. Lots of calls and quotes too? <b>Complete</b>. And there's no risk: if it doesn't help in the first 7 days, you get the setup fee back. Noor can confirm on a free 10-minute call.", c: ["Book a free call", "Prices"] },
   once: { a: "<b>Pay once</b>: Noor sets it up on your own WhatsApp and accounts, so it is yours, with no monthly fee to us.<br>• <b>Starter</b> (WhatsApp): AED 2,999<br>• <b>Growth</b> (WhatsApp, Instagram, Facebook and website chat): AED 5,999<br>• <b>Complete</b> (adds emails, phone calls and quotes): AED 11,999<br>Small running costs (AI, WhatsApp and call fees, usually AED 150-400 a month) go straight to those companies. Training and 14 days of free fixes included.", c: ["Prices", "Book a free call"] },
   trial: { a: "Every plan starts with <b>7 days free</b>. You only keep it if it helps. No contract, stop any month.", c: ["How does it start?", "Book a free call"] },
   how: { a: "Live in 5 days:<br><b>Day 1</b> a 10-minute call about your prices and hours<br><b>Day 2-3</b> Noor builds it<br><b>Day 4</b> you test it<br><b>Day 5</b> it goes live, free for 7 days", c: ["Book a free call"] },
@@ -328,6 +333,11 @@ const CHIP_Q = { "What do you do?": "what", "Prices": "prices", "How does it sta
 const R = {
   offtopic: /\b(weather|temperature|recipe|cook|poem|story|joke|song|lyrics|news|football|cricket|movie|homework|essay|translate|capital of|who won|president|prime minister|bitcoin|crypto|stock|code|python|javascript|math|calculate|sum of|meaning of life|girlfriend|boyfriend|marry|religion|politics|horoscope|chatgpt|gpt|openai|claude|gemini)\b/i,
   book: /\b(book|booking|meeting|appointment|schedule|call me|call back|talk to (noor|someone|a person)|speak to (noor|someone)|i'?m interested|interested in|sign me up|get started|let'?s start|i want (it|this|to start))\b/i,
+  howru: /\b(how are (you|u|things)|how r u|how'?s it going|how do you do|kaise ho|kese ho|kya haal|kaisa hai|kaise hain)\b/i,
+  whoami: /\b(are you (a |an )?(bot|robot|human|real( person)?|ai|machine)|what are you|your name|who am i (talking|speaking) (to|with)|who are you)\b/i,
+  wa: /\bwhats ?app\b/i,
+  social: /\b(instagram|facebook|insta|fb|social inbox|comments?)\b/i,
+  email: /\b(e-?mails?|inbox)\b/i,
   hello: /^(hi|hey|hello|hiya|salam|assalam\w*|as-?salam\w*|marhaba|good (morning|evening|afternoon))[\s!.,]*(there|noor|team|sir|bro|everyone)?[\s!.,]*$|^(السلام|مرحبا|ہیلو|नमस्ते)/i,
   thanks: /^(thanks|thank you|thx|shukran|jazak\w*|ok(ay)?|great|perfect|cool|nice)[\s!.,]*(thanks|thank you)?[\s!.,]*$/i,
   // details the website doesn't state: never guess, send to Noor
@@ -414,6 +424,8 @@ function think(raw) {
   if (!q || !/[\p{L}\p{N}]/u.test(q)) return { refer: "unclear" };
   if (T("offtopic", q)) return { refer: "offtopic" };
   if (T("hello", q)) return { id: "hello" };
+  if (T("howru", q)) return { id: "howru" };
+  if (T("whoami", q)) return { id: "whoami" };
   if (T("thanks", q)) return { id: "thanks" };
   if (T("book", q)) return { book: true };
   if (T("unstated", q)) return { refer: "detail" };
@@ -421,6 +433,7 @@ function think(raw) {
   const aspect = T("price", q) ? "price" : T("time", q) ? "time" : T("howWork", q) ? "howWork" : "what";
   if (topic) { const id = TABLE[topic][aspect]; return id ? { id } : { refer: "detail", topic }; }
   for (const id of ["noor", "clients", "which", "trial", "langOther", "lang", "number", "wrong", "aiknow", "data", "stop", "where", "contact", "demo", "fit"]) if (T(id, q)) return { id };
+  for (const [k, id] of [["wa", "whatsapp"], ["social", "social"], ["email", "email"]]) if (T(k, q) && !T("price", q)) return { id };
   if (T("price", q) && (words <= 3 || T("context", q))) return { id: "prices" };
   if ((T("time", q) || T("howWork", q)) && T("context", q)) return { id: "how" };
   if (T("whatIs", q)) return { id: "what" };
@@ -471,6 +484,28 @@ const STEPS_RU = { name: "Bohat acha, book karte hain. Aap ka naam?", business: 
 let ru = false;
 let lastQ = "";
 const waLink = () => `https://wa.me/${WA}?text=${encodeURIComponent("Hi Noor, I saw your website")}`;
+// AI brain: typed questions go to our Cloudflare Worker (chat-worker/, facts in chat-worker/knowledge.md). If it is
+// slow, busy or down, the rule-based answers above reply instead, so the chat always works.
+const AI_URL = "https://noor-chat.silicon-sailboat.workers.dev/chat";
+const PAGE = document.documentElement.lang === "ar" ? "ar" : "en", hist = [];
+function fmtAI(t) {
+  return esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|\n)\s*[-•*]\s+/g, "$1• ").replace(/\n/g, "<br>")
+    .replace(/(\+?971[\s-]?58[\s-]?935[\s-]?8857|058[\s-]?935[\s-]?8857)/g, (m) => `<a href="https://wa.me/971589358857" target="_blank" rel="noopener">${m}</a>`)
+    .replace(/imnoorzamn@gmail\.com/g, '<a href="mailto:imnoorzamn@gmail.com">imnoorzamn@gmail.com</a>');
+}
+async function aiReply(q) {
+  if (!AI_URL || !q) return false;
+  const t = bot("qq typing-dots", "<i></i><i></i><i></i>"), ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 15000);
+  try {
+    const r = await fetch(AI_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: [...hist.slice(-8), { role: "user", content: q }], page: PAGE }), signal: ctl.signal });
+    const d = r.ok ? await r.json() : null;
+    if (!d || !d.reply) throw 0;
+    t.remove(); hist.push({ role: "user", content: q }, { role: "assistant", content: d.reply }); bot("qq", fmtAI(d.reply));
+    if (d.action === "book") startBooking();
+    else chips(PAGE === "ar" && /[\u0600-\u06FF]/.test(d.reply) ? ["الأسعار", "احجز مكالمة مجانية"] : ["Prices", "Book a free call"]);
+    return true;
+  } catch (e) { t.remove(); return false; } finally { clearTimeout(timer); }
+}
 
 const STEPS = [
   { k: "name", q: "Great, let's book it. What's your name?", type: "text", ac: "name" },
@@ -491,6 +526,8 @@ async function askStep() { const s = STEPS[step], q = ru && STEPS_RU[s.k] ? STEP
 function startBooking() { step = 0; askStep(); }
 async function reply(r) {
   if (r.book) return startBooking();
+  const typed = lastQ; lastQ = "";
+  if (typed && (await aiReply(typed))) return;
   if (r.refer) {
     await botSay(`${esc((ru ? REFER_RU : REFER)[r.refer])}<br><a href="${waLink()}" target="_blank" rel="noopener">Noor on WhatsApp: 058 935 8857</a>`);
     return chips(["Ask Noor on WhatsApp", "Book a free call", "Prices"]);
