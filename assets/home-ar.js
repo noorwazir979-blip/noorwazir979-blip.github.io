@@ -627,7 +627,7 @@ async function aiReply(q) {
   if (!AI_URL || !q) return false;
   const t = bot("qq typing-dots", "<i></i><i></i><i></i>"), ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 15000);
   try {
-    const r = await fetch(AI_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: [...hist.slice(-8), { role: "user", content: q }], page: PAGE }), signal: ctl.signal });
+    const r = await fetch(AI_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: [...(hist.length > 20 ? [...hist.slice(0, 6), ...hist.slice(-14)] : hist), { role: "user", content: q }], page: PAGE }), signal: ctl.signal });
     const d = r.ok ? await r.json() : null;
     if (!d || !d.reply) throw 0;
     t.remove(); hist.push({ role: "user", content: q }, { role: "assistant", content: d.reply }); bot("qq", fmtAI(d.reply));
