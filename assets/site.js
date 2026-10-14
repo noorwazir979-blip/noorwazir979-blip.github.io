@@ -23,7 +23,7 @@ const mail = (subject, fields) => fetch(`https://formsubmit.co/ajax/${MAIL}`, { 
 const T = AR ? {
   hi: "مرحباً! أنا مساعد نور. اسألني عن أي شيء: ماذا نفعل، الأسعار، أو كيف يمكن للذكاء الاصطناعي أن يأخذ عملاً متكرراً عن فريقك.",
   chatTitle: "مساعد نور", chatSub: "يردّ خلال ثوانٍ · بالعربية والإنجليزية", typing: "يكتب…", placeholder: "اكتب سؤالك…",
-  fail: "عذراً، لا أستطيع الرد الآن. راسل نور مباشرة على واتساب: ", note: "تُحفظ المحادثات بدون اسمك لتحسين الردود.",
+  fail: "باختصار: نبني ذكاءً اصطناعياً يردّ على عملائك (واتساب، المكالمات، محادثة الموقع) ويرفع الأعمال المكتبية عن فريقك (عروض الأسعار، التذكيرات، التقارير). تبدأ الباقات من 499 درهماً شهرياً، مع عرض تجريبي مجاني أولاً. للرد السريع راسل نور على واتساب: ", note: "تُحفظ المحادثات بدون اسمك لتحسين الردود.",
   menuChat: "تحدّث مع مساعدنا الذكي", menuChatSub: "إجابات فورية، ليلاً ونهاراً", menuWa: "راسل نور على واتساب", menuWaSub: "يرد في نفس اليوم",
   bookTitle: "اترك بياناتك وسيتواصل معك نور:", name: "اسمك", biz: "اسم نشاطك التجاري", wa: "رقم واتساب", send: "إرسال", sent: "تم. سيراسلك نور على واتساب خلال يوم.",
   waText: "مرحباً نور، رأيت موقعك وأريد أن أسأل عن", thinking: "نفكر في عملك…", hintNext: "مرّر لرؤية الخطوة التالية", hintEnd: "هذا كل شيء. نحن جاهزون متى شئت.",
@@ -34,7 +34,7 @@ const T = AR ? {
 } : {
   hi: "Hi! I'm Noor's assistant. Ask me anything: what we do, prices, or how AI could take a repeated job off your team.",
   chatTitle: "Noor's assistant", chatSub: "Replies in seconds · English, Arabic, Urdu", typing: "Typing…", placeholder: "Type your question…",
-  fail: "Sorry, I can't answer right now. WhatsApp Noor directly: ", note: "Chats are saved without your name to improve our answers.",
+  fail: "Quick answer: we build AI that answers your customers (WhatsApp, calls, website chat) and takes office jobs off your team (quotes, reminders, reports). Plans start at AED 499 a month, with a free demo first. For a fast personal reply, WhatsApp Noor: ", note: "Chats are saved without your name to improve our answers.",
   menuChat: "Chat with our AI", menuChatSub: "Instant answers, day and night", menuWa: "WhatsApp Noor", menuWaSub: "Replies the same day",
   bookTitle: "Leave your details and Noor will get back to you:", name: "Your name", biz: "Business name", wa: "WhatsApp number", send: "Send", sent: "Done. Noor will message you on WhatsApp within a day.",
   waText: "Hi Noor, I saw your website and want to ask about", thinking: "Thinking about your job…", hintNext: "Scroll to see the next step", hintEnd: "That's it. Ready when you are.",
