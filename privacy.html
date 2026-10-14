@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f7fa">
 <title>Privacy policy · Noor AI Concierge</title>
 <link rel="icon" href="assets/brand/icon-192.png" sizes="192x192" type="image/png">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
@@ -10,22 +11,21 @@
 <link rel="icon" href="assets/brand/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/page.css?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/site.css?v=1">
 </head>
-<body>
-<header class="top"><div class="wrap"><a class="brand" href="index.html" aria-label="Noor AI Concierge, home"><img class="logo" src="assets/brand/logo-line.svg" alt="Noor AI Concierge"></a><a class="btn" href="index.html">Back to home</a></div></header>
-<main class="page"><div class="wrap">
-<h1>Privacy policy</h1>
-<p>Last updated: 13 October 2026</p>
+<body data-page="en/privacy">
+<header class="top"><div class="wrap"><a class="brand" href="./" aria-label="Noor AI Concierge, home"><img src="assets/brand/logo-line-ink.svg" alt="Noor AI Concierge" width="156" height="26"></a><nav><a href="./">Home</a><a class="lang" href="ar/" hreflang="ar" lang="ar">العربية</a></nav></div></header>
+<main><div class="wrap page-head"><span class="eyebrow">Noor AI Concierge</span><h1>Privacy policy</h1><p class="updated">Last updated: 14 October 2026</p></div><div class="wrap doc">
 <p>Noor AI Concierge is run by Noor Zaman in Abu Dhabi, United Arab Emirates ("we", "us"). This policy explains what information we collect through this website, our services and our own apps, and how we use it. We follow the UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021).</p>
 
 <h2>What we collect</h2>
 <ul>
 <li><b>Forms on this website.</b> When you book a call, send a message or ask for Spekly early access, we receive what you type: your name, business name, phone or WhatsApp number, email, and your message. The forms are delivered to our email by FormSubmit (formsubmit.co).</li>
 <li><b>WhatsApp, calls and email with us.</b> If you contact us directly, we keep that conversation to reply and follow up.</li>
-<li><b>The demo chat</b> ("Try it yourself") runs in your browser. Questions you type there are not stored or sent anywhere.</li>
-<li><b>Noor's assistant</b> (the chat bubble). To write an answer, the questions you type there are sent to Cloudflare's AI service (Workers AI). We do not store or log these chats. Please don't type personal or payment details into it. Booking and order details are only sent to us when you press "Send to Noor" or "Send order".</li>
+<li><b>Noor's assistant and the job box.</b> When you type into the chat in the corner of the page, or into the "What's one job your team keeps doing by hand?" box, your words are sent to our AI providers to write the answer (Anthropic's Claude, with Cloudflare Workers AI as a backup). We save these chats <b>without your name</b>: no IP address is stored, and phone numbers and email addresses you type are blanked out automatically. A random code in your browser groups the messages of one visit; it is not linked to who you are. We read the saved chats only to improve our answers, and we delete them after 12 months. Please don't type payment details into the chat.</li>
+<li><b>Free demo requests.</b> If you leave your WhatsApp number after seeing a plan, or book through the chat, that number, your job description and the plan are sent to our email so Noor can contact you.</li>
 <li><b>No tracking.</b> This website does not use advertising or analytics cookies.</li>
 </ul>
 
@@ -43,10 +43,10 @@
 <p>Our internal tool "Noor HQ" uses Google's OAuth and the YouTube Data API only to upload videos to our own YouTube channel and read that channel's basic details. It does not access anyone else's Google account or data. Tokens are stored privately on our own computer and are never shared or sold. Our use of information received from Google APIs follows the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including its Limited Use requirements. You can review YouTube's terms at <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">youtube.com/t/terms</a> and Google's privacy policy at <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
 
 <h2>Who else handles data</h2>
-<p>We use well-known services to run our work, for example Gmail (email), FormSubmit (website forms), WhatsApp and Meta (messaging), and AI providers that power assistants. Each handles data under its own privacy policy.</p>
+<p>We use well-known services to run our work, for example Gmail (email), FormSubmit (website forms), WhatsApp and Meta (messaging), and AI providers that power assistants (Anthropic and Cloudflare for the chat on this website). Each handles data under its own privacy policy.</p>
 
 <h2>How long we keep it</h2>
-<p>Enquiries are kept for up to 24 months, then deleted, unless you become a client. Client data is deleted or returned when the service ends, unless the law requires us to keep it.</p>
+<p>Enquiries are kept for up to 24 months, then deleted, unless you become a client. Saved website chats (without names) are deleted after 12 months. Client data is deleted or returned when the service ends, unless the law requires us to keep it.</p>
 
 <h2>Your rights</h2>
 <p>You can ask to see, correct or delete the information we hold about you, or ask us to stop contacting you. Email <a href="mailto:imnoorzamn@gmail.com">imnoorzamn@gmail.com</a> or WhatsApp 058 935 8857. We reply within 30 days.</p>
@@ -54,6 +54,7 @@
 <h2>Contact</h2>
 <p>Noor Zaman, Noor AI Concierge, Abu Dhabi, UAE · <a href="mailto:imnoorzamn@gmail.com">imnoorzamn@gmail.com</a> · 058 935 8857</p>
 </div></main>
-<footer><div class="wrap"><div>Noor AI Concierge · Abu Dhabi, UAE</div><div><a href="index.html">Home</a> · <a href="terms.html">Terms</a></div></div></footer>
+<footer><div class="wrap"><div class="f-row small"><span>Noor AI Concierge · Abu Dhabi · <bdi dir="ltr">058 935 8857</bdi></span><a href="./">Home</a><a href="websites.html">Websites</a><a href="terms.html">Terms</a><span>© 2026</span></div></div></footer>
+<script src="assets/site.js?v=1" defer></script>
 </body>
 </html>
