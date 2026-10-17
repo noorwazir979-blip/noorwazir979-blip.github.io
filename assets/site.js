@@ -27,7 +27,7 @@ const T = AR ? {
   menuChat: "تحدّث مع مساعدنا الذكي", menuChatSub: "إجابات فورية، ليلاً ونهاراً", menuWa: "راسل نور على واتساب", menuWaSub: "يرد في نفس اليوم",
   bookTitle: "اترك بياناتك وسيتواصل معك نور:", name: "اسمك", biz: "اسم نشاطك التجاري", wa: "رقم واتساب", send: "إرسال", sent: "تم. سيراسلك نور على واتساب خلال يوم.",
   waText: "مرحباً نور، رأيت موقعك وأريد أن أسأل عن", thinking: "نفكر في عملك…", hintNext: "مرّر لرؤية الخطوة التالية", hintEnd: "هذا كل شيء. نحن جاهزون متى شئت.",
-  stepOf: (n) => `الخطوة ${n} من 3`, waBad: "اكتب رقم واتساب، مثل 050 123 4567.", leadOk: "تم. سيراسلك نور على واتساب خلال يوم.",
+  stepOf: (n) => `الخطوة ${n} من 3`, waBad: "اكتب رقم واتساب، مثل 050 123 4567.", leadOk: "تم. سيراسلك نور على واتساب خلال يوم.", sending: "جارٍ الإرسال…", sentTitle: "تم إرسال طلبك", sentTo: (n) => `سيراسلك نور على واتساب على الرقم ${n} خلال يوم.`, sendFail: "لم يُرسل الطلب. جرّب مرة أخرى أو راسل نور مباشرة على واتساب.", faster: "تريد رداً أسرع؟ راسل نور الآن",
   copied: "تم النسخ", play: "شغّل المكالمة", pause: "إيقاف", cantPlay: "تعذّر التشغيل هنا",
   month: "شهرياً", setup: (a) => `+ ${a} رسوم إعداد لمرة واحدة`, once: "دفعة واحدة. يصبح ملكك.", from: "يبدأ من ", officeNote: "السعر الدقيق لمهمة المكتب بعد أن نرى عملك",
   aed: (n) => n.toLocaleString("en-US") + " درهم", sep: " + ",
@@ -38,7 +38,7 @@ const T = AR ? {
   menuChat: "Chat with our AI", menuChatSub: "Instant answers, day and night", menuWa: "WhatsApp Noor", menuWaSub: "Replies the same day",
   bookTitle: "Leave your details and Noor will get back to you:", name: "Your name", biz: "Business name", wa: "WhatsApp number", send: "Send", sent: "Done. Noor will message you on WhatsApp within a day.",
   waText: "Hi Noor, I saw your website and want to ask about", thinking: "Thinking about your job…", hintNext: "Scroll to see the next step", hintEnd: "That's it. Ready when you are.",
-  stepOf: (n) => `Step ${n} of 3`, waBad: "Please type your WhatsApp number, for example 050 123 4567.", leadOk: "Got it. Noor will message you on WhatsApp within a day.",
+  stepOf: (n) => `Step ${n} of 3`, waBad: "Please type your WhatsApp number, for example 050 123 4567.", leadOk: "Got it. Noor will message you on WhatsApp within a day.", sending: "Sending…", sentTitle: "Request sent!", sentTo: (n) => `Noor will message you on WhatsApp at ${n} within a day.`, sendFail: "That didn't go through. Please try again, or WhatsApp Noor directly.", faster: "Want a faster reply? WhatsApp Noor now",
   copied: "Copied", play: "Play the call", pause: "Pause", cantPlay: "Can't play here",
   month: "a month", setup: (a) => `+ ${a} one-time setup`, once: "One payment. You own it.", from: "from ", officeNote: "Exact office-job price after we see your job",
   aed: (n) => "AED " + n.toLocaleString("en-US"), sep: " + ",
@@ -50,6 +50,22 @@ const ICON = {
   send: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3.4 20.4 21 12 3.4 3.6l-.1 6.5L15 12 3.3 13.9z"/></svg>',
 };
 const waLink = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text || T.waText)}`;
+/* "sent" card: a big tick that draws itself, so people see the request went through and don't press again */
+function sentCard(number, small) {
+  const d = document.createElement("div");
+  d.className = "sent" + (small ? " small" : ""); d.setAttribute("role", "status");
+  d.innerHTML = `<svg class="tick" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+<div><b></b><p></p><a target="_blank" rel="noopener"></a></div>`;
+  $("b", d).textContent = T.sentTitle;
+  const p = $("p", d); p.textContent = T.sentTo(number);
+  const a = $("a", d); a.href = waLink(); a.textContent = T.faster;
+  return d;
+}
+/* while sending: the button shows a spinner and cannot be pressed twice */
+function busy(btn, on) {
+  if (on) { btn.dataset.label = btn.textContent; btn.disabled = true; btn.classList.add("busy"); btn.innerHTML = `<i class="spin" aria-hidden="true"></i>${T.sending}`; }
+  else { btn.disabled = false; btn.classList.remove("busy"); btn.textContent = btn.dataset.label; }
+}
 
 /* top bar border once scrolled */
 const topBar = $(".top");
@@ -108,14 +124,17 @@ function bookForm() {
   const f = document.createElement("form"); f.className = "bookf";
   f.innerHTML = `<b>${T.bookTitle}</b><input name="name" placeholder="${T.name}" required><input name="business" placeholder="${T.biz}"><input name="whatsapp" type="tel" inputmode="tel" placeholder="${T.wa}" required><button class="btn" type="submit">${T.send}</button>`;
   logEl.appendChild(f); logEl.scrollTop = logEl.scrollHeight;
-  f.addEventListener("submit", (e) => {
+  f.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const btn = $("button", f); if (btn.disabled) return;
     const d = Object.fromEntries(new FormData(f));
     if (String(d.whatsapp).replace(/\D/g, "").length < 9) { f.whatsapp.focus(); return; }
     const chatText = hist.map((m) => (m.role === "user" ? "Visitor: " : "AI: ") + m.content).join("\n").slice(-3000);
-    mail(`New booking from the website chat: ${d.business || d.name}`, { ...d, chat: chatText }).catch(() => {});
+    busy(btn, true);
     post("/lead", { job: "Booking from chat: " + (d.business || ""), plan: "chat booking" }).catch(() => {});
-    f.replaceWith(Object.assign(document.createElement("div"), { className: "msg bot", textContent: T.sent }));
+    try { await mail(`New booking from the website chat: ${d.business || d.name}`, { ...d, chat: chatText }); }
+    catch { busy(btn, false); bubble("bot", T.sendFail); return; }
+    f.replaceWith(sentCard(d.whatsapp, true)); logEl.scrollTop = logEl.scrollHeight;
   });
 }
 
@@ -183,14 +202,17 @@ if (askForm) {
   askForm.addEventListener("submit", (e) => { e.preventDefault(); ask(job.value); });
   job.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(job.value); } });
 
-  $("#leadForm").addEventListener("submit", (e) => {
+  $("#leadForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const wa = $("#wa").value, note = $("#leadNote");
+    const form = e.currentTarget, btn = $("button", form); if (btn.disabled) return;
+    const wa = $("#wa").value.trim(), note = $("#leadNote");
     if (wa.replace(/\D/g, "").length < 9) { note.textContent = T.waBad; $("#wa").focus(); return; }
     const planText = lastPlan ? lastPlan.title + " | " + lastPlan.steps.map((s) => s[0]).join(" > ") : $("#planTitle").textContent;
-    mail("New job from the website box", { whatsapp: wa, job: lastJob || "(example plan)", plan: planText }).catch(() => {});
+    busy(btn, true);
     post("/lead", { job: lastJob || "(example plan)", plan: planText }).catch(() => {});
-    note.innerHTML = `<span class="done">${T.leadOk}</span>`;
+    try { await mail("New job from the website box", { whatsapp: wa, job: lastJob || "(example plan)", plan: planText }); }
+    catch { busy(btn, false); note.textContent = ""; const a = document.createElement("a"); a.href = waLink(); a.target = "_blank"; a.rel = "noopener"; a.textContent = T.sendFail; note.appendChild(a); return; }
+    form.replaceChildren(sentCard(wa));
   });
 }
 

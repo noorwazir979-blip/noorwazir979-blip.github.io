@@ -331,4 +331,25 @@ bdi{unicode-bidi:isolate}
   #price .quiz{grid-column:2;margin-top:0;max-width:44rem;width:100%}
   #price .more-prices{grid-column:2}
 }
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+/* "request sent" card with a tick that draws itself */
+.btn.busy{opacity:.85;cursor:progress;transform:none;box-shadow:none}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sent{display:flex;gap:18px;align-items:center;padding:20px 22px;border-radius:18px;background:rgba(126,224,196,.1);border:1px solid rgba(126,224,196,.45);animation:pop .5s var(--ease) both}
+.sent b{display:block;font:600 1.35rem/1.2 var(--display);color:var(--mint)}
+.sent p,.lead .sent p{margin-top:6px;color:var(--night-ink);font-weight:400}
+.sent a{display:inline-block;margin-top:8px;font-size:.92rem;color:var(--night-muted)}
+.sent a:hover{color:var(--night-ink)}
+.tick{width:64px;height:64px;flex:none;fill:none;stroke:var(--mint);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tick circle{stroke-dasharray:151;stroke-dashoffset:151;animation:draw .6s var(--ease) .1s forwards}
+.tick path{stroke-dasharray:36;stroke-dashoffset:36;animation:draw .35s var(--ease) .6s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{0%{opacity:0;transform:scale(.94)}60%{transform:scale(1.02)}100%{opacity:1;transform:none}}
+.sent.small{background:#e8f7f1;border-color:#9fdcc6;padding:14px;gap:12px}
+.sent.small b{color:#1d4a3f;font-size:1.1rem}
+.sent.small p{color:var(--ink);font-size:.92rem}
+.sent.small a{color:var(--navy-text)}
+.sent.small .tick{width:44px;height:44px;stroke:#1f9d55}
+#leadNote a{color:#ffb4a8}
+@media (max-width:520px){.sent{flex-direction:column;align-items:flex-start}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.tick circle,.tick path{stroke-dashoffset:0}}
