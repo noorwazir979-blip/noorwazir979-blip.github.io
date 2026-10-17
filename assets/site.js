@@ -5,7 +5,7 @@
 (() => {
 "use strict";
 const AR = document.documentElement.lang === "ar";
-const API = "https://noor-chat.silicon-sailboat.workers.dev", MAIL = "imnoorzamn@gmail.com", WA = "971589358857";
+const API = "https://noor-chat.silicon-sailboat.workers.dev", MAIL = "noor@nooraiconcierge.com", WA = "971589358857";
 const PAGE = document.body.dataset.page || (AR ? "ar" : "en");
 const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));

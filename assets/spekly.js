@@ -31,7 +31,7 @@ $("#early-form").addEventListener("submit", async (e) => {
   btn.disabled = true; btn.textContent = "Sending…";
   const wa = `https://wa.me/971589358857?text=${encodeURIComponent("Hi Noor, I'd like help setting up Spekly. Name: " + (data.name || "") + ". Business: " + (data.business || ""))}`;
   try {
-    const r = await fetch("https://formsubmit.co/ajax/imnoorzamn@gmail.com", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ _subject: "Spekly: help setting up", _template: "table", _captcha: "false", ...data }) });
+    const r = await fetch("https://formsubmit.co/ajax/noor@nooraiconcierge.com", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ _subject: "Spekly: help setting up", _template: "table", _captcha: "false", ...data }) });
     if (!r.ok) throw 0; f.reset(); msg.innerHTML = '<span class="ok">Sent ✓ Noor will message you on WhatsApp.</span>';
   } catch (x) { msg.innerHTML = `It didn't send. Please <a href="${wa}" target="_blank" rel="noopener">message Noor on WhatsApp</a> instead.`; }
   btn.disabled = false; btn.textContent = "Message me";
