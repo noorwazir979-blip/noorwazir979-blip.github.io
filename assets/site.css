@@ -314,6 +314,16 @@ bdi{unicode-bidi:isolate}
 .tier ul{margin:4px 0 0;padding-inline-start:18px}
 
 @media (min-width:1400px){.foot-brand img{height:34px}}
+/* wide screens: the hero question on two lines, bigger, and a bigger job box (it is the main thing to do on the page) */
+@media (min-width:1100px){
+  .hero h1{max-width:24ch;font-size:clamp(3rem,4.4vw,5.4rem)}
+  .hero .lede{font-size:1.2rem;max-width:62ch}
+  .ask{max-width:60rem;margin-top:42px;padding:14px;border-radius:26px}
+  .ask textarea{min-height:128px;font-size:1.3rem;padding:18px 18px 8px}
+  .ask-row{padding:8px 8px 6px 18px}
+  .ask-row small{font-size:.92rem}
+  .ask .btn{padding:18px 28px;font-size:1.05rem}
+}
 /* wide screens: price heading on the left, quiz on the right, so the quiz does not sit alone */
 @media (min-width:1100px){
   #price>.wrap{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);column-gap:clamp(40px,6vw,120px);align-items:start}
