@@ -23,25 +23,23 @@ const mail = (subject, fields) => fetch(`https://formsubmit.co/ajax/${MAIL}`, { 
 const T = AR ? {
   hi: "مرحباً! أنا مساعد نور. اسألني عن أي شيء: ماذا نفعل، الأسعار، أو كيف يمكن للذكاء الاصطناعي أن يأخذ عملاً متكرراً عن فريقك.",
   chatTitle: "مساعد نور", chatSub: "يردّ خلال ثوانٍ · بالعربية والإنجليزية", typing: "يكتب…", placeholder: "اكتب سؤالك…",
-  fail: "باختصار: نبني ذكاءً اصطناعياً يردّ على عملائك (واتساب، المكالمات، محادثة الموقع) ويرفع الأعمال المكتبية عن فريقك (عروض الأسعار، التذكيرات، التقارير). تبدأ الباقات من 499 درهماً شهرياً، مع عرض تجريبي مجاني أولاً. للرد السريع راسل نور على واتساب: ", note: "تُحفظ المحادثات بدون اسمك لتحسين الردود.",
+  fail: "الجواب السريع: نرفع الأعمال المكتبية المتكررة عن فريقك (عروض الأسعار، والمتابعات، وتذكيرات الدفع، وإدخال البيانات، والتقارير)، ونبني مساعدين بالذكاء الاصطناعي يردّون على عملائك على واتساب ومحادثة الموقع والبريد الإلكتروني. يبدأ المساعد من 499 درهماً شهرياً، وتحصل أتمتة المكاتب على عرض سعر ثابت ومكتوب خلال 48 ساعة بعد فحص مجاني لمدة 20 دقيقة. للرد الشخصي السريع، راسل نور على واتساب: ", note: "تُحفظ المحادثات بدون اسمك لتحسين الردود.",
   menuChat: "تحدّث مع مساعدنا الذكي", menuChatSub: "إجابات فورية، ليلاً ونهاراً", menuWa: "راسل نور على واتساب", menuWaSub: "يرد في نفس اليوم",
   bookTitle: "اترك بياناتك وسيتواصل معك نور:", name: "اسمك", biz: "اسم نشاطك التجاري", wa: "رقم واتساب", send: "إرسال", sent: "تم. سيراسلك نور على واتساب خلال يوم.",
   waText: "مرحباً نور، رأيت موقعك وأريد أن أسأل عن", thinking: "نفكر في عملك…", hintNext: "مرّر لرؤية الخطوة التالية", hintEnd: "هذا كل شيء. نحن جاهزون متى شئت.",
   stepOf: (n) => `الخطوة ${n} من 3`, waBad: "اكتب رقم واتساب، مثل 050 123 4567.", leadOk: "تم. سيراسلك نور على واتساب خلال يوم.", sending: "جارٍ الإرسال…", sentTitle: "تم إرسال طلبك", sentTo: (n) => `سيراسلك نور على واتساب على الرقم ${n} خلال يوم.`, sendFail: "لم يُرسل الطلب. جرّب مرة أخرى أو راسل نور مباشرة على واتساب.", faster: "تريد رداً أسرع؟ راسل نور الآن",
   copied: "تم النسخ", play: "شغّل المكالمة", pause: "إيقاف", cantPlay: "تعذّر التشغيل هنا",
-  month: "شهرياً", setup: (a) => `+ ${a} رسوم إعداد لمرة واحدة`, once: "دفعة واحدة. يصبح ملكك.", from: "يبدأ من ", officeNote: "السعر الدقيق لمهمة المكتب بعد أن نرى عملك",
-  aed: (n) => n.toLocaleString("en-US") + " درهم", sep: " + ",
+  checkText: "مرحباً نور، أريد فحصاً مجانياً لمدة 20 دقيقة.",
 } : {
   hi: "Hi! I'm Noor's assistant. Ask me anything: what we do, prices, or how AI could take a repeated job off your team.",
   chatTitle: "Noor's assistant", chatSub: "Replies in seconds · English, Arabic, Urdu", typing: "Typing…", placeholder: "Type your question…",
-  fail: "Quick answer: we build AI that answers your customers (WhatsApp, calls, website chat) and takes office jobs off your team (quotes, reminders, reports). Plans start at AED 499 a month, with a free demo first. For a fast personal reply, WhatsApp Noor: ", note: "Chats are saved without your name to improve our answers.",
+  fail: "Quick answer: we take repeated office jobs off your team (quotes, follow-ups, payment reminders, data entry, reports) and build AI assistants that answer your customers on WhatsApp, website chat and email. The assistant starts at AED 499 a month; office automation gets a fixed written quote within 48 hours after a free 20-minute check. For a fast personal reply, WhatsApp Noor: ", note: "Chats are saved without your name to improve our answers.",
   menuChat: "Chat with our AI", menuChatSub: "Instant answers, day and night", menuWa: "WhatsApp Noor", menuWaSub: "Replies the same day",
   bookTitle: "Leave your details and Noor will get back to you:", name: "Your name", biz: "Business name", wa: "WhatsApp number", send: "Send", sent: "Done. Noor will message you on WhatsApp within a day.",
   waText: "Hi Noor, I saw your website and want to ask about", thinking: "Thinking about your job…", hintNext: "Scroll to see the next step", hintEnd: "That's it. Ready when you are.",
   stepOf: (n) => `Step ${n} of 3`, waBad: "Please type your WhatsApp number, for example 050 123 4567.", leadOk: "Got it. Noor will message you on WhatsApp within a day.", sending: "Sending…", sentTitle: "Request sent!", sentTo: (n) => `Noor will message you on WhatsApp at ${n} within a day.`, sendFail: "That didn't go through. Please try again, or WhatsApp Noor directly.", faster: "Want a faster reply? WhatsApp Noor now",
   copied: "Copied", play: "Play the call", pause: "Pause", cantPlay: "Can't play here",
-  month: "a month", setup: (a) => `+ ${a} one-time setup`, once: "One payment. You own it.", from: "from ", officeNote: "Exact office-job price after we see your job",
-  aed: (n) => "AED " + n.toLocaleString("en-US"), sep: " + ",
+  checkText: "Hi Noor, I'd like a free 20-minute check.",
 };
 const ICON = {
   chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.8 2 11.5c0 2.4 1.2 4.6 3.1 6.1L4 21.5l4.4-2.2c1.1.3 2.3.5 3.6.5 5.5 0 10-3.8 10-8.3S17.5 3 12 3Z"/></svg>',
@@ -183,7 +181,7 @@ if (askForm) {
     $("#said").textContent = (AR ? "«" : "“") + text + (AR ? "»" : "”");
     $("#tag").hidden = !example;
     $("#planTitle").textContent = p.title; $("#hours").textContent = p.hours;
-    $(".plan").dir = p.lang === "ar" || p.lang === "ur" ? "rtl" : "ltr";
+    ($(".plan") || $("#planTitle").parentElement).dir = p.lang === "ar" || p.lang === "ur" ? "rtl" : "ltr";
     const ol = $("#steps"); ol.classList.remove("reveal"); void ol.offsetWidth;
     ol.innerHTML = p.steps.map(([b, s]) => `<li><div><b>${esc(b)}</b><span>${esc(s)}</span></div></li>`).join("");
     ol.classList.add("reveal");
@@ -242,51 +240,19 @@ if (beats.length) {
   addEventListener("scroll", prog, { passive: true }); prog();
 }
 
-/* ---------- price quiz: cheapest first year from the price menu (outreach/pricing/price-menu.md, 10 Oct 2026) ---------- */
-const quiz = $("#quiz");
-if (quiz) {
-  const PART = {
-    wa: { en: "WhatsApp assistant", ar: "مساعد واتساب", setup: 499, month: 499, once: 2999 },
-    social: { en: "Instagram and Facebook messages", ar: "رسائل إنستغرام وفيسبوك", setup: 499, month: 499, once: 2499 },
-    web: { en: "Website chat", ar: "محادثة الموقع", setup: 299, month: 299, once: 1499 },
-    email: { en: "Email replies", ar: "الرد على البريد", setup: 299, month: 299, once: 1499 },
-    calls: { en: "Phone answering (500 minutes a month)", ar: "الرد على المكالمات (500 دقيقة شهرياً)", setup: 999, month: 799, once: 3499 },
-    office: { en: "One office job, like quotes or reminders", ar: "مهمة مكتبية واحدة، مثل عروض الأسعار أو التذكيرات", setup: 1499, month: 499, once: 3999 },
-  };
-  const BUNDLE = [
-    { en: "Starter", ar: "باقة البداية", has: ["wa"], setup: 499, month: 499, once: 2999 },
-    { en: "Growth", ar: "باقة النمو", has: ["wa", "social", "web"], setup: 799, month: 999, once: 5999 },
-    { en: "Complete", ar: "الباقة الشاملة", has: ["wa", "social", "web", "email", "calls", "office"], setup: 2499, month: 1999, once: 11999 },
-  ];
-  const L = AR ? "ar" : "en";
-  const short = (k) => PART[k][L].split(" (")[0].replace(/^One office job.*/, "an office job").replace(/^مهمة مكتبية.*/, "مهمة مكتبية");
-  const suggest = (need, pay) => [{ has: [], setup: 0, month: 0, once: 0 }, ...BUNDLE].map((b) => {
-    const extra = need.filter((k) => !b.has.includes(k)), off = b.en ? .8 : 1;
-    const sum = (f) => b[f] + extra.reduce((t, k) => t + Math.round(PART[k][f] * off), 0);
-    const names = extra.map((k) => AR ? short(k) : short(k).toLowerCase());
-    return { b, extra, setup: sum("setup"), month: sum("month"), once: sum("once"),
-      label: b.en ? b[L] + (names.length ? T.sep + names.join(T.sep) : "") : extra.map((k) => short(k).replace(/^an office job$/, "Office job")).join(T.sep) };
-  }).sort((x, y) => (pay === "month" ? x.setup + 12 * x.month - y.setup - 12 * y.month : x.once - y.once))[0];
-  const qs = $$(".q", quiz); let step = 1;
-  const go = (n) => { step = n; qs.forEach((q) => q.classList.toggle("on", +q.dataset.q === n)); $(".qbar i", quiz).style.width = Math.min(100, n / 3 * 100) + "%"; };
-  const answered = (n) => !!$(`.q[data-q='${n}'] input:checked`, quiz);
-  quiz.addEventListener("change", () => [1, 2, 3].forEach((n) => $(`.q[data-q='${n}'] [data-next]`, quiz).disabled = !answered(n)));
-  quiz.addEventListener("click", (e) => {
-    if (e.target.closest("[data-next]")) { if (step === 3) result(); go(step + 1); }
-    else if (e.target.closest("[data-back]")) go(step - 1);
-    else if (e.target.closest("[data-restart]")) { quiz.reset(); quiz.dispatchEvent(new Event("change")); go(1); }
-  });
-  function result() {
-    const need = $$(".q[data-q='1'] input:checked", quiz).map((i) => i.value);
-    if ($("#o-yes").checked) need.push("office");
-    const pay = $("#p-once").checked ? "once" : "month";
-    const s = suggest(need, pay), from = need.includes("office") && !s.b.has.includes("office") ? T.from : "";
-    $("#rName").textContent = s.label;
-    $("#rAmt").innerHTML = esc(from + T.aed(pay === "month" ? s.month : s.once)) + (pay === "month" ? ` <small>${T.month}</small>` : "");
-    $("#rSub").textContent = pay === "month" ? T.setup(from + T.aed(s.setup)) : T.once;
-    $("#rList").innerHTML = [...s.b.has, ...s.extra].map((k) => `<li>${esc(PART[k][L])}</li>`).join("") + (from ? `<li>${T.officeNote}</li>` : "");
-  }
-}
+/* ---------- free 20-minute check: WhatsApp number -> email to Noor ---------- */
+const checkF = $("#check");
+if (checkF) checkF.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = $("button", checkF); if (btn.disabled) return;
+  const inp = $("#checkWa"), wa = inp.value.trim(), note = $("#checkNote");
+  if (wa.replace(/D/g, "").length < 9) { note.textContent = T.waBad; inp.focus(); return; }
+  busy(btn, true);
+  post("/lead", { job: "Free 20-minute check (prices section)", plan: "free check" }).catch(() => {});
+  try { await mail("New request: free 20-minute check", { whatsapp: wa, from: "prices section" }); }
+  catch { busy(btn, false); note.textContent = ""; const l = document.createElement("a"); l.href = waLink(T.checkText); l.target = "_blank"; l.rel = "noopener"; l.textContent = T.sendFail; note.appendChild(l); return; }
+  checkF.replaceChildren(sentCard(wa, true));
+});
 
 /* ---------- recorded call + copy number ---------- */
 const call = $("#call"), callBtn = $("#callBtn");
