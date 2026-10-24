@@ -137,94 +137,96 @@ function bookForm() {
 }
 
 /* ---------- "See it on an example": the visitor's kind of job, in 3 steps (comes in, we do, you get) ----------
-   Made-up example companies. Plays once when it scrolls into view; "Play again" replays it. Reduced motion shows
+   Made-up example names. Plays once when it scrolls into view; "Play again" replays it. Reduced motion shows
    the end state straight away. #demo=<kind> (e.g. #demo=compare) opens a kind directly, handy for sharing. */
 const demoBox = $("#demo");
 const demoSet = demoBox ? (() => {
-  const doc = (head, rows, total, badge) => `<div class="obj paper"><b>${head}</b>${rows.map(([k, v]) => `<p><span>${k}</span><span>${v}</span></p>`).join("")}${total ? `<p class="tot"><span>${total[0]}</span><span>${total[1]}</span></p>` : ""}${badge ? `<span class="pill g">${badge}</span>` : ""}</div>`;
-  const msg = (text, meta, ours) => `<div class="obj bubble${ours ? " me" : ""}"><p>${text}</p><small>${meta}</small></div>`;
-  const files = (list) => `<ul class="obj files">${list.map(([k, v]) => `<li><i>${k}</i>${v}</li>`).join("")}</ul>`;
-  const table = (head, rows, hi = -1) => `<table class="obj tbl"><thead><tr>${head.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map((r, i) => `<tr class="a${i === hi ? " hi" : ""}" style="--i:${i}">${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
-  const bars = (days, note) => { const max = Math.max(...days.map((d) => d[1]));
-    return `<div class="obj chart"><div class="bars">${days.map(([d, v], i) => `<div class="bar${v === max ? " hi" : ""}" style="--h:${(v / max).toFixed(2)};--i:${i}"><em>${v.toLocaleString("en-US")}</em><i></i><small>${d}</small></div>`).join("")}</div><p>${note}</p></div>`; };
-  const note = (t) => `<p class="dnote a" style="--i:4">${t}</p>`;
+  // built only from the site's own mockup pieces: .screen, chat bubbles .b.them / .b.ai / .b.file, .sheet rows, .note
+  const screen = (...parts) => `<div class="screen">${parts.join("")}</div>`;
+  const them = (t, meta) => `<p class="b them">${t}<br><small>${meta}</small></p>`;
+  const ai = (t, meta) => `<p class="b ai">${t}<br><small>${meta}</small></p>`;
+  const file = (k, t) => `<p class="b them file"><i>${k}</i>${t}</p>`;
+  const sheet = (rows) => `<div class="sheet">${rows.map(([l, v], i) => `<div class="a" style="--i:${i}"><span>${l}</span><b>${v}</b></div>`).join("")}</div>`;
+  const note = (t) => `<p class="note">${t}</p>`;
+  const bars = (days) => { const max = Math.max(...days.map((d) => d[1]));
+    return `<div class="sheet"><div class="bars">${days.map(([d, v], i) => `<p class="${v === max ? "top" : ""}" style="--h:${(v / max).toFixed(2)};--i:${i}"><span>${v.toLocaleString("en-US")}</span><i></i><span>${d}</span></p>`).join("")}</div></div>`; };
   // expiry example: dates counted from today, so the days left never go stale
   const ahead = (n) => new Date(Date.now() + n * 864e5).toLocaleDateString(AR ? "ar-AE-u-nu-latn" : "en-GB", { day: "numeric", month: AR ? "long" : "short", year: "numeric" });
-  const pill = (t, c = "") => ` <span class="pill ${c}">${t}</span>`, ltr = (t) => `<bdi dir="ltr">${t}</bdi>`;
+  const ltr = (t) => `<bdi dir="ltr">${t}</bdi>`;
   const D = AR ? {
-    invoice: { t: "فاتورة مورد تدخل ملف إكسل وحدها", i: doc("فاتورة ضريبية · المورد أ", [["التاريخ", "21 أكتوبر 2026"], ["إسمنت، 40 كيساً × 18.00", "720.00"], ["ضريبة القيمة المضافة 5%", "36.00"]], ["الإجمالي", "756.00 درهم"]),
+    invoice: { t: "فاتورة مورد تدخل ملف إكسل وحدها", i: screen(file("PDF", "فاتورة ضريبية · المورد أ"), sheet([["إسمنت، 40 كيساً × 18.00", "720.00"], ["ضريبة القيمة المضافة 5%", "36.00"], ["الإجمالي", "756.00 درهم"]])),
       d: ["يقرأ اسم المورد والتاريخ والأصناف", "يتأكد من صحة ضريبة 5%", "يضيف سطراً جديداً إلى ملفك"],
-      o: table(["التاريخ", "المورد", "الضريبة", "الإجمالي"], [["19 أكتوبر", "المورد ب", "210.00", "4,410.00"], ["20 أكتوبر", "المورد ج", "24.50", "514.50"], ["21 أكتوبر", "المورد أ" + pill("جديد"), "36.00", "756.00"]], 2) },
-    quotes: { t: "يسأل العميل عن السعر، فيجهز العرض", i: msg("السلام عليكم، كم سعر صيانة 3 مكيفات وتعبئة غاز لمكيف واحد؟ الفيلا في مدينة خليفة.", "واتساب · 10:14 ص"),
+      o: screen(sheet([["19 أكتوبر · المورد ب", "4,410.00"], ["20 أكتوبر · المورد ج", "514.50"], ["21 أكتوبر · المورد أ (جديد)", "756.00"]]), note("أُضيف سطر جديد: الضريبة 36.00، والإجمالي 756.00 درهم.")) },
+    quotes: { t: "يسأل العميل عن السعر، فيجهز العرض", i: screen(them("السلام عليكم، كم سعر صيانة 3 مكيفات وتعبئة غاز لمكيف واحد؟ الفيلا في مدينة خليفة.", "واتساب · 10:14 ص")),
       d: ["يجد كل خدمة في قائمة أسعارك", "يضيف ضريبة 5%", "يجهز عرض سعر مرتباً بشعارك"],
-      o: doc("عرض سعر Q-1042 · شركتك", [["صيانة مكيف (" + ltr("3 × 150") + ")", "450.00"], ["تعبئة غاز (" + ltr("1 × 200") + ")", "200.00"], ["ضريبة القيمة المضافة 5%", "32.50"]], ["الإجمالي", "682.50 درهم"], "جاهز للإرسال") },
-    compare: { t: "ثلاثة عروض من الموردين، ومقارنة جاهزة", i: files([["PDF", "عرض المورد أ"], ["بريد", "أسعار المورد ب"], ["صورة", "المورد ج، على واتساب"]]),
+      o: screen(file("PDF", "عرض سعر Q-1042 · شركتك"), sheet([["صيانة مكيف (" + ltr("3 × 150") + ")", "450.00"], ["تعبئة غاز (" + ltr("1 × 200") + ")", "200.00"], ["ضريبة القيمة المضافة 5%", "32.50"], ["الإجمالي", "682.50 درهم"]]), note("جاهز للإرسال بضغطة واحدة.")) },
+    compare: { t: "ثلاثة عروض من الموردين، ومقارنة جاهزة", i: screen(file("PDF", "عرض المورد أ"), file("بريد", "أسعار المورد ب"), file("صورة", "المورد ج، على واتساب")),
       d: ["يقرأ العروض الثلاثة مهما كان شكلها", "يضع السعر ومدة التسليم جنباً إلى جنب", "يعلّم الأرخص"],
-      o: table(["المورد", "الإجمالي مع الضريبة", "التسليم"], [["المورد أ", "12,400 درهم", "5 أيام"], ["المورد ب" + pill("الأرخص", "g"), "11,850 درهم", "3 أيام"], ["المورد ج", "12,900 درهم", "يومان"]], 1) },
-    remind: { t: "من عليه مبالغ لك، وتذكير مهذب يُرسل", i: table(["العميل", "الفاتورة", "متأخرة"], [["العميل 1", "3,150 درهم", "12 يوماً"], ["العميل 2", "1,890 درهم", "30 يوماً"], ["العميل 3", "4,200 درهم", "5 أيام"]]),
+      o: screen(sheet([["المورد أ · 5 أيام", "12,400 درهم"], ["المورد ب · 3 أيام", "11,850 درهم"], ["المورد ج · يومان", "12,900 درهم"]]), note("الأرخص: المورد ب، 11,850 درهماً شاملاً الضريبة.")) },
+    remind: { t: "من عليه مبالغ لك، وتذكير مهذب يُرسل", i: screen(sheet([["العميل 1 · متأخر 12 يوماً", "3,150 درهم"], ["العميل 2 · متأخر 30 يوماً", "1,890 درهم"], ["العميل 3 · متأخر 5 أيام", "4,200 درهم"]])),
       d: ["يجد الفواتير غير المدفوعة", "يكتب رسالة مهذبة بأسلوبك", "يرسلها الساعة 9 صباحاً ويخبرك من دفع"],
-      o: msg("مرحباً، نذكّركم بلطف بأن الفاتورة INV-0318 بمبلغ 3,150 درهماً كانت مستحقة في 12 أكتوبر. يمكنكم الدفع بالتحويل البنكي أو بالبطاقة. شكراً لكم!", "أُرسلت على واتساب · 9:00 ص ✓✓", true) + note("أُرسلت 3 تذكيرات من 3. سترى من دفع صباح الغد.") },
-    estimate: { t: "مقاسات تصل، وتقدير كامل يخرج", i: msg("السلام عليكم، أبغى سقف جبس لغرفتين: " + ltr("4.5 × 4") + " م و" + ltr("3.5 × 3") + " م. كم السعر؟", "واتساب · 6:40 م"),
+      o: screen(ai("مرحباً، نذكّركم بلطف بأن الفاتورة " + ltr("INV-0318") + " بمبلغ 3,150 درهماً كانت مستحقة في 12 أكتوبر. يمكنكم الدفع بالتحويل البنكي أو بالبطاقة. شكراً لكم!", "أُرسلت على واتساب · 9:00 ص ✓✓"), note("أُرسلت 3 تذكيرات من 3. سترى من دفع صباح الغد.")) },
+    estimate: { t: "مقاسات تصل، وتقدير كامل يخرج", i: screen(them("السلام عليكم، أبغى سقف جبس لغرفتين: " + ltr("4.5 × 4") + " م و" + ltr("3.5 × 3") + " م. كم السعر؟", "واتساب · 6:40 م")),
       d: ["يحسب المساحة: " + ltr("18 + 10.5 = 28.5") + " م²", "يستخدم سعرك: 45 درهماً للمتر المربع", "يضيف ضريبة 5%"],
-      o: table(["البند", "م²", "درهم"], [["غرفة 1 (" + ltr("4.5 × 4") + ")", "18.0", "810.00"], ["غرفة 2 (" + ltr("3.5 × 3") + ")", "10.5", "472.50"], ["ضريبة 5%", "", "64.13"], ["الإجمالي", "28.5", "1,346.63"]], 3) },
-    report: { t: "أسبوعك في رسم بياني صغير", i: table(["اليوم", "الفرع", "المبيعات"], [["الخميس", "مصفح", "5,600 درهم"], ["الخميس", "الخالدية", "3,800 درهم"], ["الأربعاء", "مصفح", "3,500 درهم"]]) + `<p class="dnote">و40 سطراً آخر</p>`,
+      o: screen(sheet([["غرفة 1 (" + ltr("4.5 × 4") + ") · 18.0 م²", "810.00"], ["غرفة 2 (" + ltr("3.5 × 3") + ") · 10.5 م²", "472.50"], ["ضريبة 5%", "64.13"], ["الإجمالي", "1,346.63 درهم"]])) },
+    report: { t: "أسبوعك في رسم بياني صغير", i: screen(sheet([["الخميس · مصفح", "5,600 درهم"], ["الخميس · الخالدية", "3,800 درهم"], ["الأربعاء · مصفح", "3,500 درهم"], ["…", "و40 سطراً آخر"]])),
       d: ["يجمع الأرقام كل مساء", "يجمعها حسب اليوم", "يرسل لك الرسم صباح الأحد"],
-      o: bars([["الأحد", 5200], ["الإثنين", 4800], ["الثلاثاء", 6100], ["الأربعاء", 5900], ["الخميس", 9400]], "إجمالي الأسبوع 31,400 درهم، بزيادة 8% عن الأسبوع الماضي. الخميس كان أفضل يوم.") },
-    docs: { t: "كل تاريخ انتهاء، مع الأيام المتبقية", i: files([["PDF", "الرخصة التجارية"], ["صورة", "تأشيرة · أحمد"], ["PDF", "تأمين سيارة التوصيل"]]),
+      o: screen(bars([["الأحد", 5200], ["الإثنين", 4800], ["الثلاثاء", 6100], ["الأربعاء", 5900], ["الخميس", 9400]]), note("إجمالي الأسبوع 31,400 درهم، بزيادة 8% عن الأسبوع الماضي. الخميس كان أفضل يوم.")) },
+    docs: { t: "كل تاريخ انتهاء، مع الأيام المتبقية", i: screen(file("PDF", "الرخصة التجارية"), file("صورة", "تأشيرة · أحمد"), file("PDF", "تأمين سيارة التوصيل")),
       d: ["يقرأ تواريخ الانتهاء", "يحسب الأيام المتبقية", "يذكّرك قبل 90 و60 و30 يوماً"],
-      o: table(["الوثيقة", "تنتهي في", "الأيام المتبقية"], [["الرخصة التجارية", ahead(12), pill("12", "r")], ["تأشيرة · أحمد", ahead(45), pill("45", "y")], ["تأمين سيارة التوصيل", ahead(200), pill("200", "g")]], 0) + note("الرخصة التجارية: أُرسل لك تذكير. حان وقت التجديد.") },
-    time: { t: "كشوف الدوام تصل، وساعات الرواتب جاهزة", i: doc("كشف الدوام · موقع B · الأسبوع 43", [["رافي", "6 أيام، 52 ساعة"], ["عمران", "6 أيام، 58 ساعة"], ["جوزيف", "5 أيام، 45 ساعة"]]),
+      o: screen(sheet([["الرخصة التجارية · " + ahead(12), "12 يوماً"], ["تأشيرة أحمد · " + ahead(45), "45 يوماً"], ["تأمين السيارة · " + ahead(200), "200 يوم"]]), note("الرخصة التجارية: أُرسل لك تذكير. حان وقت التجديد.")) },
+    time: { t: "كشوف الدوام تصل، وساعات الرواتب جاهزة", i: screen(file("صورة", "كشف الدوام · موقع B · الأسبوع 43"), sheet([["رافي · 6 أيام", "52 ساعة"], ["عمران · 6 أيام", "58 ساعة"], ["جوزيف · 5 أيام", "45 ساعة"]])),
       d: ["يقرأ الساعات من الصورة", "يفصل الساعات العادية عن الإضافية (فوق 48 أسبوعياً)", "يملأ جدول الرواتب لمحاسبك"],
-      o: table(["الاسم", "عادية", "إضافية", "المجموع"], [["رافي", "48", "4", "52"], ["عمران", "48", "10", "58"], ["جوزيف", "45", "0", "45"]]) + note("جاهز لملف الرواتب (WPS).") },
-    book: { t: "حجز يتم وأنت مشغول", i: msg("مرحبا، ممكن أحجز قص شعر بكرة بعد الساعة 5؟", "واتساب · 11:20 ص"),
+      o: screen(sheet([["رافي · 48 عادية + 4 إضافية", "52"], ["عمران · 48 عادية + 10 إضافية", "58"], ["جوزيف · 45 عادية", "45"]]), note("جاهز لملف الرواتب (WPS).")) },
+    book: { t: "حجز يتم وأنت مشغول", i: screen(them("مرحبا، ممكن أحجز قص شعر بكرة بعد الساعة 5؟", "واتساب · 11:20 ص")),
       d: ["يتحقق من الأوقات المتاحة", "يحجز الساعة 5:30 م ويؤكد للعميل", "يرسل تذكيراً قبل يوم"],
-      o: table(["غداً", "العميل", "الخدمة"], [["4:30 م", "ليلى", "صبغة"], ["5:30 م", "مريم" + pill("جديد"), "قص شعر"], ["6:30 م", "متاح", ""]], 1) },
-    ask: { t: "سؤال عميل يُجاب عنه في منتصف الليل", i: msg("توصلون مصفح؟ كم سعر 20 كرتون ورق A4؟", "واتساب · 11:48 م"),
+      o: screen(sheet([["4:30 م · ليلى · صبغة", "محجوز"], ["5:30 م · مريم · قص شعر", "جديد"], ["6:30 م", "متاح"]]), note("يصل مريم تذكير قبل الموعد بيوم.")) },
+    ask: { t: "سؤال عميل يُجاب عنه في منتصف الليل", i: screen(them("توصلون مصفح؟ كم سعر 20 كرتون ورق A4؟", "واتساب · 11:48 م")),
       d: ["يوضح أنه مساعد آلي", "يجيب من أسعارك الحقيقية", "يحوّل الطلب إلى فريقك"],
-      o: msg("مرحباً، معك المساعد الآلي لشركتك. نعم، نوصل إلى مصفح في اليوم التالي. سعر 20 كرتوناً 1,050 درهماً شاملاً ضريبة 5%. هل أحوّل طلبك إلى فريقنا؟", "أُرسلت · 11:48 م", true) + note("يصل فريقك: طلب جديد، 20 كرتوناً، مصفح.") },
-    other: { t: "رسالة مبعثرة تصبح قائمة مهام مرتبة", i: msg("أرسل قائمة الأسعار الجديدة لعلي، شيّك على مخزون أنابيب 10 مم، واتصل بعميل فيلا الجميرا بكرة", "واتساب · 8:05 ص"),
+      o: screen(ai("مرحباً، معك المساعد الآلي لشركتك. نعم، نوصل إلى مصفح في اليوم التالي. سعر 20 كرتوناً 1,050 درهماً شاملاً ضريبة 5%. هل أحوّل طلبك إلى فريقنا؟", "أُرسلت · 11:48 م"), note("يصل فريقك: طلب جديد، 20 كرتوناً، مصفح.")) },
+    other: { t: "رسالة مبعثرة تصبح قائمة مهام مرتبة", i: screen(them("أرسل قائمة الأسعار الجديدة لعلي، شيّك على مخزون أنابيب 10 مم، واتصل بعميل فيلا الجميرا بكرة", "واتساب · 8:05 ص")),
       d: ["يقرأ الرسالة", "يقسمها إلى مهام منفصلة", "يحدد لكل مهمة شخصاً ويوماً"],
-      o: table(["المهمة", "المسؤول", "الموعد"], [["إرسال قائمة الأسعار لعلي", "المبيعات", "اليوم"], ["فحص مخزون أنابيب 10 مم", "المخزن", "اليوم"], ["الاتصال بعميل فيلا الجميرا", "المبيعات", "غداً"]]) },
+      o: screen(sheet([["إرسال قائمة الأسعار لعلي", "المبيعات · اليوم"], ["فحص مخزون أنابيب 10 مم", "المخزن · اليوم"], ["الاتصال بعميل فيلا الجميرا", "المبيعات · غداً"]])) },
   } : {
-    invoice: { t: "A supplier invoice goes into your Excel by itself", i: doc("Tax invoice · Supplier A", [["Date", "21 Oct 2026"], ["Cement, 40 bags × 18.00", "720.00"], ["VAT 5%", "36.00"]], ["Total", "AED 756.00"]),
+    invoice: { t: "A supplier invoice goes into your Excel by itself", i: screen(file("PDF", "Tax invoice · Supplier A"), sheet([["Cement, 40 bags × 18.00", "720.00"], ["VAT 5%", "36.00"], ["Total", "AED 756.00"]])),
       d: ["Reads the supplier, date and items", "Checks the 5% VAT adds up", "Adds a new row to your sheet"],
-      o: table(["Date", "Supplier", "VAT", "Total"], [["19 Oct", "Supplier B", "210.00", "4,410.00"], ["20 Oct", "Supplier C", "24.50", "514.50"], ["21 Oct", "Supplier A" + pill("New"), "36.00", "756.00"]], 2) },
-    quotes: { t: "A customer asks for a price, the quote is ready", i: msg("Hi, how much to service 3 AC units and one gas top-up? Villa in Khalifa City.", "WhatsApp · 10:14 am"),
+      o: screen(sheet([["19 Oct · Supplier B", "4,410.00"], ["20 Oct · Supplier C", "514.50"], ["21 Oct · Supplier A (new)", "756.00"]]), note("New row added: VAT 36.00, total AED 756.00.")) },
+    quotes: { t: "A customer asks for a price, the quote is ready", i: screen(them("Hi, how much to service 3 AC units and one gas top-up? Villa in Khalifa City.", "WhatsApp · 10:14 am")),
       d: ["Finds each job in your price list", "Adds 5% VAT", "Makes a neat quote with your logo"],
-      o: doc("Quote Q-1042 · Your company", [["AC service (3 × 150)", "450.00"], ["Gas top-up (1 × 200)", "200.00"], ["VAT 5%", "32.50"]], ["Total", "AED 682.50"], "Ready to send") },
-    compare: { t: "Three supplier quotes, compared for you", i: files([["PDF", "Supplier A quote"], ["Email", "Supplier B prices"], ["Photo", "Supplier C, on WhatsApp"]]),
+      o: screen(file("PDF", "Quote Q-1042 · Your company"), sheet([["AC service (3 × 150)", "450.00"], ["Gas top-up (1 × 200)", "200.00"], ["VAT 5%", "32.50"], ["Total", "AED 682.50"]]), note("Ready to send with one tap.")) },
+    compare: { t: "Three supplier quotes, compared for you", i: screen(file("PDF", "Supplier A quote"), file("Email", "Supplier B prices"), file("Photo", "Supplier C, on WhatsApp")),
       d: ["Reads all three, whatever the layout", "Puts price and delivery side by side", "Marks the cheapest"],
-      o: table(["Supplier", "Total incl. VAT", "Delivery"], [["Supplier A", "AED 12,400", "5 days"], ["Supplier B" + pill("Cheapest", "g"), "AED 11,850", "3 days"], ["Supplier C", "AED 12,900", "2 days"]], 1) },
-    remind: { t: "Who owes you, and a polite reminder sent", i: table(["Customer", "Invoice", "Late"], [["Customer 1", "AED 3,150", "12 days"], ["Customer 2", "AED 1,890", "30 days"], ["Customer 3", "AED 4,200", "5 days"]]),
+      o: screen(sheet([["Supplier A · 5 days", "AED 12,400"], ["Supplier B · 3 days", "AED 11,850"], ["Supplier C · 2 days", "AED 12,900"]]), note("Cheapest: Supplier B, AED 11,850 incl. VAT.")) },
+    remind: { t: "Who owes you, and a polite reminder sent", i: screen(sheet([["Customer 1 · 12 days late", "AED 3,150"], ["Customer 2 · 30 days late", "AED 1,890"], ["Customer 3 · 5 days late", "AED 4,200"]])),
       d: ["Finds the unpaid invoices", "Writes a polite message in your tone", "Sends it at 9 am and tells you who paid"],
-      o: msg("Hello Customer 1, a friendly reminder that invoice INV-0318 for AED 3,150 was due on 12 Oct. You can pay by bank transfer or card. Thank you!", "Sent on WhatsApp · 9:00 am ✓✓", true) + note("3 of 3 reminders sent. You see who paid tomorrow morning.") },
-    estimate: { t: "Sizes in, a full estimate out", i: msg("Salam, I need a gypsum ceiling for 2 rooms: 4.5 × 4 m and 3.5 × 3 m. Price?", "WhatsApp · 6:40 pm"),
+      o: screen(ai("Hello, a friendly reminder that invoice INV-0318 for AED 3,150 was due on 12 Oct. You can pay by bank transfer or card. Thank you!", "Sent on WhatsApp · 9:00 am ✓✓"), note("3 of 3 reminders sent. You see who paid tomorrow morning.")) },
+    estimate: { t: "Sizes in, a full estimate out", i: screen(them("Salam, I need a gypsum ceiling for 2 rooms: 4.5 × 4 m and 3.5 × 3 m. Price?", "WhatsApp · 6:40 pm")),
       d: ["Works out the area: 18 + 10.5 = 28.5 m²", "Uses your rate: AED 45 per m²", "Adds 5% VAT"],
-      o: table(["Item", "m²", "AED"], [["Room 1 (4.5 × 4)", "18.0", "810.00"], ["Room 2 (3.5 × 3)", "10.5", "472.50"], ["VAT 5%", "", "64.13"], ["Total", "28.5", "1,346.63"]], 3) },
-    report: { t: "Your week on one small chart", i: table(["Day", "Branch", "Sales"], [["Thu", "Mussafah", "AED 5,600"], ["Thu", "Khalidiya", "AED 3,800"], ["Wed", "Mussafah", "AED 3,500"]]) + `<p class="dnote">…and 40 more rows</p>`,
+      o: screen(sheet([["Room 1 (4.5 × 4) · 18.0 m²", "810.00"], ["Room 2 (3.5 × 3) · 10.5 m²", "472.50"], ["VAT 5%", "64.13"], ["Total", "AED 1,346.63"]])) },
+    report: { t: "Your week on one small chart", i: screen(sheet([["Thu · Mussafah", "AED 5,600"], ["Thu · Khalidiya", "AED 3,800"], ["Wed · Mussafah", "AED 3,500"], ["…", "40 more rows"]])),
       d: ["Collects the numbers every evening", "Adds them up by day", "Sends you the chart on Sunday morning"],
-      o: bars([["Sun", 5200], ["Mon", 4800], ["Tue", 6100], ["Wed", 5900], ["Thu", 9400]], "Week total AED 31,400, up 8% on last week. Thursday was your best day.") },
-    docs: { t: "Every expiry date, with the days left", i: files([["PDF", "Trade licence"], ["Photo", "Visa · Ahmed"], ["PDF", "Delivery van insurance"]]),
+      o: screen(bars([["Sun", 5200], ["Mon", 4800], ["Tue", 6100], ["Wed", 5900], ["Thu", 9400]]), note("Week total AED 31,400, up 8% on last week. Thursday was your best day.")) },
+    docs: { t: "Every expiry date, with the days left", i: screen(file("PDF", "Trade licence"), file("Photo", "Visa · Ahmed"), file("PDF", "Delivery van insurance")),
       d: ["Reads the expiry dates", "Counts the days left", "Reminds you 90, 60 and 30 days before"],
-      o: table(["Document", "Expires", "Days left"], [["Trade licence", ahead(12), pill("12", "r")], ["Visa · Ahmed", ahead(45), pill("45", "y")], ["Van insurance", ahead(200), pill("200", "g")]], 0) + note("Trade licence: reminder sent to you. Time to renew.") },
-    time: { t: "Timesheets in, payroll hours out", i: doc("Timesheet · Site B · week 43", [["Ravi", "6 days, 52 h"], ["Imran", "6 days, 58 h"], ["Joseph", "5 days, 45 h"]]),
+      o: screen(sheet([["Trade licence · " + ahead(12), "12 days"], ["Visa · Ahmed · " + ahead(45), "45 days"], ["Van insurance · " + ahead(200), "200 days"]]), note("Trade licence: reminder sent to you. Time to renew.")) },
+    time: { t: "Timesheets in, payroll hours out", i: screen(file("Photo", "Timesheet · Site B · week 43"), sheet([["Ravi · 6 days", "52 h"], ["Imran · 6 days", "58 h"], ["Joseph · 5 days", "45 h"]])),
       d: ["Reads the hours from the photo", "Splits normal hours and overtime (over 48 a week)", "Fills the payroll sheet for your accountant"],
-      o: table(["Name", "Normal", "Overtime", "Total"], [["Ravi", "48", "4", "52 h"], ["Imran", "48", "10", "58 h"], ["Joseph", "45", "0", "45 h"]]) + note("Ready for the salary (WPS) file.") },
-    book: { t: "A booking made while you work", i: msg("Hi, can I book a haircut tomorrow after 5?", "WhatsApp · 11:20 am"),
+      o: screen(sheet([["Ravi · 48 normal + 4 overtime", "52 h"], ["Imran · 48 normal + 10 overtime", "58 h"], ["Joseph · 45 normal", "45 h"]]), note("Ready for the salary (WPS) file.")) },
+    book: { t: "A booking made while you work", i: screen(them("Hi, can I book a haircut tomorrow after 5?", "WhatsApp · 11:20 am")),
       d: ["Checks your free slots", "Books 5:30 pm and confirms", "Sends a reminder the day before"],
-      o: table(["Tomorrow", "Customer", "Service"], [["4:30 pm", "Layla", "Colour"], ["5:30 pm", "Mariam" + pill("New"), "Haircut"], ["6:30 pm", "Free", ""]], 1) },
-    ask: { t: "A customer question answered at midnight", i: msg("Do you deliver to Mussafah? How much for 20 cartons of A4 paper?", "WhatsApp · 11:48 pm"),
+      o: screen(sheet([["4:30 pm · Layla · Colour", "Booked"], ["5:30 pm · Mariam · Haircut", "New"], ["6:30 pm", "Free"]]), note("Mariam gets a reminder the day before.")) },
+    ask: { t: "A customer question answered at midnight", i: screen(them("Do you deliver to Mussafah? How much for 20 cartons of A4 paper?", "WhatsApp · 11:48 pm")),
       d: ["Says it is an automated assistant", "Answers from your real prices", "Passes the order to your team"],
-      o: msg("Hello, this is the automated assistant of Your company. Yes, we deliver to Mussafah the next day. 20 cartons are AED 1,050 including 5% VAT. Shall I pass your order to our team?", "Sent · 11:48 pm", true) + note("Your team gets: new order, 20 cartons, Mussafah.") },
-    other: { t: "A messy message becomes a tidy task list", i: msg("pls send new price list to Ali, check stock of 10mm pipes, call back the Jumeirah villa client tmrw", "WhatsApp · 8:05 am"),
+      o: screen(ai("Hello, this is the automated assistant of Your company. Yes, we deliver to Mussafah the next day. 20 cartons are AED 1,050 including 5% VAT. Shall I pass your order to our team?", "Sent · 11:48 pm"), note("Your team gets: new order, 20 cartons, Mussafah.")) },
+    other: { t: "A messy message becomes a tidy task list", i: screen(them("pls send new price list to Ali, check stock of 10mm pipes, call back the Jumeirah villa client tmrw", "WhatsApp · 8:05 am")),
       d: ["Reads the message", "Splits it into separate tasks", "Gives each one a person and a day"],
-      o: table(["Task", "Who", "When"], [["Send price list to Ali", "Sales", "Today"], ["Check stock: 10 mm pipes", "Store", "Today"], ["Call back Jumeirah villa client", "Sales", "Tomorrow"]]) },
+      o: screen(sheet([["Send price list to Ali", "Sales · Today"], ["Check stock: 10 mm pipes", "Store · Today"], ["Call back Jumeirah villa client", "Sales · Tomorrow"]])) },
   };
   D.calls = D.ask;
   let kind = "", seen = false, armed = true, timers = [];
   const play = () => {
     timers.forEach(clearTimeout); timers = [];
-    const parts = [$(".s1", demoBox), ...$$("#dDo li"), $(".s3", demoBox)];
+    const parts = [$(".s1", demoBox), ...$$("#dDo .gain"), $(".s3", demoBox)];
     parts.forEach((el) => el.classList.remove("on")); void demoBox.offsetWidth;
     parts.forEach((el, i) => { if (calm) el.classList.add("on"); else timers.push(setTimeout(() => el.classList.add("on"), 150 + i * 600)); });
   };
@@ -232,13 +234,13 @@ const demoSet = demoBox ? (() => {
     if (!D[k]) k = "other";
     if (k === kind) return; kind = k; const d = D[k];
     $("#demoTitle").textContent = d.t; $("#dIn").innerHTML = d.i; $("#dOut").innerHTML = d.o;
-    $("#dDo").innerHTML = d.d.map((t) => `<li>${t}</li>`).join("");
+    $("#dDo").innerHTML = d.d.map((t) => `<p class="gain">${t}</p>`).join("");
     armed = true; if (seen) { armed = false; play(); } // otherwise it plays when it scrolls into view
   };
   $("#demoPlay").addEventListener("click", play);
   const h = (location.hash.match(/^#demo=(\w+)$/) || [])[1];
   demoBox.hidden = false; set(h || "invoice");
-  new IntersectionObserver((es) => { seen = es[es.length - 1].isIntersecting; if (seen && armed) { armed = false; play(); } }, { threshold: 0.25 }).observe($(".demo-card", demoBox));
+  new IntersectionObserver((es) => { seen = es[es.length - 1].isIntersecting; if (seen && armed) { armed = false; play(); } }, { threshold: 0.25 }).observe($(".demo-steps", demoBox));
   if (h) setTimeout(() => demoBox.scrollIntoView({ block: "start" }), 0);
   return set;
 })() : () => {};

@@ -24,7 +24,7 @@
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=7">
+<link rel="stylesheet" href="assets/site.css?v=8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Noor AI Concierge","url":"https://nooraiconcierge.com","logo":"https://nooraiconcierge.com/assets/brand/logo-line.svg","telephone":"+971589358857","email":"noor@nooraiconcierge.com","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"founder":{"@type":"Person","name":"Noor Zaman","jobTitle":"Founder","image":"https://nooraiconcierge.com/media/noor.jpg","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"sameAs":["https://www.linkedin.com/in/noor-zaman-615b32300/","https://www.tiktok.com/@imnoorzaman","https://x.com/ImNoorzaman","https://www.facebook.com/noor.hamdard.526"]},"sameAs":["https://www.facebook.com/nooraiconcierge","https://www.instagram.com/nooraiconcierge/","https://www.linkedin.com/company/noor-ai-concierge/","https://x.com/nooraiconcierge","https://www.tiktok.com/@imnoorzaman","https://www.google.com/maps?cid=4371601908040004547"]}</script>
 </head>
 <body data-page="en/home">
@@ -79,19 +79,23 @@
             </form>
           </div>
         </div>
-        <div class="demo" id="demo" hidden>
-          <div class="demo-top">
-            <div><span class="eyebrow">See it on an example</span> <span class="tag">Example</span><h3 id="demoTitle"></h3></div>
-            <button class="btn ghost" type="button" id="demoPlay">Play again</button>
-          </div>
-          <ol class="demo-card">
-            <li class="ds s1"><span class="dk">This comes in</span><div id="dIn"></div></li>
-            <li class="ds s2"><span class="dk">We do this</span><ul class="ticks" id="dDo"></ul></li>
-            <li class="ds s3"><span class="dk">You get</span><div id="dOut"></div></li>
-          </ol>
-          <small class="demo-note">A made-up example with made-up companies. Yours runs on your own documents, prices and tools.</small>
-        </div>
       </div>
+    </div>
+  </section>
+
+  <section id="demo" class="demo" hidden>
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">See it on an example</span>
+        <h2 id="demoTitle"></h2>
+        <p class="lede">A made-up example with made-up names. Yours runs on your own documents, prices and tools.</p>
+      </div>
+      <ol class="demo-steps">
+        <li class="job s1"><span class="dept">Step 1 · This comes in</span><div id="dIn"></div></li>
+        <li class="job s2"><span class="dept">Step 2 · We do this</span><div id="dDo"></div></li>
+        <li class="job s3"><span class="dept">Step 3 · You get</span><div id="dOut"></div></li>
+      </ol>
+      <button class="btn ghost" type="button" id="demoPlay">Play again</button>
     </div>
   </section>
 
@@ -243,6 +247,6 @@
     </div>
   </div>
 </footer>
-<script src="assets/site.js?v=9" defer></script>
+<script src="assets/site.js?v=10" defer></script>
 </body>
 </html>
