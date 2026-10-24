@@ -155,7 +155,7 @@ bdi{unicode-bidi:isolate}
 .b.them{background:#22314f;align-self:flex-start;border-end-start-radius:4px}
 .b.ai{background:#1d4a3f;align-self:flex-end;border-end-end-radius:4px}
 .b.file{display:flex;gap:10px;align-items:center}
-.b.file i{flex:none;width:28px;height:34px;border-radius:5px;background:#eef2fa;color:#1d4a3f;font:700 .6rem/34px var(--body);text-align:center;font-style:normal}
+.b.file i{flex:none;min-width:28px;padding:0 5px;box-sizing:border-box;height:34px;border-radius:5px;background:#eef2fa;color:#1d4a3f;font:700 .6rem/34px var(--body);text-align:center;font-style:normal}
 .b small{color:#a9d8cb}
 .sheet{background:#eef2fa;color:#111a2e;border-radius:12px;padding:6px 12px;font-size:.82rem}
 .sheet div{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid #d6dcea}
