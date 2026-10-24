@@ -28,7 +28,7 @@ const T = AR ? {
   bookTitle: "اترك بياناتك وسيتواصل معك نور:", name: "اسمك", biz: "اسم نشاطك التجاري", wa: "رقم واتساب", send: "إرسال", sent: "تم. سيراسلك نور على واتساب خلال يوم.",
   waText: "مرحباً نور، رأيت موقعك وأريد أن أسأل عن", thinking: "نفكر في عملك…", hintNext: "مرّر لرؤية الخطوة التالية", hintEnd: "هذا كل شيء. نحن جاهزون متى شئت.",
   stepOf: (n) => `الخطوة ${n} من 3`, waBad: "اكتب رقم واتساب، مثل 050 123 4567.", leadOk: "تم. سيراسلك نور على واتساب خلال يوم.", sending: "جارٍ الإرسال…", sentTitle: "تم إرسال طلبك", sentTo: (n) => `سيراسلك نور على واتساب على الرقم ${n} خلال يوم.`, sendFail: "لم يُرسل الطلب. جرّب مرة أخرى أو راسل نور مباشرة على واتساب.", faster: "تريد رداً أسرع؟ راسل نور الآن",
-  copied: "تم النسخ", play: "شغّل المكالمة", pause: "إيقاف", cantPlay: "تعذّر التشغيل هنا",
+  copied: "تم النسخ",
   checkText: "مرحباً نور، أريد فحصاً مجانياً لمدة 20 دقيقة.",
 } : {
   hi: "Hi! I'm Noor's assistant. Ask me anything: what we do, prices, or how AI could take a repeated job off your team.",
@@ -38,7 +38,7 @@ const T = AR ? {
   bookTitle: "Leave your details and Noor will get back to you:", name: "Your name", biz: "Business name", wa: "WhatsApp number", send: "Send", sent: "Done. Noor will message you on WhatsApp within a day.",
   waText: "Hi Noor, I saw your website and want to ask about", thinking: "Thinking about your job…", hintNext: "Scroll to see the next step", hintEnd: "That's it. Ready when you are.",
   stepOf: (n) => `Step ${n} of 3`, waBad: "Please type your WhatsApp number, for example 050 123 4567.", leadOk: "Got it. Noor will message you on WhatsApp within a day.", sending: "Sending…", sentTitle: "Request sent!", sentTo: (n) => `Noor will message you on WhatsApp at ${n} within a day.`, sendFail: "That didn't go through. Please try again, or WhatsApp Noor directly.", faster: "Want a faster reply? WhatsApp Noor now",
-  copied: "Copied", play: "Play the call", pause: "Pause", cantPlay: "Can't play here",
+  copied: "Copied",
   checkText: "Hi Noor, I'd like a free 20-minute check.",
 };
 const ICON = {
@@ -254,15 +254,7 @@ if (checkF) checkF.addEventListener("submit", async (e) => {
   checkF.replaceChildren(sentCard(wa, true));
 });
 
-/* ---------- recorded call + copy number ---------- */
-const call = $("#call"), callBtn = $("#callBtn");
-if (call && callBtn) {
-  const lab = $("span", callBtn);
-  callBtn.addEventListener("click", () => { if (call.paused) call.play().catch(() => { lab.textContent = T.cantPlay; }); else call.pause(); });
-  call.addEventListener("play", () => { callBtn.classList.add("playing"); lab.textContent = T.pause; });
-  call.addEventListener("pause", () => { callBtn.classList.remove("playing"); lab.textContent = T.play; });
-  call.addEventListener("timeupdate", () => { $("#callBar").style.width = (call.currentTime / (call.duration || 1) * 100) + "%"; });
-}
+/* ---------- copy number ---------- */
 const copy = $("#copy");
 if (copy) copy.addEventListener("click", async () => {
   try { await navigator.clipboard.writeText("0589358857"); copy.textContent = T.copied; }
