@@ -136,6 +136,111 @@ function bookForm() {
   });
 }
 
+/* ---------- "See it on an example": the visitor's kind of job, in 3 steps (comes in, we do, you get) ----------
+   Made-up example companies. Plays once when it scrolls into view; "Play again" replays it. Reduced motion shows
+   the end state straight away. #demo=<kind> (e.g. #demo=compare) opens a kind directly, handy for sharing. */
+const demoBox = $("#demo");
+const demoSet = demoBox ? (() => {
+  const doc = (head, rows, total, badge) => `<div class="obj paper"><b>${head}</b>${rows.map(([k, v]) => `<p><span>${k}</span><span>${v}</span></p>`).join("")}${total ? `<p class="tot"><span>${total[0]}</span><span>${total[1]}</span></p>` : ""}${badge ? `<span class="pill g">${badge}</span>` : ""}</div>`;
+  const msg = (text, meta, ours) => `<div class="obj bubble${ours ? " me" : ""}"><p>${text}</p><small>${meta}</small></div>`;
+  const files = (list) => `<ul class="obj files">${list.map(([k, v]) => `<li><i>${k}</i>${v}</li>`).join("")}</ul>`;
+  const table = (head, rows, hi = -1) => `<table class="obj tbl"><thead><tr>${head.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map((r, i) => `<tr class="a${i === hi ? " hi" : ""}" style="--i:${i}">${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  const bars = (days, note) => { const max = Math.max(...days.map((d) => d[1]));
+    return `<div class="obj chart"><div class="bars">${days.map(([d, v], i) => `<div class="bar${v === max ? " hi" : ""}" style="--h:${(v / max).toFixed(2)};--i:${i}"><em>${v.toLocaleString("en-US")}</em><i></i><small>${d}</small></div>`).join("")}</div><p>${note}</p></div>`; };
+  const note = (t) => `<p class="dnote a" style="--i:4">${t}</p>`;
+  const pill = (t, c = "") => ` <span class="pill ${c}">${t}</span>`, ltr = (t) => `<bdi dir="ltr">${t}</bdi>`;
+  const D = AR ? {
+    invoice: { t: "فاتورة مورد تدخل ملف إكسل وحدها", i: doc("فاتورة ضريبية · الواحة لمواد البناء", [["التاريخ", "21 أكتوبر 2026"], ["إسمنت، 40 كيساً × 18.00", "720.00"], ["ضريبة القيمة المضافة 5%", "36.00"]], ["الإجمالي", "756.00 درهم"]),
+      d: ["يقرأ اسم المورد والتاريخ والأصناف", "يتأكد من صحة ضريبة 5%", "يضيف سطراً جديداً إلى ملفك"],
+      o: table(["التاريخ", "المورد", "الضريبة", "الإجمالي"], [["19 أكتوبر", "الخليج للحديد", "210.00", "4,410.00"], ["20 أكتوبر", "صحارى للدهانات", "24.50", "514.50"], ["21 أكتوبر", "الواحة" + pill("جديد"), "36.00", "756.00"]], 2) },
+    quotes: { t: "يسأل العميل عن السعر، فيجهز العرض", i: msg("السلام عليكم، كم سعر صيانة 3 مكيفات وتعبئة غاز لمكيف واحد؟ الفيلا في مدينة خليفة.", "واتساب · 10:14 ص"),
+      d: ["يجد كل خدمة في قائمة أسعارك", "يضيف ضريبة 5%", "يجهز عرض سعر مرتباً بشعارك"],
+      o: doc("عرض سعر Q-1042 · النسيم لخدمات التكييف", [["صيانة مكيف (" + ltr("3 × 150") + ")", "450.00"], ["تعبئة غاز (" + ltr("1 × 200") + ")", "200.00"], ["ضريبة القيمة المضافة 5%", "32.50"]], ["الإجمالي", "682.50 درهم"], "جاهز للإرسال") },
+    compare: { t: "ثلاثة عروض من الموردين، ومقارنة جاهزة", i: files([["PDF", "عرض الإمارات للأنابيب"], ["بريد", "أسعار دلتا للتجارة"], ["صورة", "رويال للتوريدات، على واتساب"]]),
+      d: ["يقرأ العروض الثلاثة مهما كان شكلها", "يضع السعر ومدة التسليم جنباً إلى جنب", "يعلّم الأرخص"],
+      o: table(["المورد", "الإجمالي مع الضريبة", "التسليم"], [["الإمارات للأنابيب", "12,400 درهم", "5 أيام"], ["دلتا للتجارة" + pill("الأرخص", "g"), "11,850 درهم", "3 أيام"], ["رويال للتوريدات", "12,900 درهم", "يومان"]], 1) },
+    remind: { t: "من عليه مبالغ لك، وتذكير مهذب يُرسل", i: table(["العميل", "الفاتورة", "متأخرة"], [["مقهى الموجة الزرقاء", "3,150 درهم", "12 يوماً"], ["صالون وردة الصحراء", "1,890 درهم", "30 يوماً"], ["نادي المارينا", "4,200 درهم", "5 أيام"]]),
+      d: ["يجد الفواتير غير المدفوعة", "يكتب رسالة مهذبة بأسلوبك", "يرسلها الساعة 9 صباحاً ويخبرك من دفع"],
+      o: msg("مرحباً فريق مقهى الموجة الزرقاء، نذكّركم بلطف بأن الفاتورة INV-0318 بمبلغ 3,150 درهماً كانت مستحقة في 12 أكتوبر. يمكنكم الدفع بالتحويل البنكي أو بالبطاقة. شكراً لكم!", "أُرسلت على واتساب · 9:00 ص ✓✓", true) + note("أُرسلت 3 تذكيرات من 3. سترى من دفع صباح الغد.") },
+    estimate: { t: "مقاسات تصل، وتقدير كامل يخرج", i: msg("السلام عليكم، أبغى سقف جبس لغرفتين: " + ltr("4.5 × 4") + " م و" + ltr("3.5 × 3") + " م. كم السعر؟", "واتساب · 6:40 م"),
+      d: ["يحسب المساحة: " + ltr("18 + 10.5 = 28.5") + " م²", "يستخدم سعرك: 45 درهماً للمتر المربع", "يضيف ضريبة 5%"],
+      o: table(["البند", "م²", "درهم"], [["غرفة 1 (" + ltr("4.5 × 4") + ")", "18.0", "810.00"], ["غرفة 2 (" + ltr("3.5 × 3") + ")", "10.5", "472.50"], ["ضريبة 5%", "", "64.13"], ["الإجمالي", "28.5", "1,346.63"]], 3) },
+    report: { t: "أسبوعك في رسم بياني صغير", i: table(["اليوم", "الفرع", "المبيعات"], [["الخميس", "مصفح", "5,600 درهم"], ["الخميس", "الخالدية", "3,800 درهم"], ["الأربعاء", "مصفح", "3,500 درهم"]]) + `<p class="dnote">و40 سطراً آخر</p>`,
+      d: ["يجمع الأرقام كل مساء", "يجمعها حسب اليوم", "يرسل لك الرسم صباح الأحد"],
+      o: bars([["الأحد", 5200], ["الإثنين", 4800], ["الثلاثاء", 6100], ["الأربعاء", 5900], ["الخميس", 9400]], "إجمالي الأسبوع 31,400 درهم، بزيادة 8% عن الأسبوع الماضي. الخميس كان أفضل يوم.") },
+    docs: { t: "كل تاريخ انتهاء، مع الأيام المتبقية", i: files([["PDF", "الرخصة التجارية"], ["صورة", "تأشيرة · أحمد"], ["PDF", "تأمين سيارة التوصيل"]]),
+      d: ["يقرأ تواريخ الانتهاء", "يحسب الأيام المتبقية", "يذكّرك قبل 90 و60 و30 يوماً"],
+      o: table(["الوثيقة", "تنتهي في", "الأيام المتبقية"], [["الرخصة التجارية", "12 نوفمبر 2026", pill("19", "r")], ["تأشيرة · أحمد", "5 يناير 2027", pill("73", "y")], ["تأمين سيارة التوصيل", "30 يونيو 2027", pill("249", "g")]], 0) + note("الرخصة التجارية: أُرسل لك تذكير. جدّدها هذا الأسبوع.") },
+    time: { t: "كشوف الدوام تصل، وساعات الرواتب جاهزة", i: doc("كشف الدوام · موقع B · الأسبوع 43", [["رافي", "6 أيام، 52 ساعة"], ["عمران", "6 أيام، 58 ساعة"], ["جوزيف", "5 أيام، 45 ساعة"]]),
+      d: ["يقرأ الساعات من الصورة", "يفصل الساعات العادية عن الإضافية (فوق 48 أسبوعياً)", "يملأ جدول الرواتب لمحاسبك"],
+      o: table(["الاسم", "عادية", "إضافية", "المجموع"], [["رافي", "48", "4", "52"], ["عمران", "48", "10", "58"], ["جوزيف", "45", "0", "45"]]) + note("جاهز لملف الرواتب (WPS).") },
+    book: { t: "حجز يتم وأنت مشغول", i: msg("مرحبا، ممكن أحجز قص شعر بكرة بعد الساعة 5؟", "واتساب · 11:20 ص"),
+      d: ["يتحقق من الأوقات المتاحة", "يحجز الساعة 5:30 م ويؤكد للعميل", "يرسل تذكيراً قبل يوم"],
+      o: table(["غداً", "العميل", "الخدمة"], [["4:30 م", "ليلى", "صبغة"], ["5:30 م", "مريم" + pill("جديد"), "قص شعر"], ["6:30 م", "متاح", ""]], 1) },
+    ask: { t: "سؤال عميل يُجاب عنه في منتصف الليل", i: msg("توصلون مصفح؟ كم سعر 20 كرتون ورق A4؟", "واتساب · 11:48 م"),
+      d: ["يوضح أنه مساعد آلي", "يجيب من أسعارك الحقيقية", "يحوّل الطلب إلى فريقك"],
+      o: msg("مرحباً، معك المساعد الآلي لشركة ستار للوازم المكتبية. نعم، نوصل إلى مصفح في اليوم التالي. سعر 20 كرتوناً 1,050 درهماً شاملاً ضريبة 5%. هل أحوّل طلبك إلى فريقنا؟", "أُرسلت · 11:48 م", true) + note("يصل فريقك: طلب جديد، 20 كرتوناً، مصفح.") },
+    other: { t: "رسالة مبعثرة تصبح قائمة مهام مرتبة", i: msg("أرسل قائمة الأسعار الجديدة لعلي، شيّك على مخزون أنابيب 10 مم، واتصل بعميل فيلا الجميرا بكرة", "واتساب · 8:05 ص"),
+      d: ["يقرأ الرسالة", "يقسمها إلى مهام منفصلة", "يحدد لكل مهمة شخصاً ويوماً"],
+      o: table(["المهمة", "المسؤول", "الموعد"], [["إرسال قائمة الأسعار لعلي", "المبيعات", "اليوم"], ["فحص مخزون أنابيب 10 مم", "المخزن", "اليوم"], ["الاتصال بعميل فيلا الجميرا", "المبيعات", "غداً"]]) },
+  } : {
+    invoice: { t: "A supplier invoice goes into your Excel by itself", i: doc("Tax invoice · Al Waha Building Supplies", [["Date", "21 Oct 2026"], ["Cement, 40 bags × 18.00", "720.00"], ["VAT 5%", "36.00"]], ["Total", "AED 756.00"]),
+      d: ["Reads the supplier, date and items", "Checks the 5% VAT adds up", "Adds a new row to your sheet"],
+      o: table(["Date", "Supplier", "VAT", "Total"], [["19 Oct", "Gulf Steel", "210.00", "4,410.00"], ["20 Oct", "Sahara Paints", "24.50", "514.50"], ["21 Oct", "Al Waha" + pill("New"), "36.00", "756.00"]], 2) },
+    quotes: { t: "A customer asks for a price, the quote is ready", i: msg("Hi, how much to service 3 AC units and one gas top-up? Villa in Khalifa City.", "WhatsApp · 10:14 am"),
+      d: ["Finds each job in your price list", "Adds 5% VAT", "Makes a neat quote with your logo"],
+      o: doc("Quote Q-1042 · Cool Breeze AC Services", [["AC service (3 × 150)", "450.00"], ["Gas top-up (1 × 200)", "200.00"], ["VAT 5%", "32.50"]], ["Total", "AED 682.50"], "Ready to send") },
+    compare: { t: "Three supplier quotes, compared for you", i: files([["PDF", "Emirates Pipes quote"], ["Email", "Delta Trading prices"], ["Photo", "Royal Supply, on WhatsApp"]]),
+      d: ["Reads all three, whatever the layout", "Puts price and delivery side by side", "Marks the cheapest"],
+      o: table(["Supplier", "Total incl. VAT", "Delivery"], [["Emirates Pipes", "AED 12,400", "5 days"], ["Delta Trading" + pill("Cheapest", "g"), "AED 11,850", "3 days"], ["Royal Supply", "AED 12,900", "2 days"]], 1) },
+    remind: { t: "Who owes you, and a polite reminder sent", i: table(["Customer", "Invoice", "Late"], [["Bluewave Café", "AED 3,150", "12 days"], ["Desert Rose Salon", "AED 1,890", "30 days"], ["Marina Gym", "AED 4,200", "5 days"]]),
+      d: ["Finds the unpaid invoices", "Writes a polite message in your tone", "Sends it at 9 am and tells you who paid"],
+      o: msg("Hello Bluewave Café team, a friendly reminder that invoice INV-0318 for AED 3,150 was due on 12 Oct. You can pay by bank transfer or card. Thank you!", "Sent on WhatsApp · 9:00 am ✓✓", true) + note("3 of 3 reminders sent. You see who paid tomorrow morning.") },
+    estimate: { t: "Sizes in, a full estimate out", i: msg("Salam, I need a gypsum ceiling for 2 rooms: 4.5 × 4 m and 3.5 × 3 m. Price?", "WhatsApp · 6:40 pm"),
+      d: ["Works out the area: 18 + 10.5 = 28.5 m²", "Uses your rate: AED 45 per m²", "Adds 5% VAT"],
+      o: table(["Item", "m²", "AED"], [["Room 1 (4.5 × 4)", "18.0", "810.00"], ["Room 2 (3.5 × 3)", "10.5", "472.50"], ["VAT 5%", "", "64.13"], ["Total", "28.5", "1,346.63"]], 3) },
+    report: { t: "Your week on one small chart", i: table(["Day", "Branch", "Sales"], [["Thu", "Mussafah", "AED 5,600"], ["Thu", "Khalidiya", "AED 3,800"], ["Wed", "Mussafah", "AED 3,500"]]) + `<p class="dnote">…and 40 more rows</p>`,
+      d: ["Collects the numbers every evening", "Adds them up by day", "Sends you the chart on Sunday morning"],
+      o: bars([["Sun", 5200], ["Mon", 4800], ["Tue", 6100], ["Wed", 5900], ["Thu", 9400]], "Week total AED 31,400, up 8% on last week. Thursday was your best day.") },
+    docs: { t: "Every expiry date, with the days left", i: files([["PDF", "Trade licence"], ["Photo", "Visa · Ahmed"], ["PDF", "Delivery van insurance"]]),
+      d: ["Reads the expiry dates", "Counts the days left", "Reminds you 90, 60 and 30 days before"],
+      o: table(["Document", "Expires", "Days left"], [["Trade licence", "12 Nov 2026", pill("19", "r")], ["Visa · Ahmed", "5 Jan 2027", pill("73", "y")], ["Van insurance", "30 Jun 2027", pill("249", "g")]], 0) + note("Trade licence: reminder sent to you. Renew this week.") },
+    time: { t: "Timesheets in, payroll hours out", i: doc("Timesheet · Site B · week 43", [["Ravi", "6 days, 52 h"], ["Imran", "6 days, 58 h"], ["Joseph", "5 days, 45 h"]]),
+      d: ["Reads the hours from the photo", "Splits normal hours and overtime (over 48 a week)", "Fills the payroll sheet for your accountant"],
+      o: table(["Name", "Normal", "Overtime", "Total"], [["Ravi", "48", "4", "52 h"], ["Imran", "48", "10", "58 h"], ["Joseph", "45", "0", "45 h"]]) + note("Ready for the salary (WPS) file.") },
+    book: { t: "A booking made while you work", i: msg("Hi, can I book a haircut tomorrow after 5?", "WhatsApp · 11:20 am"),
+      d: ["Checks your free slots", "Books 5:30 pm and confirms", "Sends a reminder the day before"],
+      o: table(["Tomorrow", "Customer", "Service"], [["4:30 pm", "Layla", "Colour"], ["5:30 pm", "Mariam" + pill("New"), "Haircut"], ["6:30 pm", "Free", ""]], 1) },
+    ask: { t: "A customer question answered at midnight", i: msg("Do you deliver to Mussafah? How much for 20 cartons of A4 paper?", "WhatsApp · 11:48 pm"),
+      d: ["Says it is an automated assistant", "Answers from your real prices", "Passes the order to your team"],
+      o: msg("Hello, this is the automated assistant of Star Office Supplies. Yes, we deliver to Mussafah the next day. 20 cartons are AED 1,050 including 5% VAT. Shall I pass your order to our team?", "Sent · 11:48 pm", true) + note("Your team gets: new order, 20 cartons, Mussafah.") },
+    other: { t: "A messy message becomes a tidy task list", i: msg("pls send new price list to Ali, check stock of 10mm pipes, call back the Jumeirah villa client tmrw", "WhatsApp · 8:05 am"),
+      d: ["Reads the message", "Splits it into separate tasks", "Gives each one a person and a day"],
+      o: table(["Task", "Who", "When"], [["Send price list to Ali", "Sales", "Today"], ["Check stock: 10 mm pipes", "Store", "Today"], ["Call back Jumeirah villa client", "Sales", "Tomorrow"]]) },
+  };
+  D.calls = D.ask;
+  let kind = "", seen = false, armed = true, timers = [];
+  const play = () => {
+    timers.forEach(clearTimeout); timers = [];
+    const parts = [$(".s1", demoBox), ...$$("#dDo li"), $(".s3", demoBox)];
+    parts.forEach((el) => el.classList.remove("on")); void demoBox.offsetWidth;
+    parts.forEach((el, i) => { if (calm) el.classList.add("on"); else timers.push(setTimeout(() => el.classList.add("on"), 150 + i * 600)); });
+  };
+  const set = (k) => {
+    if (!D[k]) k = "other";
+    if (k === kind) return; kind = k; const d = D[k];
+    $("#demoTitle").textContent = d.t; $("#dIn").innerHTML = d.i; $("#dOut").innerHTML = d.o;
+    $("#dDo").innerHTML = d.d.map((t) => `<li>${t}</li>`).join("");
+    armed = true; if (seen) { armed = false; play(); } // otherwise it plays when it scrolls into view
+  };
+  $("#demoPlay").addEventListener("click", play);
+  const h = (location.hash.match(/^#demo=(\w+)$/) || [])[1];
+  demoBox.hidden = false; set(h || "invoice");
+  new IntersectionObserver((es) => { seen = es[es.length - 1].isIntersecting; if (seen && armed) { armed = false; play(); } }, { threshold: 0.25 }).observe($(".demo-card", demoBox));
+  if (h) setTimeout(() => demoBox.scrollIntoView({ block: "start" }), 0);
+  return set;
+})() : () => {};
+
 /* ---------- the job box -> AI plan ---------- */
 const askForm = $("#askForm");
 if (askForm) {
@@ -153,27 +258,51 @@ if (askForm) {
     })();
   })();
 
-  // ready-made plans: used when the AI can't be reached
-  const P = AR ? [
-    [/سعر|أسعار|عرض|تسعير|تقدير|مقاس|متر|كمية/, "عروض أسعار في ثوانٍ", "6 إلى 10 ساعات", [["يرسل العميل التفاصيل", "المقاسات أو الكميات أو الصور أو رسالة صوتية، على واتساب أو البريد."], ["يحسب الذكاء الاصطناعي السعر", "من قائمة أسعارك وقواعدك أنت، ثم يجهّز عرض سعر PDF بشعارك."], ["تراجعه وترسله", "بضغطة واحدة. وأي حالة غير عادية تصلك أولاً."]]],
-    [/دفع|يدفع|متأخر|تذكير|ملاحقة|تحصيل|مستحق/, "متابعة لا تنسى أحداً", "3 إلى 6 ساعات", [["يعرف من لم يرد أو لم يدفع", "من فواتيرك أو ملف إكسل أو نظام الحسابات."], ["يرسل تذكيرات مهذبة في وقتها", "على واتساب أو البريد، بأسلوبك، وعلى فترات مناسبة."], ["ترى من دفع ومن لم يدفع", "قائمة قصيرة كل صباح. والحالات الصعبة تصلك أنت."]]],
-    [/فاتور|إكسل|اكسل|إدخال|بيانات|نسخ|إيصال/, "فواتير تُدخَل وحدها", "5 إلى 8 ساعات", [["تصل الفواتير كالمعتاد", "بالبريد أو صورة على واتساب أو PDF. لا شيء يتغير لمورديك."], ["يقرأها الذكاء الاصطناعي", "يستخرج التاريخ والمورد والأصناف والضريبة والإجمالي ويملأ ملفك أو نظامك."], ["فريقك يراجع فقط", "ما لا يكون متأكداً منه يُعلَّم لشخص ينظر فيه."]]],
-    [/تقرير|تقارير|مبيعات|أسبوعي|يومي|شهري|مخزون/, "تقارير تُكتب وحدها", "2 إلى 4 ساعات", [["يجمع الأرقام", "من جداولك أو برنامج المبيعات أو البريد، كل يوم."], ["يكتب تقريراً قصيراً وواضحاً", "الإجماليات والتغيّرات وما يبدو غير صحيح، بكلمات بسيطة."], ["يصل إلى هاتفك", "كل صباح أو كل أحد، على واتساب أو البريد."]]],
-    [/مكالم|اتصال|هاتف|تفوت/, "كل مكالمة يُرد عليها", "كل مكالمة فائتة", [["يرد الذكاء الاصطناعي عندما لا تستطيع", "بعد الدوام أو في أوقات الضغط أو عندما يكون الخط مشغولاً."], ["يجيب ويأخذ التفاصيل", "الأسعار والمواعيد والحجوزات، بالعربية والإنجليزية."], ["تصلك ملاحظة قصيرة", "من اتصل، وماذا يريد، وما تم الاتفاق عليه."]]],
-    [/واتساب|رسائل|أسئلة|نفس|إنستغرام|استفسار/, "أسئلة يُرد عليها ليلاً ونهاراً", "1 إلى 3 ساعات يومياً", [["يسأل العميل سؤالاً", "عن الأسعار والمواعيد والموقع والتوفر، على أي تطبيق."], ["يرد الذكاء الاصطناعي خلال ثوانٍ", "من معلوماتك الحقيقية، وبلغة العميل."], ["العملاء الجادون يصلونك", "مع الاسم وما يحتاجونه، جاهزين للإغلاق."]]],
-    [/حجز|موعد|مواعيد|جدول/, "حجوزات بلا أخذ ورد", "3 إلى 5 ساعات", [["يطلب العميل موعداً", "على واتساب أو الموقع أو بالهاتف."], ["يعرض الأوقات المتاحة ويحجز", "يتحقق من تقويمك ويرسل تذكيراً قبل يوم."], ["ترى يومك مسبقاً", "قائمة واضحة كل صباح."]]],
-  ] : [
-    [/quot|estimat|price|pricing|tender|boq|measur|met(er|re)|size|cost/i, "Quotes made in seconds", "6 to 10 hours", [["The customer sends the details", "Sizes, amounts, photos or a voice note, on WhatsApp or email."], ["The AI works out the price", "It uses your own price list and your rules, then makes a neat PDF quote with your logo."], ["You check and send", "One tap to send. Anything unusual comes to you first."]]],
-    [/chas|follow|remind|unpaid|overdue|collect|payment|owe|paid/i, "Follow-ups that never forget", "3 to 6 hours", [["It knows who hasn't replied or paid", "From your invoices, Excel sheet or accounts system."], ["It sends polite reminders on time", "On WhatsApp or email, in your tone, at the right gaps."], ["You see who paid and who didn't", "A short list every morning. Hard cases come to you."]]],
-    [/typ|enter|excel|sheet|data|copy|invoice|receipt|bill|record|entry/i, "Invoices that type themselves", "5 to 8 hours", [["Invoices arrive as usual", "Email, WhatsApp photo or PDF. Nothing changes for your suppliers."], ["The AI reads them", "It picks out the date, supplier, items, VAT and total, and fills your Excel or system."], ["Your team only checks", "Anything it isn't sure about is marked for a person to look at."]]],
-    [/report|summar|daily|weekly|monthly|numbers|sales|stock/i, "Reports that write themselves", "2 to 4 hours", [["It collects the numbers", "From your sheets, sales app or emails, every day."], ["It writes a short, clear report", "Totals, changes and anything that looks wrong, in plain words."], ["It lands on your phone", "Every morning or every Sunday, on WhatsApp or email."]]],
-    [/call|phone|ring|miss/i, "Every call answered", "Every missed call", [["The AI picks up when you can't", "After hours, busy times or when the line is full."], ["It answers and takes the details", "Prices, timings, bookings, in English or Arabic."], ["You get a short note", "Who called, what they want, and what was agreed."]]],
-    [/whatsapp|message|question|repl|answer|enquir|inquir|instagram|chat|dm|same/i, "Questions answered day and night", "1 to 3 hours a day", [["A customer asks a question", "Prices, timings, location, availability, on any app."], ["The AI answers in seconds", "From your real information, in their language."], ["Serious customers come to you", "With their name and what they need, ready to close."]]],
-    [/book|appoint|schedul|calendar|slot/i, "Bookings without the back and forth", "3 to 5 hours", [["The customer asks for a time", "On WhatsApp, the website or by phone."], ["The AI offers free slots and books it", "It checks your calendar and sends a reminder the day before."], ["You see the day ahead", "A clean list every morning."]]],
+  // ready-made plans: used when the AI can't be reached. jobKind() is the one detector: the plan and the
+  // example demo below both use it. Order matters (first match wins). Words in English, Arabic and Roman Urdu.
+  const KINDS = [
+    ["docs", /expir|renew|licen[cs]e|visa|emirates ?id|passport|insurance|document|permit|mulkiya|انتهاء|تجديد|رخص|تأشير|إقام|اقام|هوية|هويات|تأمين|وثائق|مستند/i],
+    ["time", /timesheet|time sheet|attendance|overtime|payroll|salar|wps|shifts?\b|hours worked|hazri|tankh|كشوف الدوام|كشف الدوام|ساعات الدوام|حضور|إضافي|رواتب|راتب/i],
+    ["compare", /compar|cheapest|(supplier|vendor)s?'? (quot|price|offer|rate)|best (price|rate|offer)|rfq|tender|three quotes|3 quotes|\blpo\b|purchase order|procure|مقارن|قارن|أرخص|ارخص|مناقص|عروض (أسعار )?الموردين|أمر شراء/i],
+    ["estimate", /estimat|measur|\bmet(er|re)s?\b|sqm|sq\.? ?ft|\bm2\b|square|boq|calculat|take-?off|dimension|naap|مقاس|متر|أمتار|مساحة|احسب|نحسب|كمية|كميات|تقدير/i],
+    ["quotes", /quot|price|pricing|cost|proposal|rate (card|list)|qeemat|keemat|سعر|أسعار|اسعار|عرض|تسعير/i],
+    ["remind", /chas|follow|remind|unpaid|overdue|collect|payment|owe|paid|\bdue\b|debt|receivabl|udh(aa|a)r|دفع|يدفع|متأخر|تذكير|ملاحق|تحصيل|مستحق|ديون/i],
+    ["report", /report|summar|dashboard|kpi|numbers|figures|تقرير|تقارير|ملخص|أرقام/i],
+    ["invoice", /typ|enter|excel|sheet|data|copy|invoice|receipt|bill|record|entry|accounting|zoho|quickbooks|tally|bookkeep|expense|hisab|فاتور|فواتير|إكسل|اكسل|إدخال|بيانات|نسخ|إيصال|محاسب/i],
+    ["report", /daily|weekly|monthly|sales|stock|مبيعات|مخزون|أسبوعي|يومي|شهري/i],
+    ["book", /book|appoint|schedul|calendar|slot|reserv|حجز|موعد|مواعيد|جدول/i],
+    ["calls", /call|phone|ring|miss|مكالم|اتصال|هاتف|تفوت/i],
+    ["ask", /whatsapp|message|question|repl|answer|enquir|inquir|instagram|chat|\bdm\b|same|ask|sawal|واتساب|رسائل|أسئلة|نفس|إنستغرام|استفسار/i],
   ];
+  const jobKind = (text) => (KINDS.find((k) => k[1].test(text)) || ["other"])[0];
+  const P = AR ? {
+    docs: ["تواريخ انتهاء لا تفوتك", "2 إلى 4 ساعات", [["يحفظ قائمة واحدة بوثائقك", "الرخصة التجارية والتأشيرات والهويات الإماراتية والتأمين والعقود، من ملفاتك أو صورها."], ["يحسب الأيام المتبقية", "ويذكّر الشخص المسؤول قبل 90 و60 و30 يوماً."], ["تجدّد في الوقت المناسب", "بلا غرامات ولا عجلة في آخر لحظة. ترى كل شيء في صفحة واحدة."]]],
+    time: ["من كشوف الدوام إلى الرواتب بلا كتابة", "4 إلى 8 ساعات", [["تصل كشوف الدوام كالمعتاد", "صور ورقية أو ملف إكسل أو رسالة واتساب من كل موقع."], ["يجمع الذكاء الاصطناعي الساعات", "الساعات العادية والإضافية، حسب قواعدك أنت."], ["يستلم محاسبك جدولاً جاهزاً", "جاهزاً لملف الرواتب (WPS). وأي شيء غريب يُعلَّم للمراجعة."]]],
+    compare: ["مقارنة أسعار الموردين عنك", "6 إلى 10 ساعات", [["تصل عروض أسعار الموردين", "PDF أو بريد أو صورة على واتساب، بأي شكل."], ["يضعها الذكاء الاصطناعي جنباً إلى جنب", "السعر والضريبة ومدة التسليم وشروط الدفع، في جدول واحد."], ["تختار وتطلب", "يُعلَّم الأرخص وأي صنف ناقص. وأمر الشراء بضغطة واحدة."]]],
+    estimate: ["تقديرات تُحسب في ثوانٍ", "5 إلى 8 ساعات", [["يرسل العميل المقاسات أو الكميات", "الأمتار أو الغرف أو الوحدات أو رسماً، على واتساب أو البريد."], ["يقوم الذكاء الاصطناعي بالحساب", "المساحة في سعرك، والإضافات وضريبة 5%، من قائمة أسعارك أنت."], ["تراجعه وترسله", "تقدير مرتب بشعارك. والأعمال غير العادية تصلك أولاً."]]],
+    quotes: ["عروض أسعار في ثوانٍ", "6 إلى 10 ساعات", [["يرسل العميل التفاصيل", "المقاسات أو الكميات أو الصور أو رسالة صوتية، على واتساب أو البريد."], ["يحسب الذكاء الاصطناعي السعر", "من قائمة أسعارك وقواعدك أنت، ثم يجهّز عرض سعر PDF بشعارك."], ["تراجعه وترسله", "بضغطة واحدة. وأي حالة غير عادية تصلك أولاً."]]],
+    remind: ["متابعة لا تنسى أحداً", "3 إلى 6 ساعات", [["يعرف من لم يرد أو لم يدفع", "من فواتيرك أو ملف إكسل أو نظام الحسابات."], ["يرسل تذكيرات مهذبة في وقتها", "على واتساب أو البريد، بأسلوبك، وعلى فترات مناسبة."], ["ترى من دفع ومن لم يدفع", "قائمة قصيرة كل صباح. والحالات الصعبة تصلك أنت."]]],
+    invoice: ["فواتير تُدخَل وحدها", "5 إلى 8 ساعات", [["تصل الفواتير كالمعتاد", "بالبريد أو صورة على واتساب أو PDF. لا شيء يتغير لمورديك."], ["يقرأها الذكاء الاصطناعي", "يستخرج التاريخ والمورد والأصناف والضريبة والإجمالي ويملأ ملفك أو نظامك."], ["فريقك يراجع فقط", "ما لا يكون متأكداً منه يُعلَّم لشخص ينظر فيه."]]],
+    report: ["تقارير تُكتب وحدها", "2 إلى 4 ساعات", [["يجمع الأرقام", "من جداولك أو برنامج المبيعات أو البريد، كل يوم."], ["يكتب تقريراً قصيراً وواضحاً", "الإجماليات والتغيّرات وما يبدو غير صحيح، بكلمات بسيطة."], ["يصل إلى هاتفك", "كل صباح أو كل أحد، على واتساب أو البريد."]]],
+    calls: ["كل مكالمة يُرد عليها", "كل مكالمة فائتة", [["يرد الذكاء الاصطناعي عندما لا تستطيع", "بعد الدوام أو في أوقات الضغط أو عندما يكون الخط مشغولاً."], ["يجيب ويأخذ التفاصيل", "الأسعار والمواعيد والحجوزات، بالعربية والإنجليزية."], ["تصلك ملاحظة قصيرة", "من اتصل، وماذا يريد، وما تم الاتفاق عليه."]]],
+    ask: ["أسئلة يُرد عليها ليلاً ونهاراً", "1 إلى 3 ساعات يومياً", [["يسأل العميل سؤالاً", "عن الأسعار والمواعيد والموقع والتوفر، على أي تطبيق."], ["يرد الذكاء الاصطناعي خلال ثوانٍ", "من معلوماتك الحقيقية، وبلغة العميل."], ["العملاء الجادون يصلونك", "مع الاسم وما يحتاجونه، جاهزين للإغلاق."]]],
+    book: ["حجوزات بلا أخذ ورد", "3 إلى 5 ساعات", [["يطلب العميل موعداً", "على واتساب أو الموقع أو بالهاتف."], ["يعرض الأوقات المتاحة ويحجز", "يتحقق من تقويمك ويرسل تذكيراً قبل يوم."], ["ترى يومك مسبقاً", "قائمة واضحة كل صباح."]]],
+  } : {
+    docs: ["Expiry dates that never slip", "2 to 4 hours", [["It keeps one list of your documents", "Trade licence, visas, Emirates IDs, insurance and contracts, from your files or photos."], ["It counts the days left", "And reminds the right person 90, 60 and 30 days before."], ["You renew on time", "No fines, no last-minute rush. You see everything on one page."]]],
+    time: ["Timesheets to payroll, without the typing", "4 to 8 hours", [["Timesheets come in as usual", "Paper photos, Excel or a WhatsApp message from each site."], ["The AI adds up the hours", "Normal hours and overtime, using your own rules."], ["Your accountant gets a ready sheet", "Ready for the salary (WPS) file. Anything odd is marked for a check."]]],
+    compare: ["Supplier prices compared for you", "6 to 10 hours", [["Supplier quotes arrive", "PDF, email or a WhatsApp photo, in any layout."], ["The AI puts them side by side", "Price, VAT, delivery time and payment terms, in one table."], ["You pick and order", "The cheapest and any missing items are marked. One tap to make the order."]]],
+    estimate: ["Estimates worked out in seconds", "5 to 8 hours", [["The customer sends sizes or quantities", "Metres, rooms, units or a drawing, on WhatsApp or email."], ["The AI does the maths", "Size times your rate, extras and 5% VAT, from your own price list."], ["You check and send", "A neat estimate with your logo. Unusual jobs come to you first."]]],
+    quotes: ["Quotes made in seconds", "6 to 10 hours", [["The customer sends the details", "Sizes, amounts, photos or a voice note, on WhatsApp or email."], ["The AI works out the price", "It uses your own price list and your rules, then makes a neat PDF quote with your logo."], ["You check and send", "One tap to send. Anything unusual comes to you first."]]],
+    remind: ["Follow-ups that never forget", "3 to 6 hours", [["It knows who hasn't replied or paid", "From your invoices, Excel sheet or accounts system."], ["It sends polite reminders on time", "On WhatsApp or email, in your tone, at the right gaps."], ["You see who paid and who didn't", "A short list every morning. Hard cases come to you."]]],
+    invoice: ["Invoices that type themselves", "5 to 8 hours", [["Invoices arrive as usual", "Email, WhatsApp photo or PDF. Nothing changes for your suppliers."], ["The AI reads them", "It picks out the date, supplier, items, VAT and total, and fills your Excel or system."], ["Your team only checks", "Anything it isn't sure about is marked for a person to look at."]]],
+    report: ["Reports that write themselves", "2 to 4 hours", [["It collects the numbers", "From your sheets, sales app or emails, every day."], ["It writes a short, clear report", "Totals, changes and anything that looks wrong, in plain words."], ["It lands on your phone", "Every morning or every Sunday, on WhatsApp or email."]]],
+    calls: ["Every call answered", "Every missed call", [["The AI picks up when you can't", "After hours, busy times or when the line is full."], ["It answers and takes the details", "Prices, timings, bookings, in English or Arabic."], ["You get a short note", "Who called, what they want, and what was agreed."]]],
+    ask: ["Questions answered day and night", "1 to 3 hours a day", [["A customer asks a question", "Prices, timings, location, availability, on any app."], ["The AI answers in seconds", "From your real information, in their language."], ["Serious customers come to you", "With their name and what they need, ready to close."]]],
+    book: ["Bookings without the back and forth", "3 to 5 hours", [["The customer asks for a time", "On WhatsApp, the website or by phone."], ["The AI offers free slots and books it", "It checks your calendar and sends a reminder the day before."], ["You see the day ahead", "A clean list every morning."]]],
+  };
   const GEN = AR ? ["عملك، يُنجز بنفس الطريقة كل مرة", "ساعات كل أسبوع", [["نتعلم كيف يؤديه فريقك الآن", "خطوة بخطوة، من أمثلتك الحقيقية."], ["الذكاء الاصطناعي يؤدي الجزء المتكرر", "بنفس الطريقة كل مرة، ليلاً ونهاراً."], ["فريقك يراجع ويقرر فقط", "وأي شيء غير واضح يذهب إلى شخص."]]]
     : ["Your job, done the same way every time", "Hours every week", [["We learn how your team does it now", "Step by step, from your real examples."], ["The AI does the repeated part", "The same way every time, day or night."], ["Your team only checks and decides", "Anything unclear goes to a person."]]];
-  const local = (text) => { const m = P.find((p) => p[0].test(text)); const [title, hours, steps] = m ? m.slice(1) : GEN; return { title, hours, steps, lang: AR ? "ar" : "en" }; };
+  const local = (text) => { const [title, hours, steps] = P[jobKind(text)] || GEN; return { title, hours, steps, lang: AR ? "ar" : "en" }; };
 
   let lastJob = "", lastPlan = null;
   const show = (text, p, example) => {
@@ -195,7 +324,7 @@ if (askForm) {
     const t0 = Date.now();
     let p;
     try { p = await post("/plan", { job: text }); if (!p.steps) throw 0; } catch { p = local(text); }
-    setTimeout(() => show(text, p, false), Math.max(0, 600 - (Date.now() - t0)));
+    setTimeout(() => { show(text, p, false); demoSet(jobKind(text)); }, Math.max(0, 600 - (Date.now() - t0)));
   }
   askForm.addEventListener("submit", (e) => { e.preventDefault(); ask(job.value); });
   job.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(job.value); } });
