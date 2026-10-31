@@ -1,0 +1,1161 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>I Zone Office Assistant · Noor AI Concierge</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+/* One app holding every demo built for I Zone. Home = three app cards; switch apps from the sidebar (laptop)
+   or the app pill at the top (phone). Noor AI Concierge design system: navy ink, soft paper, amber only on
+   things you tap. Every screen leads with the answer, the proof sits underneath. */
+:root{
+  --paper:#f6f7fa; --surface:#ffffff; --ink:#111a2e; --muted:#566079; --faint:#8a93a8; --line:#e3e7ef; --line-2:#d3d9e4;
+  --accent:#f0a23b; --accent-ink:#1b1204; --accent-soft:#fdf0dc;
+  --navy:#1d2f57; --navy-soft:#e9eef8;
+  --good:#1f8a52; --good-soft:#e4f4ea; --bad:#cf3f33; --bad-soft:#fbe7e4; --warn:#a86a10; --warn-soft:#fdf2df;
+  --sA:#3b6fd8; --sB:#0f9688; --sC:#8b5cf6; --sD:#e0703b;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --shadow:0 1px 2px rgba(17,26,46,.04),0 8px 24px -12px rgba(17,26,46,.12);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 15px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;margin:0;line-height:1.12;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 14px;border-right:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:20px}
+.ws{all:unset;cursor:pointer;display:flex;gap:10px;align-items:center;padding:0 8px}
+.ws-logo{width:36px;height:36px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font:700 14px var(--display);letter-spacing:.02em;flex:none}
+.ws b{display:block;font:600 14.5px var(--display);letter-spacing:-.01em}
+.ws small{color:var(--faint);font-size:12px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav .grp{font-size:11.5px;font-weight:600;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;padding:14px 12px 6px}
+.nav button{all:unset;cursor:pointer;display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:10px;color:var(--muted);font-weight:500;font-size:14.5px;transition:background .2s,color .2s}
+.nav button svg{width:19px;height:19px;flex:none}
+.nav button:hover{background:var(--paper);color:var(--ink)}
+.nav button.appbtn[data-on="1"]{color:var(--ink);font-weight:600}
+.nav button.sub{padding:8px 12px 8px 42px;font-size:14px}
+.nav button[aria-current="page"]{background:var(--navy-soft);color:var(--navy);font-weight:600}
+.nav .count{margin-left:auto;font-size:11.5px;font-weight:600;background:var(--bad);color:#fff;border-radius:999px;padding:1px 7px}
+.side-foot{margin-top:auto;padding:12px;border-radius:12px;background:var(--paper);font-size:12.5px;color:var(--muted);line-height:1.45}
+.side-foot b{color:var(--ink);font-weight:600}
+
+main{min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+.top{display:flex;align-items:center;gap:12px;padding-block:18px 8px;max-width:1080px;margin:0 auto}
+.top .crumb{color:var(--faint);font-size:13px}
+.apppill{all:unset;cursor:pointer;display:none;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-weight:600;font-size:14px;box-shadow:var(--shadow)}
+.apppill .ai{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center}
+.apppill .ai svg{width:16px;height:16px}
+.apppill .chev{width:16px;height:16px;color:var(--faint)}
+.top .demo{margin-left:auto;font-size:12px;font-weight:500;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.top .demo i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:6px;vertical-align:1px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--warn);display:grid;place-items:center;font:600 13px var(--display);flex:none}
+.screen{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:16px;animation:in .45s var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hello h1{font-size:clamp(1.6rem,3vw,2.2rem)}
+.hello p{color:var(--muted);margin-top:6px;max-width:62ch}
+
+/* app switch sheet (phone) */
+.sheetbg{position:fixed;inset:0;z-index:40;background:rgba(17,26,46,.35);display:flex;align-items:flex-end;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheetbox{width:100%;background:var(--surface);border-radius:22px 22px 0 0;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:6px;animation:up .3s var(--ease)}
+@keyframes up{from{transform:translateY(40px)}to{transform:none}}
+.sheetbox .grab{width:40px;height:4px;border-radius:4px;background:var(--line-2);margin:4px auto 10px}
+.sheetbox h3{font-size:1.05rem;padding:0 4px 6px}
+.swi{all:unset;cursor:pointer;display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--line)}
+.swi[aria-current="true"]{border-color:var(--navy);background:var(--navy-soft)}
+.swi .ai{width:40px;height:40px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center;flex:none}
+.swi .ai svg{width:20px;height:20px}
+.swi b{display:block;font-weight:600}
+.swi span{color:var(--muted);font-size:13px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);min-width:0}
+.card h2{font-size:1.25rem}
+.card .sub{color:var(--muted);font-size:14px;margin-top:4px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.kpi span{display:block;color:var(--muted);font-size:13px}
+.kpi b{display:block;font:600 1.65rem/1.15 var(--display);letter-spacing:-.02em;margin-top:4px}
+.kpi small{color:var(--faint);font-size:12.5px}
+.kpi.good b{color:var(--good)} .kpi.bad b{color:var(--bad)} .kpi.navy b{color:var(--navy)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:600 14.5px/1 var(--body);padding:13px 20px;border-radius:999px;background:var(--accent);color:var(--accent-ink);transition:transform .2s var(--ease),box-shadow .2s;min-height:44px}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px -10px var(--accent)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none}
+.btn.ghost{background:var(--surface);border:1px solid var(--line-2);color:var(--ink)}
+.btn.ghost:hover{box-shadow:none;border-color:var(--muted)}
+.btn.sm{padding:9px 14px;min-height:38px;font-size:13.5px}
+.btn svg{width:17px;height:17px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.chip.good{background:var(--good-soft);color:var(--good)} .chip.bad{background:var(--bad-soft);color:var(--bad)} .chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.navy{background:var(--navy-soft);color:var(--navy)} .chip.plain{background:var(--paper);color:var(--muted)}
+.sd{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none}
+
+/* ---------- hub ---------- */
+.hub-hero{display:flex;flex-direction:column;gap:8px;padding-block:8px 4px}
+.hub-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);max-width:20ch}
+.hub-hero p{color:var(--muted);max-width:60ch;font-size:15.5px}
+.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}
+.appcard{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow);transition:transform .25s var(--ease),box-shadow .25s,border-color .2s;position:relative;overflow:hidden}
+.appcard:hover{transform:translateY(-4px);border-color:var(--line-2);box-shadow:0 2px 4px rgba(17,26,46,.04),0 24px 40px -20px rgba(17,26,46,.25)}
+.appcard .big{width:52px;height:52px;border-radius:15px;background:var(--navy);color:#fff;display:grid;place-items:center}
+.appcard .big svg{width:26px;height:26px}
+.appcard h2{font-size:1.35rem}
+.appcard p{color:var(--muted);font-size:14.5px}
+.appcard ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.appcard li{display:flex;gap:8px;align-items:flex-start}
+.appcard li svg{width:16px;height:16px;color:var(--good);flex:none;margin-top:3px}
+.appcard .go{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--line);font-weight:600;color:var(--navy)}
+.appcard .go svg{width:20px;height:20px;transition:transform .25s var(--ease)}
+.appcard:hover .go svg{transform:translateX(4px)}
+.appcard .tagl{position:absolute;top:22px;right:22px}
+.strip{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--muted);font-size:13.5px;justify-content:center;padding:6px 0}
+.strip span{display:inline-flex;align-items:center;gap:8px}
+.strip svg{width:16px;height:16px;color:var(--navy)}
+
+/* ---------- procurement: overview ---------- */
+.journey{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.step{all:unset;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;position:relative;transition:transform .25s var(--ease),border-color .2s}
+.step:hover{transform:translateY(-3px);border-color:var(--line-2)}
+.step .ic{width:38px;height:38px;border-radius:11px;background:var(--navy-soft);color:var(--navy);display:grid;place-items:center}
+.step .ic svg{width:20px;height:20px}
+.step .n{color:var(--faint);font-size:12.5px;font-weight:500}
+.step h3{font-size:1.08rem}
+.step p{color:var(--muted);font-size:13.5px}
+.step .res{margin-top:auto;font-weight:600;font-size:13.5px;color:var(--navy)}
+.step::after{content:"";position:absolute;right:-9px;top:34px;width:6px;height:6px;border-top:2px solid var(--line-2);border-right:2px solid var(--line-2);transform:rotate(45deg)}
+.step:last-child::after{display:none}
+.todo{display:flex;flex-direction:column}
+.todo-i{display:flex;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.todo-i:first-child{border-top:0;padding-top:4px}
+.todo-i .dot{width:10px;height:10px;border-radius:50%;flex:none}
+.todo-i .tx{flex:1;min-width:0}
+.todo-i .tx b{display:block;font-weight:600}
+.todo-i .tx span{color:var(--muted);font-size:13.5px}
+
+/* requests */
+.convert{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1.25fr);gap:14px;align-items:center}
+.wa{background:#e9f5ec;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.wa .who{font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.wa .who b{color:#1f9d55}
+.bub{background:#fff;border-radius:4px 14px 14px 14px;padding:10px 12px;box-shadow:0 1px 1px rgba(0,0,0,.06);font-size:14.5px}
+.bub small{display:block;text-align:right;color:var(--faint);font-size:11px;margin-top:4px}
+.arrowbig{display:grid;place-items:center;color:var(--accent)}
+.arrowbig svg{width:40px;height:40px}
+.arrowbig span{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px;white-space:nowrap}
+.order{border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.order-h{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 14px;background:var(--navy);color:#fff}
+.order-h b{font:600 15px var(--display)}
+.order-h span{font-size:12.5px;opacity:.8}
+.oline{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--line);font-size:14px}
+.oline:first-of-type{border-top:0}
+.oline b{font-weight:600;white-space:nowrap}
+.oline .tick{color:var(--good);margin-right:6px}
+.fadein{opacity:0;transform:translateY(6px);animation:in .4s var(--ease) forwards}
+.sup-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.sup-row:first-child{border-top:0}
+.sup-av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font:600 14px var(--display);flex:none}
+.sup-row b{display:block;font-weight:600}
+.sup-row span{color:var(--muted);font-size:13px}
+.req{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:12px 0;border-top:1px solid var(--line);align-items:center}
+.req:first-child{border-top:0}
+.req b{font-weight:600}
+.req .meta{grid-column:1/-1;color:var(--muted);font-size:13px}
+.req .meta.late{color:var(--bad);font-weight:500}
+
+/* quotes */
+.winner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:linear-gradient(135deg,#14234a,#1d2f57 60%,#24386a);color:#fff;border:0}
+.winner .lbl{font-size:13px;color:#b9c5e0;font-weight:500}
+.winner h2{font-size:clamp(1.5rem,3vw,2rem);margin-top:4px;color:#fff}
+.winner .facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:10px;color:#dfe6f5;font-size:14px}
+.winner .facts b{color:#fff}
+.winner .why{margin-top:10px;color:#b9c5e0;font-size:13.5px;max-width:60ch}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--navy);color:#fff;font-weight:600}
+.switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;font-weight:500}
+.switch input{appearance:none;-webkit-appearance:none;width:40px;height:24px;border-radius:999px;background:var(--line-2);position:relative;cursor:pointer;transition:background .2s;margin:0;flex:none}
+.switch input::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .2s var(--ease)}
+.switch input:checked{background:var(--navy)}
+.switch input:checked::after{transform:translateX(16px)}
+.offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;padding-top:8px}
+.offer{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--surface);position:relative;transition:opacity .3s,border-color .3s;box-shadow:var(--shadow)}
+.offer.best{border:2px solid var(--good);padding:15px}
+.offer.out{opacity:.55}
+.offer-h{display:flex;align-items:center;gap:10px}
+.offer-h b{font-weight:600}
+.offer .total{font:600 1.45rem var(--display);letter-spacing:-.02em}
+.offer .total small{font:500 12.5px var(--body);color:var(--muted);letter-spacing:0;display:block}
+.offer dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.offer dt{color:var(--muted)} .offer dd{margin:0;text-align:right;font-weight:500}
+.ribbon{position:absolute;top:-11px;left:14px;background:var(--good);color:#fff;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:999px}
+.tablewrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:620px}
+th{font-weight:600;color:var(--muted);text-align:left;padding:10px 12px;background:var(--paper);font-size:12.5px;white-space:nowrap}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.best{color:var(--good);font-weight:600;background:var(--good-soft)}
+td.flag{color:var(--warn)}
+td.na{color:var(--faint)}
+.insights{display:flex;flex-direction:column;gap:10px}
+.ins{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:var(--paper);font-size:14px}
+.ins .ii{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none}
+.ins .ii svg{width:16px;height:16px}
+.ins.bad .ii{background:var(--bad-soft);color:var(--bad)} .ins.warn .ii{background:var(--warn-soft);color:var(--warn)} .ins.good .ii{background:var(--good-soft);color:var(--good)} .ins.navy .ii{background:var(--navy-soft);color:var(--navy)}
+.ins b{font-weight:600}
+
+/* LPO document */
+.sheet{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 20px 50px -24px rgba(17,26,46,.35);position:relative;overflow:hidden;font-size:13.5px}
+.sheet .lh{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:2px solid var(--navy);padding-bottom:12px;margin-bottom:12px;flex-wrap:wrap}
+.sheet .lh b{font:700 15px var(--display);color:var(--navy)}
+.sheet .lh small{display:block;color:var(--muted);font-size:12px}
+.sheet .doc-t{font:600 1.1rem var(--display);text-align:right;padding-right:40px}
+.sheet .meta2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px 16px;margin-bottom:12px}
+.sheet .meta2 span{display:block;color:var(--muted);font-size:12px}
+.sheet table{min-width:520px;font-size:13px}
+.sheet .tot{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-top:10px}
+.sheet .tot div{display:flex;gap:24px;min-width:220px;justify-content:space-between}
+.sheet .tot .g{font:600 1.05rem var(--display);border-top:1px solid var(--line);padding-top:6px}
+.stamp{position:absolute;right:-34px;top:22px;transform:rotate(35deg);background:var(--warn-soft);color:var(--warn);font-weight:700;font-size:11px;letter-spacing:.08em;padding:4px 44px;text-transform:uppercase}
+.stamp.ok{background:var(--good-soft);color:var(--good)}
+
+/* prices */
+.items{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.items::-webkit-scrollbar{display:none}
+.items button{all:unset;cursor:pointer;white-space:nowrap;padding:9px 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-size:13.5px;font-weight:500;color:var(--muted)}
+.items button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.headline{font:600 clamp(1.2rem,2.6vw,1.55rem)/1.3 var(--display);letter-spacing:-.02em;max-width:36ch}
+.headline em{font-style:normal;color:var(--navy);background:var(--navy-soft);border-radius:6px;padding:0 5px}
+.chart{width:100%;height:auto;display:block;margin-top:10px}
+.chart text{font:11px var(--body);fill:var(--faint)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin-top:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.checkq{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.field{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:12px;background:var(--surface);padding:0 12px;min-height:46px;flex:1;min-width:180px}
+.field span{color:var(--faint);font-size:13.5px;white-space:nowrap}
+.field input{border:0;outline:0;font:600 17px var(--body);padding:10px 8px;width:100%;min-width:0;background:transparent;color:var(--ink)}
+.gauge{position:relative;height:10px;border-radius:999px;background:linear-gradient(90deg,var(--good) 0 40%,var(--accent) 40% 70%,var(--bad) 70%);margin:20px 0 8px}
+.gauge i{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--ink);transform:translate(-50%,-50%);transition:left .5s var(--ease)}
+.gauge-l{display:flex;justify-content:space-between;font-size:12px;color:var(--faint)}
+.verdict{margin-top:12px;padding:14px;border-radius:14px;font-size:14.5px}
+.verdict.good{background:var(--good-soft)} .verdict.warn{background:var(--warn-soft)} .verdict.bad{background:var(--bad-soft)}
+.verdict b{display:block;font:600 1.1rem var(--display);margin-bottom:2px}
+.verdict.good b{color:var(--good)} .verdict.warn b{color:var(--warn)} .verdict.bad b{color:var(--bad)}
+.verdict .reply{margin-top:10px;background:#fff;border-radius:12px;padding:10px 12px;font-size:13.5px;color:var(--muted)}
+.rank{display:flex;flex-direction:column;gap:12px}
+.rank-r{display:grid;grid-template-columns:100px minmax(0,1fr) 60px;gap:10px;align-items:center;font-size:13.5px}
+.rank-r .tr{height:8px;border-radius:999px;background:var(--paper);overflow:hidden}
+.rank-r .tr i{display:block;height:100%;border-radius:999px}
+.buys{max-height:360px;overflow-y:auto}
+.buy{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
+.buy:first-child{border-top:0}
+.buy b{font-weight:600}
+.buy span{color:var(--muted);font-size:12.5px}
+
+/* invoices */
+.inv{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden;transition:opacity .3s;box-shadow:var(--shadow)}
+.inv.done{opacity:.6}
+.inv-top{all:unset;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px;width:100%;box-sizing:border-box}
+.inv-st{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none}
+.inv-st svg{width:18px;height:18px}
+.inv-st.good{background:var(--good-soft);color:var(--good)} .inv-st.bad{background:var(--bad-soft);color:var(--bad)} .inv-st.warn{background:var(--warn-soft);color:var(--warn)}
+.inv-top b{display:block;font-weight:600}
+.inv-top span{color:var(--muted);font-size:13px}
+.inv-amt{text-align:right;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.inv-amt small{display:block;font-weight:600;color:var(--bad);font-size:12px}
+.inv-body{padding:0 16px 16px;display:flex;flex-direction:column;gap:12px}
+.match{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mcol{border:1px solid var(--line);border-radius:12px;padding:10px;font-size:13px}
+.mcol span{display:block;color:var(--muted);font-size:12px}
+.mcol b{display:block;font-weight:600;font-size:14px;margin-top:2px}
+.mcol.x{border-color:var(--bad);background:var(--bad-soft)}
+.mcol.x b{color:var(--bad)}
+.msg{background:var(--paper);border-radius:12px;padding:12px;font-size:13.5px}
+.msg span{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+
+/* ---------- cable estimator ---------- */
+.chatwrap{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:16px;align-items:start}
+.phone{background:var(--surface);border:1px solid var(--line);border-radius:26px;overflow:hidden;display:flex;flex-direction:column;height:min(74vh,680px);min-height:500px;box-shadow:0 2px 4px rgba(17,26,46,.04),0 30px 60px -30px rgba(17,26,46,.35)}
+.phone-top{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--navy);color:#fff}
+.phone-top .pa{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--navy);display:grid;place-items:center;font:700 13px var(--display)}
+.phone-top b{display:block;font-weight:600}
+.phone-top small{color:#b9c5e0;font-size:12px}
+.log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--paper)}
+.cm{max-width:86%;padding:9px 12px;border-radius:16px;white-space:pre-line;word-wrap:break-word;font-size:14.5px;animation:in .25s var(--ease)}
+.cm.bot{background:#fff;align-self:flex-start;border-bottom-left-radius:5px;box-shadow:0 1px 1px rgba(17,26,46,.05)}
+.cm.me{background:var(--navy);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.cm .priv{display:block;margin-top:6px;color:var(--faint);font-size:12px}
+.cm .priv span{display:block;direction:rtl}
+.cnote{align-self:center;font-size:12px;color:var(--muted);text-align:center;max-width:92%;padding:5px 10px;background:#fff;border-radius:999px;border:1px solid var(--line)}
+.cchips{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start;max-width:100%}
+.cchips button{all:unset;cursor:pointer;font-size:13.5px;font-weight:500;padding:7px 12px;border-radius:999px;border:1px solid var(--navy);color:var(--navy);background:#fff}
+.cchips button:hover{background:var(--navy-soft)}
+.est{align-self:flex-start;width:94%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);animation:in .3s var(--ease)}
+.est .eh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.est h3{font-size:1.05rem}
+.est .big{font:600 1.5rem var(--display);letter-spacing:-.02em;color:var(--navy)}
+.est .spec{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px}
+.est .spec span:nth-child(odd){color:var(--muted)}
+.est table{min-width:0;font-size:13px}
+.est td{padding:5px 0;border-top:1px solid var(--line)}
+.est td.r{padding-left:8px}
+.est tr.tot td{font-weight:600}
+.est small{color:var(--faint);font-size:12px}
+.composer{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:#fff}
+.composer input{flex:1;min-width:0;font:inherit;font-size:15px;padding:11px 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);outline:0}
+.composer input:focus{border-color:var(--navy)}
+.composer button{all:unset;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.composer button svg{width:20px;height:20px}
+.howto{display:flex;flex-direction:column;gap:14px}
+.hs{display:flex;gap:12px;align-items:flex-start}
+.hs .k{width:28px;height:28px;border-radius:50%;background:var(--navy-soft);color:var(--navy);display:grid;place-items:center;font:600 13px var(--display);flex:none}
+.hs b{display:block;font-weight:600}
+.hs span{color:var(--muted);font-size:13.5px}
+.try{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.try button{all:unset;cursor:pointer;font-size:13.5px;padding:8px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+.try button:hover{border-color:var(--line-2)}
+.rategrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:10px;margin-top:10px}
+.rf{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.rf label{font-size:12.5px;color:var(--muted)}
+.rf input{border:0;outline:0;font:600 17px var(--body);color:var(--ink);background:transparent;width:100%;padding:0}
+.rf:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft)}
+.secth{font:600 1rem var(--display);margin-top:18px}
+.lead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.lead:first-child{border-top:0}
+.lead .la{width:38px;height:38px;border-radius:50%;background:var(--accent-soft);color:var(--warn);display:grid;place-items:center;font:600 14px var(--display)}
+.lead b{display:block;font-weight:600}
+.lead span{color:var(--muted);font-size:13.5px}
+.empty{color:var(--muted);font-size:14px;padding:18px;text-align:center;background:var(--paper);border-radius:14px}
+
+/* ---------- drawing estimator ---------- */
+.drop{border:2px dashed var(--line-2);border-radius:20px;padding:34px 20px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;background:var(--paper);transition:border-color .2s,background .2s}
+.drop.over{border-color:var(--navy);background:var(--navy-soft)}
+.drop .di{width:56px;height:56px;border-radius:16px;background:var(--surface);color:var(--navy);display:grid;place-items:center;box-shadow:var(--shadow)}
+.drop .di svg{width:28px;height:28px}
+.drop b{font:600 1.2rem var(--display)}
+.drop small{color:var(--muted);font-size:13.5px;max-width:44ch}
+.sheets{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
+.sht{border:1px solid var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:6px;font-size:12.5px;background:var(--surface);cursor:pointer}
+.sht canvas{width:100%;height:auto;border-radius:8px;background:#fff}
+.sht.off{opacity:.45}
+.sht label{display:flex;gap:6px;align-items:center;cursor:pointer;word-break:break-all}
+.sht input{accent-color:var(--navy)}
+.status{font-size:13.5px;color:var(--muted)}
+.prog{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.prog div{font-size:13.5px;padding:8px 12px;border-radius:10px;background:var(--paper)}
+.prog .done{background:var(--good-soft);color:var(--good)} .prog .err{background:var(--bad-soft);color:var(--bad)}
+.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:13.5px}
+.boq table{min-width:780px}
+.boq tr.cat td{font:600 14px var(--display);color:var(--navy);background:var(--navy-soft);padding:8px 12px}
+.boq .basis{display:block;color:var(--faint);font-size:12px;margin-top:2px}
+.boq input{width:84px;font:600 13.5px var(--body);text-align:right;padding:6px 8px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)}
+.boq input:focus{outline:0;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft)}
+.src{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;background:var(--paper);color:var(--muted)}
+.src.schedule,.src.counted{background:var(--good-soft);color:var(--good)} .src.measured{background:var(--navy-soft);color:var(--navy)} .src.assumed{background:var(--warn-soft);color:var(--warn)}
+.conf-low{color:var(--bad);font-weight:600;font-size:12px}
+.yours{color:var(--good);font-weight:600}
+.totals{display:flex;flex-direction:column;gap:6px;margin-top:14px;margin-left:auto;max-width:380px}
+.totals div{display:flex;justify-content:space-between;gap:16px;font-size:14px;align-items:center}
+.totals .g{font:600 1.2rem var(--display);border-top:1px solid var(--line);padding-top:8px}
+.totals input{width:56px;font:600 13.5px var(--body);text-align:right;padding:4px 6px;border:1px solid var(--line-2);border-radius:8px}
+
+.foot{max-width:1080px;margin:28px auto 0;color:var(--faint);font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
+
+/* ---------- phone ---------- */
+.bottom{display:none}
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{display:none}
+  .apppill{display:inline-flex}
+  main{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+  .bottom:not(:empty){display:grid;grid-auto-flow:column;grid-auto-columns:1fr;position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px max(6px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  .bottom button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:12px;font-size:11px;font-weight:500;color:var(--faint);position:relative;min-height:44px;justify-content:center}
+  .bottom button svg{width:22px;height:22px}
+  .bottom button[aria-current="page"]{color:var(--navy);font-weight:600}
+  .bottom .count{position:absolute;top:2px;left:calc(50% + 6px);font-size:10px;font-weight:700;background:var(--bad);color:#fff;border-radius:999px;padding:0 5px}
+  .journey{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step::after{display:none}
+  .convert{grid-template-columns:minmax(0,1fr)}
+  .arrowbig{transform:rotate(90deg);height:40px}
+  .arrowbig span{display:none}
+  .winner{grid-template-columns:minmax(0,1fr)}
+  .card{padding:16px;border-radius:16px}
+  .match{grid-template-columns:minmax(0,1fr)}
+  .top .crumb{display:none}
+  .top .demo{display:none}
+  .top .avatar{margin-left:auto}
+  .todo-i{flex-wrap:wrap}
+  .todo-i .tx{flex-basis:calc(100% - 30px)}
+  .todo-i .btn{margin-left:24px}
+  .chatwrap{grid-template-columns:minmax(0,1fr)}
+  .phone{height:min(68vh,620px)}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.fadein{opacity:1;transform:none}}
+</style>
+
+<div class="app">
+  <aside class="side">
+    <button class="ws" data-app="hub"><div class="ws-logo">IZ</div><div><b>I Zone</b><small>Office Assistant</small></div></button>
+    <nav class="nav" id="sideNav"></nav>
+    <div class="side-foot"><b>Demo workspace</b><br>Sample data. Built by Noor AI Concierge for I Zone Electromechanical.</div>
+  </aside>
+  <main>
+    <div class="top">
+      <button class="apppill" id="appPill" aria-label="Switch app"></button>
+      <span class="crumb" id="crumb"></span>
+      <span class="demo"><i></i>Demo · sample data</span>
+      <div class="avatar" title="I Zone team">IZ</div>
+    </div>
+    <div id="view"></div>
+    <div class="foot">
+      <span>Noor AI Concierge · Noor Zaman · 058 935 8857 · noor@nooraiconcierge.com</span>
+      <span>Every order, quote and payment is approved by your team.</span>
+    </div>
+  </main>
+  <nav class="bottom" id="botNav"></nav>
+</div>
+<div id="sheetHost"></div>
+
+<script>
+/* ================= helpers ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const AED=v=>"AED "+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const AED0=v=>"AED "+Math.round(v).toLocaleString("en-US");
+const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const fmtD=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+const sv=(p)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const I={
+  home:sv('<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/>'),
+  grid:sv('<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>'),
+  req:sv('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 11h7M8.5 14h4"/>'),
+  quote:sv('<rect x="3" y="4" width="7" height="16" rx="2"/><rect x="14" y="4" width="7" height="16" rx="2"/>'),
+  price:sv('<path d="M3 20h18"/><path d="m4 15 5-5 4 3 7-7"/><path d="M15 6h5v5"/>'),
+  inv:sv('<path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6"/>'),
+  cart:sv('<path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/>'),
+  bolt:sv('<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>'),
+  plan:sv('<path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20Z"/><path d="M9 4v13.5M15 6.5V20"/>'),
+  chat:sv('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>'),
+  list:sv('<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h0M3.5 12h0M3.5 18h0"/>'),
+  user:sv('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
+  upload:sv('<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>'),
+  table:sv('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/>'),
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 7v6M12 17h0"/></svg>',
+  arrow:sv('<path d="M4 12h15M13 6l6 6-6 6"/>'),
+  send:sv('<path d="M4 12h15M13 6l6 6-6 6"/>'),
+  chev:sv('<path d="m6 9 6 6 6-6"/>'),
+  bulb:sv('<path d="M12 3v2M5 12H3M21 12h-2M6 6l-1.4-1.4M18 6l1.4-1.4"/><circle cx="12" cy="13" r="4"/>'),
+  lock:sv('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+  wa:sv('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>'),
+  xl:sv('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="m9 9 6 6M15 9l-6 6"/>')
+};
+
+/* ================= apps ================= */
+const APPS={
+  proc:{name:"Procurement",icon:I.cart,line:"Site request to paid invoice",pages:[["home","Overview",I.home],["request","Requests",I.req],["quotes","Quotes",I.quote],["prices","Prices",I.price],["invoices","Invoices",I.inv]]},
+  cable:{name:"Cable Estimator",icon:I.bolt,line:"Customers get a cable price in seconds",pages:[["chat","Customer chat",I.chat],["rates","Price list",I.list],["leads","Requests",I.user]]},
+  draw:{name:"Drawing to BOQ",icon:I.plan,line:"Upload a drawing, get a priced BOQ",pages:[["upload","Drawing",I.upload],["boq","Estimate",I.table]]}
+};
+const S={app:"hub",page:{proc:"home",cable:"chat",draw:"upload"},prio:"bal",approvedOnly:true,item:"c16",lpo:null,lpoApproved:false,openInv:new Set([1])};
+
+/* ================= PROCUREMENT data (sample) ================= */
+const SUP={A:{name:"Supplier A",short:"A",area:"Musaffah",col:"var(--sA)",via:"Email"},B:{name:"Supplier B",short:"B",area:"Musaffah M-40",col:"var(--sB)",via:"WhatsApp"},C:{name:"Supplier C",short:"C",area:"Dubai",col:"var(--sC)",via:"Email"},D:{name:"Supplier D",short:"D",area:"Sharjah",col:"var(--sD)",via:"Email"}};
+const LINES=[
+  {k:"c16",name:"Cable 4C × 16 mm² armoured (Cu/XLPE/SWA/PVC)",short:"Cable 4C × 16 mm²",qty:1250,unit:"m"},
+  {k:"c95",name:"Cable 4C × 95 mm² armoured (Cu/XLPE/SWA/PVC)",short:"Cable 4C × 95 mm²",qty:480,unit:"m"},
+  {k:"cond",name:"PVC conduit 25 mm heavy gauge, 3 m",short:"PVC conduit 25 mm",qty:900,unit:"pcs"},
+  {k:"w25",name:"Wire 2.5 mm² single core LSZH, 100 m coil",short:"Wire 2.5 mm² coil",qty:60,unit:"coils"},
+  {k:"db24",name:"Distribution board 24-way TP&N, 125 A",short:"DB 24-way TP&N",qty:14,unit:"nos"}
+];
+const Q={
+  A:{p:{c16:63.40,c95:331.00,cond:7.90,w25:142.00,db24:905.00},days:3,terms:60,valid:7,at:"8:58 AM",bad:[]},
+  B:{p:{c16:61.80,c95:352.50,cond:7.40,w25:139.00,db24:880.00},days:7,terms:90,valid:15,at:"9:12 AM",bad:[]},
+  C:{p:{c16:57.90,c95:309.00,cond:7.10,w25:131.00,db24:842.00},days:2,terms:0,valid:5,at:"9:40 AM",bad:["c16","c95"]},
+  D:{p:{c16:62.20,c95:326.00,cond:8.20,w25:144.50,db24:null},days:14,terms:60,valid:30,at:"11:05 AM",bad:[]}
+};
+const termTxt=t=>t===0?"Cash in advance":t+" days credit";
+const okMake=(s,k)=>!Q[s].bad.includes(k);
+const supTotal=s=>{let t=0,miss=0;for(const l of LINES){const p=Q[s].p[l.k];if(p==null)miss++;else t+=p*l.qty}return{t,miss}};
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646};
+const ITEMS={
+  c16:{name:"Cable 4C × 16 mm²",unit:"m",anchors:[[2021,44],[2022.3,55],[2023,48.5],[2024.4,57],[2025,56],[2026.8,61.5]],qty:[600,1600]},
+  c95:{name:"Cable 4C × 95 mm²",unit:"m",anchors:[[2021,228],[2022.3,286],[2023,252],[2024.4,301],[2025,296],[2026.8,318]],qty:[200,700]},
+  cond:{name:"PVC conduit 25 mm",unit:"pc",anchors:[[2021,6.4],[2022.5,7.1],[2024,7.0],[2026.8,7.45]],qty:[500,1500]},
+  w25:{name:"Wire 2.5 mm² coil",unit:"coil",anchors:[[2021,104],[2022.3,128],[2023,116],[2024.4,134],[2026.8,138]],qty:[30,90]},
+  db24:{name:"DB 24-way TP&N",unit:"board",anchors:[[2021,760],[2022.5,820],[2024,845],[2026.8,868]],qty:[6,20]}
+};
+const PREM={A:.025,B:.045,C:-.01,D:.03};
+const PROJ=["Villas, Cluster A","Villas, Cluster B","Villas, Cluster C","School project","Hospital fit-out","Office tower","AMC stock"];
+function base(k,t){const a=ITEMS[k].anchors;if(t<=a[0][0])return a[0][1];for(let i=1;i<a.length;i++){if(t<=a[i][0]){const[t0,v0]=a[i-1],[t1,v1]=a[i];return v0+(v1-v0)*(t-t0)/(t1-t0)}}return a[a.length-1][1]}
+const HIST={};
+for(const k of Object.keys(ITEMS)){
+  const rows=[];let d=new Date(2021,2,7+Math.floor(rnd()*20)),n=0;
+  while(d<new Date(2026,9,15)){
+    const t=d.getFullYear()+(d-new Date(d.getFullYear(),0,1))/31536e6;
+    const s="ABCD"[Math.floor(rnd()*4)];if(k==="db24"&&s==="D"){d=new Date(+d+864e5*20);continue}
+    const p=+(base(k,t)*(1+PREM[s]+(rnd()-.5)*.03)).toFixed(2);
+    const[q0,q1]=ITEMS[k].qty;const qty=Math.round((q0+rnd()*(q1-q0))/10)*10||q0;
+    rows.push({d:new Date(d),t,s,p,qty,proj:PROJ[Math.floor(rnd()*PROJ.length)],lpo:"LPO-"+d.getFullYear()+"-"+String(100+(++n)*7+Math.floor(rnd()*6)).padStart(4,"0")});
+    d=new Date(+d+864e5*(60+Math.floor(rnd()*32)));
+  }
+  HIST[k]=rows;
+}
+const STC={};
+function stats(k){
+  if(STC[k])return STC[k];
+  const r=HIST[k],last=r[r.length-1],now=2026.8;
+  const last3=avg(r.slice(-3).map(x=>x.p)),first=avg(r.slice(0,3).map(x=>x.p));
+  const by={};for(const x of r){(by[x.s]=by[x.s]||[]).push(x.p/base(k,x.t)-1)}
+  const rank=Object.entries(by).map(([s,a])=>[s,avg(a),a.length]).sort((a,b)=>a[1]-b[1]);
+  let saved=0;for(const x of r)saved+=Math.max(0,x.p-base(k,x.t)*(1+rank[0][1]))*x.qty;
+  const gap=avg(r.slice(1).map((x,i)=>(x.d-r[i].d)/864e5));
+  return STC[k]={r,last,last3,first,rank,cheap:rank[0][0],saved,gap,next:new Date(+last.d+gap*864e5),trend:base(k,now)};
+}
+const INV=[
+  {no:"INV-55821",s:"A",lpo:"LPO-2026-0598",due:"Due 25 Oct",item:"Cable 4C × 16 mm²",o:900,dl:900,b:900,lp:62.90,ip:62.90,type:"ok"},
+  {no:"INV-10377",s:"B",lpo:"LPO-2026-0601",due:"Due 27 Oct",item:"Cable 4C × 95 mm²",o:400,dl:400,b:400,lp:329.00,ip:341.50,type:"price"},
+  {no:"INV-10391",s:"B",lpo:"LPO-2026-0604",due:"Due 29 Oct",item:"Wire 2.5 mm² coil",o:80,dl:64,b:80,lp:139.00,ip:139.00,type:"qty"},
+  {no:"C-2026-0912",s:"C",lpo:"LPO-2026-0590",due:"3 days overdue",item:"DB 24-way TP&N",o:10,dl:10,b:10,lp:842.00,ip:842.00,type:"ok",late:1},
+  {no:"INV-55821",s:"A",lpo:"LPO-2026-0598",due:"Due 25 Oct",item:"Cable 4C × 16 mm²",o:900,dl:900,b:900,lp:62.90,ip:62.90,type:"dup"},
+  {no:"D/7781",s:"D",lpo:"LPO-2026-0595",due:"Due 2 Nov",item:"Cable tray 300 mm",o:180,dl:180,b:180,lp:96.00,ip:96.00,type:"vat"}
+];
+const invTotal=i=>i.b*i.ip*(i.type==="vat"?1.10:1.05);
+function invCheck(i){
+  if(i.type==="price")return{cls:"bad",title:"Price is higher than the LPO",line:`billed ${i.ip.toFixed(2)} per m, the LPO says ${i.lp.toFixed(2)}`,money:(i.ip-i.lp)*i.b*1.05,col:"ip",
+    msg:`Dear ${SUP[i.s].name}, on invoice ${i.no} the 95 mm² cable is billed at AED ${i.ip.toFixed(2)}/m, but our ${i.lpo} says AED ${i.lp.toFixed(2)}/m. Please send a corrected invoice or a credit note for ${AED((i.ip-i.lp)*i.b*1.05)}. Thank you.`};
+  if(i.type==="qty")return{cls:"bad",title:"Billed for more than arrived",line:`${i.b-i.dl} coils billed but never delivered`,money:(i.b-i.dl)*i.ip*1.05,col:"dl",
+    msg:`Dear ${SUP[i.s].name}, our signed delivery note DN-4471 shows ${i.dl} coils received, but invoice ${i.no} bills ${i.b}. Please bill the ${i.dl} received now and the rest on delivery. Thank you.`};
+  if(i.type==="dup")return{cls:"bad",title:"Duplicate invoice",line:"same number, amount and LPO as an invoice already received",money:invTotal(i),col:"",
+    msg:`Dear ${SUP[i.s].name}, invoice ${i.no} reached us twice. We will process it once only. Thank you.`};
+  if(i.type==="vat")return{cls:"warn",title:"VAT is wrong",line:"VAT charged at 10% instead of 5%, and no TRN on the invoice",money:i.b*i.ip*.05,col:"ip",
+    msg:`Dear ${SUP[i.s].name}, invoice ${i.no} shows VAT at 10% and no TRN. Please reissue it as a tax invoice with VAT at 5% and your TRN. Thank you.`};
+  return{cls:"good",title:i.late?"All correct · overdue, pay today":"All correct",line:"order, delivery and invoice agree",money:0,col:""};
+}
+const invDone=new Set();
+const PRIO={bal:["Balanced",[60,25,15]],cheap:["Lowest price",[100,0,0]],fast:["Fastest",[30,70,0]],credit:["Longest credit",[40,10,50]]};
+function ranking(){
+  const[wP,wD,wT]=PRIO[S.prio][1],sum=wP+wD+wT;
+  const rows=Object.keys(SUP).map(s=>{const{t,miss}=supTotal(s);const badMake=Q[s].bad.length>0;
+    const out=miss>0||(S.approvedOnly&&badMake);return{s,t,miss,badMake,out,days:Q[s].days,terms:Q[s].terms}});
+  const live=rows.filter(r=>!r.out);
+  const minT=Math.min(...live.map(r=>r.t)),minD=Math.min(...live.map(r=>r.days)),maxTm=Math.max(...live.map(r=>r.terms))||1;
+  for(const r of rows)r.score=r.out?0:Math.round(100*(wP*minT/r.t+wD*minD/r.days+wT*r.terms/maxTm)/sum);
+  return rows.sort((a,b)=>(a.out-b.out)||(b.score-a.score));
+}
+const badCount=()=>INV.filter((i,ix)=>invCheck(i).cls!=="good"&&!invDone.has(ix)).length;
+
+/* ================= HUB ================= */
+function hub(){
+  const tick=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>`;
+  const card=(id,bul,tag)=>`<button class="appcard" data-app="${id}"><span class="tagl">${tag}</span><div class="big">${APPS[id].icon}</div><div><h2>${APPS[id].name}</h2><p style="margin-top:6px">${APPS[id].line}.</p></div><ul>${bul.map(b=>`<li>${tick}<span>${b}</span></li>`).join("")}</ul><div class="go">Open<span>${I.arrow}</span></div></button>`;
+  return`<div class="hub-hero"><h1>Your office assistant, built for I Zone</h1><p>Three tools for the jobs that take your team's hours: buying materials, pricing small cable jobs, and turning drawings into a priced BOQ. Pick one to try it.</p></div>
+  <div class="apps">
+    ${card("proc",["Site WhatsApp becomes a clean order list","4 supplier quotes compared, best one picked","Every price checked against 5 years of buying","Invoices matched before payment"],`<span class="chip bad">${badCount()} to review</span>`)}
+    ${card("cable",["Customer types the job in plain words","Picks the cable size and checks voltage drop","Gives a guide price from your own rates","Sends the request to your engineer"],`<span class="chip good">Live demo</span>`)}
+    ${card("draw",["Upload a PDF drawing or a photo","Reads schedules, counts symbols, measures runs","Prices every line with your rates","Download for Excel, your estimator checks it"],`<span class="chip navy">Reads real drawings</span>`)}
+  </div>
+  <div class="strip"><span>${I.wa} Works with WhatsApp and email</span><span>${I.xl} Exports to Excel and your ERP</span><span>${I.lock} Your data stays yours</span><span>${I.user} Your team approves every step</span></div>`;
+}
+
+/* ================= PROCUREMENT screens ================= */
+function procHome(){
+  const rk=ranking(),w=rk[0];
+  const bad=INV.filter(i=>invCheck(i).cls!=="good");
+  const stopped=bad.reduce((t,i)=>t+invCheck(i).money,0);
+  const st=stats("c16"),h95=stats("c95").last3;
+  return`<div class="hello"><h1>Good morning, procurement team</h1><p>One place for every purchase: what the sites need, what suppliers quoted, what you paid before, and which invoices are safe to pay.</p></div>
+  <div class="kpis">
+    <div class="kpi"><span>Open requests</span><b class="num">8</b><small>2 need chasing</small></div>
+    <div class="kpi"><span>Quotes compared today</span><b class="num">4</b><small>in under a minute</small></div>
+    <div class="kpi bad"><span>Wrong payments stopped</span><b class="num">${AED0(stopped)}</b><small>this week</small></div>
+    <div class="kpi"><span>Next cable order due</span><b>${st.next.toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</b><small>you buy it every ${Math.round(st.gap)} days</small></div>
+  </div>
+  <div class="card"><h2>How one purchase moves</h2><p class="sub">Tap any step to see it.</p>
+    <div class="journey" style="margin-top:14px">
+      <button class="step" data-go="request"><div class="ic">${I.req}</div><span class="n">Step 1</span><h3>Site asks</h3><p>A WhatsApp from site becomes a proper order list, sent to your suppliers.</p><span class="res">4 suppliers asked</span></button>
+      <button class="step" data-go="quotes"><div class="ic">${I.quote}</div><span class="n">Step 2</span><h3>Quotes compared</h3><p>Four quotes side by side, checked against approved brands.</p><span class="res">Best: ${SUP[w.s].name}</span></button>
+      <button class="step" data-go="prices"><div class="ic">${I.price}</div><span class="n">Step 3</span><h3>Price checked</h3><p>Every price checked against what you paid since 2021.</p><span class="res">One price 9.7% too high</span></button>
+      <button class="step" data-go="invoices"><div class="ic">${I.inv}</div><span class="n">Step 4</span><h3>Invoice matched</h3><p>Paid only if order, delivery and invoice agree.</p><span class="res">${bad.length} of ${INV.length} stopped</span></button>
+    </div>
+  </div>
+  <div class="card"><h2>Needs your decision</h2>
+    <div class="todo" style="margin-top:8px">
+      <div class="todo-i"><span class="dot" style="background:var(--good)"></span><div class="tx"><b>Quotes for MR-0418 are ready</b><span>Recommended: ${SUP[w.s].name}, ${AED0(w.t*1.05)} incl. VAT, delivery in ${w.days} days</span></div><button class="btn sm" data-go="quotes">Review</button></div>
+      <div class="todo-i"><span class="dot" style="background:var(--bad)"></span><div class="tx"><b>${bad.length} invoices stopped</b><span>${AED0(stopped)} would have been paid by mistake</span></div><button class="btn sm ghost" data-go="invoices">Open</button></div>
+      <div class="todo-i"><span class="dot" style="background:var(--accent)"></span><div class="tx"><b>Supplier B is high on 95 mm² cable</b><span>AED ${Q.B.p.c95.toFixed(2)}/m vs your usual AED ${h95.toFixed(2)}</span></div><button class="btn sm ghost" data-go="prices" data-item="c95">Check</button></div>
+      <div class="todo-i"><span class="dot" style="background:var(--faint)"></span><div class="tx"><b>Cable tray for Cluster B is 3 days late</b><span>Reminder already sent to the supplier at 7:30 AM</span></div><button class="btn sm ghost" data-go="request">See</button></div>
+    </div>
+  </div>`;
+}
+function procRequest(){
+  const lines=LINES.map((l,i)=>`<div class="oline fadein" style="animation-delay:${.15+i*.12}s"><span><span class="tick">✓</span>${esc(l.name)}</span><b class="num">${l.qty.toLocaleString()} ${l.unit}</b></div>`).join("");
+  const sups=Object.entries(SUP).map(([k,s],i)=>`<div class="sup-row fadein" style="animation-delay:${.9+i*.15}s"><div class="sup-av" style="background:${s.col}">${s.short}</div><div><b>${s.name}</b><span>${s.area} · asked by ${s.via} at 7:43 AM</span></div><span class="chip good">Quoted ${Q[k].at}</span></div>`).join("");
+  const REQ=[
+    ["MR-0421","Fire alarm cable 2C × 1.5 mm², 2,000 m","Office tower","New","navy","Arrived 8:10 AM"],
+    ["MR-0420","Copper pipe 5/8\" for VRF, 600 m","School project","New","navy","Arrived 7:55 AM"],
+    ["MR-0418","Cables, conduit, wire, DBs · 5 items","Villas, Cluster C","Quotes in","good","4 of 4 quoted · ready to decide"],
+    ["MR-0416","Sprinkler heads 68°C, 420 nos","Hospital fit-out","Waiting","warn","Supplier D silent 2 days · reminder sent",1],
+    ["MR-0414","LED panels 600 × 600, 310 nos","Office tower","Approval","warn","Waiting for manager approval"],
+    ["MR-0409","AHU filters, 96 nos","AMC stock","Ordered","plain","Delivery Saturday"],
+    ["MR-0407","Cable tray 300 mm, 180 lengths","Villas, Cluster B","Late","bad","3 days late · supplier chased",1],
+    ["MR-0402","MCBs 1P 20 A, 400 nos","Villas, Cluster B","Delivered","good","Delivery note signed · invoice expected"]
+  ];
+  return`<div class="hello"><h1>Site requests</h1><p>Sites write the way they talk. The assistant turns it into a clean order list, asks your suppliers, and chases anyone who is slow.</p></div>
+  <div class="card"><div class="convert">
+    <div class="wa"><div class="who"><b>●</b> Site engineer · Cluster C</div>
+      <div class="bub">Need for cluster C by Sunday pls: 4 core 16mm armoured 1250m, 95mm 4 core 480m, 25mm conduit 900 pcs, 2.5 wire 60 rolls, DB 24 way TPN x14<small>7:42 AM</small></div></div>
+    <div class="arrowbig">${I.arrow}<span>10 sec</span></div>
+    <div class="order"><div class="order-h"><b>MR-2026-0418</b><span>Needed Sun 25 Oct</span></div>${lines}</div>
+  </div></div>
+  <div class="cols">
+    <div class="card"><h2>Suppliers asked</h2><p class="sub">Your usual suppliers for these items. All four answered.</p><div style="margin-top:6px">${sups}</div>
+      <div class="row" style="margin-top:12px"><button class="btn" data-go="quotes">Compare the 4 quotes</button></div></div>
+    <div class="card"><h2>All open requests</h2><p class="sub">Red means stuck. The reminder has already gone.</p>
+      <div style="margin-top:6px">${REQ.map(([id,w,p,stg,c,m,late])=>`<div class="req"><b>${id} · ${esc(p)}</b><span class="chip ${c}">${stg}</span><div class="meta">${esc(w)}</div><div class="meta${late?" late":""}">${esc(m)}</div></div>`).join("")}</div></div>
+  </div>`;
+}
+function procQuotes(){
+  const rk=ranking(),w=rk[0],runner=rk.find(r=>!r.out&&r!==w);
+  const seg=Object.entries(PRIO).map(([k,[n]])=>`<button data-prio="${k}" aria-pressed="${S.prio===k}">${n}</button>`).join("");
+  const why=runner?`Next best: ${SUP[runner.s].name}, ${AED0(Math.abs(runner.t-w.t)*1.05)} ${runner.t>w.t?"more":"less"}${runner.days!==w.days?`, delivery in ${runner.days} days`:""}${runner.terms!==w.terms?`, ${termTxt(runner.terms)}`:""}.`:"";
+  const offers=rk.map(r=>{const isBest=r===w;const note=r.miss?`<span class="chip bad">Did not quote the DBs</span>`:r.badMake?`<span class="chip warn">Cable brand not approved</span>`:r.s==="B"?`<span class="chip warn">One price above usual</span>`:`<span class="chip good">All brands approved</span>`;
+    return`<div class="offer${isBest?" best":""}${r.out?" out":""}">${isBest?'<span class="ribbon">Recommended</span>':""}
+      <div class="offer-h"><div class="sup-av" style="background:${SUP[r.s].col};width:32px;height:32px">${SUP[r.s].short}</div><b>${SUP[r.s].name}</b></div>
+      <div class="total num">${AED0(r.t*1.05)}<small>incl. 5% VAT${r.miss?" · 1 item missing":""}</small></div>
+      <dl><dt>Delivery</dt><dd>${r.days} days</dd><dt>Payment</dt><dd>${termTxt(r.terms)}</dd><dt>Quote valid</dt><dd>${Q[r.s].valid} days</dd></dl>
+      <div>${note}</div></div>`}).join("");
+  let tbl=`<table><thead><tr><th>Item</th><th class="r">Qty</th>${Object.keys(SUP).map(s=>`<th class="r"><span class="sd" style="background:${SUP[s].col}"></span> ${SUP[s].short}</th>`).join("")}<th class="r">You paid</th></tr></thead><tbody>`;
+  for(const l of LINES){
+    const c=Object.keys(SUP).filter(s=>Q[s].p[l.k]!=null&&(!S.approvedOnly||okMake(s,l.k))).sort((a,b)=>Q[a].p[l.k]-Q[b].p[l.k]);
+    tbl+=`<tr><td>${esc(l.short)}</td><td class="r">${l.qty.toLocaleString()} ${l.unit}</td>${Object.keys(SUP).map(s=>{const p=Q[s].p[l.k];if(p==null)return`<td class="r na">—</td>`;const bad=!okMake(s,l.k);return`<td class="r ${s===c[0]?"best":bad?"flag":""}">${p.toFixed(2)}${bad?" ⚠":""}</td>`}).join("")}<td class="r" style="color:var(--muted)">${stats(l.k).last3.toFixed(2)}</td></tr>`;
+  }
+  tbl+="</tbody></table>";
+  const h95=stats("c95").last3,cT=supTotal("C").t;
+  return`<div class="hello"><h1>Quotes for MR-0418</h1><p>Four suppliers answered in different formats: PDF, email, WhatsApp. Here they are side by side, with VAT, brands and your past prices checked.</p></div>
+  <div class="card winner">
+    <div><div class="lbl">Best choice · ${PRIO[S.prio][0].toLowerCase()}</div><h2>${SUP[w.s].name} · ${AED0(w.t*1.05)}</h2>
+      <div class="facts"><span>Delivery <b>${w.days} days</b></span><span>Payment <b>${termTxt(w.terms)}</b></span><span>Brands <b>all approved</b></span></div>
+      <div class="why">${why}</div></div>
+    <button class="btn" id="mkLpo">Create the LPO</button>
+  </div>
+  <div class="row" style="justify-content:space-between">
+    <div class="seg" role="group" aria-label="What matters most">${seg}</div>
+    <label class="switch"><input type="checkbox" id="appr" ${S.approvedOnly?"checked":""}> Approved brands only</label>
+  </div>
+  <div class="offers">${offers}</div>
+  <div class="cols">
+    <div class="card"><h2>What the assistant noticed</h2><div class="insights" style="margin-top:12px">
+      <div class="ins bad"><div class="ii">${I.x}</div><div><b>Supplier C is cheapest (${AED0(cT*1.05)}), but its cable brand is not approved.</b> The consultant would reject it and the site would lose a week.</div></div>
+      <div class="ins warn"><div class="ii">${I.x}</div><div><b>Supplier B's 95 mm² cable is ${((Q.B.p.c95/h95-1)*100).toFixed(1)}% above your last 3 orders</b> (AED ${h95.toFixed(2)}/m). One call could fix it.</div></div>
+      <div class="ins warn"><div class="ii">${I.x}</div><div><b>Supplier D skipped the DBs</b> and needs 14 days. The site needs it by Sunday.</div></div>
+      <div class="ins good"><div class="ii">${I.bulb}</div><div><b>Supplier B gives 90 days to pay</b>, a month longer than A. Tap "Longest credit" above to see the difference.</div></div>
+    </div></div>
+    <div class="card"><h2>Line by line</h2><p class="sub">Green = cheapest allowed price. ⚠ = brand not approved.</p><div class="tablewrap">${tbl}</div></div>
+  </div>
+  <div id="lpoBox">${S.lpo?lpoHTML():""}</div>`;
+}
+function lpoHTML(){
+  const w=S.lpo,sub=supTotal(w).t;
+  return`<div class="card"><div class="row" style="justify-content:space-between"><div><h2>Purchase order, ready to sign</h2><p class="sub">Made from the quote in one tap. Nothing is sent until you approve.</p></div>
+    ${S.lpoApproved?'<span class="chip good">Approved · sent to supplier</span>':'<button class="btn" id="apprLpo">Approve and send</button>'}</div>
+    <div class="sheet" style="margin-top:14px"><div class="stamp${S.lpoApproved?" ok":""}">${S.lpoApproved?"Approved":"Draft"}</div>
+      <div class="lh"><div><b>I Zone Electromechanical Contractors LLC</b><small>Procurement · Abu Dhabi</small></div><div class="doc-t">Local Purchase Order<small style="display:block;font:500 12px var(--body);color:var(--muted)">LPO-2026-0612 · 22 Oct 2026</small></div></div>
+      <div class="meta2"><div><span>Supplier</span>${SUP[w].name}, ${SUP[w].area}</div><div><span>Reference</span>MR-2026-0418 · quote of 22 Oct</div><div><span>Deliver to</span>Site store, Villas Cluster C</div><div><span>Delivery by</span>Sun 25 Oct 2026</div></div>
+      <div class="tablewrap" style="margin-top:0"><table><thead><tr><th>#</th><th>Item</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${LINES.map((l,i)=>`<tr><td>${i+1}</td><td>${esc(l.short)}</td><td class="r">${l.qty.toLocaleString()} ${l.unit}</td><td class="r">${Q[w].p[l.k].toFixed(2)}</td><td class="r">${(Q[w].p[l.k]*l.qty).toLocaleString("en-US",{minimumFractionDigits:2})}</td></tr>`).join("")}</tbody></table></div>
+      <div class="tot"><div><span>Subtotal</span><span class="num">${AED(sub)}</span></div><div><span>VAT 5%</span><span class="num">${AED(sub*.05)}</span></div><div class="g"><span>Total</span><span class="num">${AED(sub*1.05)}</span></div></div>
+      <p style="margin-top:12px;color:var(--muted);font-size:12.5px">Payment: ${termTxt(Q[w].terms)} from invoice. Brands as per the consultant's approved list.</p>
+    </div></div>`;
+}
+function procPrices(){
+  const k=S.item,it=ITEMS[k],st=stats(k);
+  const chg=(st.last3/st.first-1)*100;
+  const items=Object.entries(ITEMS).map(([id,v])=>`<button data-item="${id}" aria-pressed="${S.item===id}">${esc(v.name)}</button>`).join("");
+  const W=760,H=280,L=46,R=10,T=12,B=28,t0=2021,t1=2026.9;
+  const ps=st.r.map(x=>x.p),lo=Math.min(...ps)*.94,hi=Math.max(...ps)*1.04;
+  const X=t=>L+(t-t0)/(t1-t0)*(W-L-R),Y=p=>T+(hi-p)/(hi-lo)*(H-T-B);
+  let g=`<defs><linearGradient id="ar" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1d2f57" stop-opacity=".14"/><stop offset="1" stop-color="#1d2f57" stop-opacity="0"/></linearGradient></defs>`;
+  for(let i=0;i<=3;i++){const p=lo+(hi-lo)*i/3;g+=`<line x1="${L}" x2="${W-R}" y1="${Y(p)}" y2="${Y(p)}" stroke="#e3e7ef"/><text x="${L-8}" y="${Y(p)+4}" text-anchor="end">${p>=100?Math.round(p):p.toFixed(1)}</text>`}
+  for(let y=2021;y<=2026;y++)g+=`<text x="${X(y)}" y="${H-8}">${y}</text>`;
+  let pth="";for(let t=t0;t<=t1+.001;t+=.05)pth+=(pth?"L":"M")+X(t).toFixed(1)+","+Y(base(k,t)).toFixed(1);
+  g+=`<path d="${pth}L${X(t1)},${H-B}L${X(t0)},${H-B}Z" fill="url(#ar)"/><path d="${pth}" fill="none" stroke="#1d2f57" stroke-width="2" stroke-opacity=".55"/>`;
+  g+=st.r.map(x=>`<circle cx="${X(x.t).toFixed(1)}" cy="${Y(x.p).toFixed(1)}" r="5.5" fill="${SUP[x.s].col}" stroke="#fff" stroke-width="1.5"><title>${fmtD(x.d)} · ${SUP[x.s].name} · AED ${x.p.toFixed(2)}</title></circle>`).join("");
+  const maxAbs=Math.max(...st.rank.map(r=>Math.abs(r[1])))||1;
+  const rank=st.rank.map(([s,v])=>`<div class="rank-r"><span><span class="sd" style="background:${SUP[s].col}"></span> ${SUP[s].name}</span><div class="tr"><i style="width:${Math.max(8,(v+maxAbs)/(2*maxAbs)*100)}%;background:${SUP[s].col}"></i></div><span class="num" style="text-align:right;font-weight:600;color:${v<=0?"var(--good)":"var(--muted)"}">${v>=0?"+":""}${(v*100).toFixed(1)}%</span></div>`).join("");
+  const def=(Q.B.p[k]??st.trend*1.06).toFixed(2);
+  return`<div class="hello"><h1>Price history</h1><p>The same items come back every two or three months. Every price you paid since 2021 is here, so each new quote is checked against your own history.</p></div>
+  <div class="items" role="group" aria-label="Item">${items}</div>
+  <div class="card">
+    <p class="headline">You pay <em>AED ${st.last.p.toFixed(2)}</em> per ${it.unit} now, <em>+${chg.toFixed(0)}%</em> since 2021. <em>${SUP[st.cheap].name}</em> is usually cheapest.</p>
+    <svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Price paid since 2021">${g}</svg>
+    <div class="legend">${Object.keys(SUP).filter(s=>st.r.some(x=>x.s===s)).map(s=>`<span><span class="sd" style="background:${SUP[s].col}"></span>${SUP[s].name}</span>`).join("")}<span><span style="width:16px;height:2px;background:#1d2f57;opacity:.55;display:inline-block"></span>Market level</span></div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><span>Bought since 2021</span><b class="num">${st.r.length} times</b><small>about every ${Math.round(st.gap)} days</small></div>
+    <div class="kpi"><span>Next order expected</span><b>${st.next.toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</b><small>quotes requested a week before</small></div>
+    <div class="kpi bad"><span>Paid above the cheapest</span><b class="num">${AED0(st.saved)}</b><small>since 2021, this item only</small></div>
+  </div>
+  <div class="cols">
+    <div class="card"><h2>Is this new quote fair?</h2><p class="sub">Type the price a supplier just offered.</p>
+      <div class="checkq" style="margin-top:12px"><label class="field"><span>AED</span><input id="qv" type="number" inputmode="decimal" step="0.01" value="${def}"><span>per ${it.unit}</span></label><button class="btn" id="qgo">Check</button></div>
+      <div id="qres"></div></div>
+    <div class="card"><h2>Who is cheaper, over 5 years</h2><p class="sub">Compared with the market level on the day you bought.</p><div class="rank" style="margin-top:16px">${rank}</div></div>
+  </div>
+  <div class="card"><h2>Every purchase</h2><div class="buys" style="margin-top:6px">${[...st.r].reverse().map(x=>`<div class="buy"><b><span class="sd" style="background:${SUP[x.s].col}"></span> ${SUP[x.s].name} · ${esc(x.proj)}</b><b class="num">AED ${x.p.toFixed(2)}</b><span>${fmtD(x.d)} · ${x.lpo}</span><span class="num" style="text-align:right">${x.qty.toLocaleString()} ${it.unit}</span></div>`).join("")}</div></div>`;
+}
+function checkQuote(){
+  const st=stats(S.item),v=parseFloat($("#qv").value);if(!(v>0))return;
+  const d=(v/st.last3-1)*100;
+  const cls=d>5?"bad":d>2?"warn":"good";
+  const head=d>5?"Too high. Push back.":d>2?"A bit high. Ask for better.":"Fair price. Go ahead.";
+  const pos=Math.max(4,Math.min(96,25+d*6));
+  $("#qres").innerHTML=`<div class="gauge"><i style="left:${pos}%"></i></div><div class="gauge-l"><span>Fair</span><span>A bit high</span><span>Too high</span></div>
+    <div class="verdict ${cls}"><b>${head}</b>${d>=0?"+":""}${d.toFixed(1)}% compared with your last 3 orders (AED ${st.last3.toFixed(2)}).
+    ${d>2?`<div class="reply">Reply ready: "Our last orders for this item were at AED ${st.last3.toFixed(2)}. Can you do ${(st.last3*1.01).toFixed(2)}?"</div>`:""}</div>`;
+}
+function procInvoices(){
+  const rows=INV.map((i,ix)=>({i,ix,c:invCheck(i)}));
+  const bad=rows.filter(r=>r.c.cls!=="good"),clean=rows.filter(r=>r.c.cls==="good");
+  const stopped=bad.reduce((t,r)=>t+r.c.money,0);
+  const cleanLeft=clean.filter(r=>!invDone.has(r.ix));
+  return`<div class="hello"><h1>Supplier invoices</h1><p>Before anything is paid, each invoice is checked against the order (LPO) and what actually arrived on site (delivery note).</p></div>
+  <div class="kpis">
+    <div class="kpi"><span>Received this week</span><b class="num">${INV.length}</b></div>
+    <div class="kpi good"><span>Safe to pay</span><b class="num">${clean.length}</b></div>
+    <div class="kpi bad"><span>Stopped</span><b class="num">${bad.length}</b></div>
+    <div class="kpi bad"><span>Not paid by mistake</span><b class="num">${AED0(stopped)}</b></div>
+  </div>
+  ${cleanLeft.length?`<div class="row"><button class="btn" id="payAll">${I.ok} Approve the ${cleanLeft.length} correct invoices</button></div>`:""}
+  <div style="display:flex;flex-direction:column;gap:10px">${rows.map(({i,ix,c})=>{const open=S.openInv.has(ix),done=invDone.has(ix);
+    const col=(k,label,val)=>`<div class="mcol${c.col===k?" x":""}"><span>${label}</span><b class="num">${val}</b></div>`;
+    return`<div class="inv${done?" done":""}"><button class="inv-top" data-inv="${ix}" aria-expanded="${open}">
+      <div class="inv-st ${c.cls}">${c.cls==="good"?I.ok:I.x}</div>
+      <div><b>${done?(c.cls==="good"?"Approved for payment":"Query sent to supplier"):c.title}</b><span>${SUP[i.s].name} · ${i.no} · ${i.due}</span></div>
+      <div class="inv-amt">${AED0(invTotal(i))}<small>${c.money?"−"+AED0(c.money):"&nbsp;"}</small></div></button>
+      ${open?`<div class="inv-body">
+        <p style="color:var(--muted);font-size:14px">${esc(i.item)}: ${c.line}.</p>
+        <div class="match">${col("o","Ordered (LPO)",`${i.o} × ${i.lp.toFixed(2)}`)}${col("dl","Delivered (DN)",`${i.dl} received`)}${col("ip","Billed (invoice)",`${i.b} × ${i.ip.toFixed(2)}${i.type==="vat"?" + 10% VAT":""}`)}</div>
+        ${c.msg&&!done?`<div class="msg"><span>Message ready for ${SUP[i.s].name}</span>${esc(c.msg)}</div>`:""}
+        ${done?"":`<div class="row"><button class="btn sm${c.cls==="good"?"":" ghost"}" data-act="${ix}">${c.cls==="good"?"Approve for payment":"Send to supplier"}</button></div>`}
+      </div>`:""}</div>`}).join("")}</div>`;
+}
+
+/* ================= CABLE ESTIMATOR ================= */
+const SIZES=[1.5,2.5,4,6,10,16,25,35,50,70,95,120,150,185,240];
+// Guide values, multicore Cu XLPE/SWA, BS 7671 style tables (3-phase mV/A/m, clipped-direct amps)
+const MV={1.5:27,2.5:16,4:10,6:6.8,10:4,16:2.5,25:1.65,35:1.15,50:0.87,70:0.6,95:0.45,120:0.37,150:0.3,185:0.26,240:0.21};
+const AMPS={1.5:25,2.5:33,4:43,6:56,10:78,16:99,25:131,35:162,50:197,70:251,95:304,120:353,150:406,185:463,240:546};
+const METHODS={tray:{name:"Cable tray",f:1},trench:{name:"Trench (sand, tiles, backfill)",f:0.8},conduit:{name:"Conduit / in wall",f:0.85},clipped:{name:"Clipped on wall",f:1}};
+const RSAMPLE={cable:{1.5:9,2.5:12,4:22,6:28,10:42,16:60,25:90,35:120,50:165,70:230,95:310,120:390,150:480,185:590,240:770},lab:{tray:12,trench:35,conduit:15,clipped:8},other:{testing:250,mobilisation:300,vdlimit:4,vat:5}};
+const OTHER_LBL={testing:"Testing & certificate (AED)",mobilisation:"Mobilisation (AED)",vdlimit:"Voltage drop target (%)",vat:"VAT (%)"};
+let RT=(()=>{try{const s=JSON.parse(localStorage.getItem("izone-rates"));if(s&&s.cable&&s.lab&&s.other)return s}catch(e){}return JSON.parse(JSON.stringify(RSAMPLE))})();
+const saveRT=()=>{try{localStorage.setItem("izone-rates",JSON.stringify(RT))}catch(e){}};
+const termCost=s=>s<=6?45:s<=16?70:s<=35?110:s<=70?160:s<=120?230:320;
+const LEADS=[];
+let chatNode=null,clog=null,job={},cmode="menu",clast=null;
+function buildChat(){
+  chatNode=document.createElement("div");chatNode.className="phone";
+  chatNode.innerHTML=`<div class="phone-top"><div class="pa">IZ</div><div><b>I Zone assistant</b><small>Automated · replies in seconds</small></div></div>
+    <div class="log" aria-live="polite"></div>
+    <form class="composer"><input autocomplete="off" placeholder="e.g. 80 m, 30 kW, cable tray" aria-label="Message"><button type="submit" aria-label="Send">${I.send}</button></form>`;
+  clog=chatNode.querySelector(".log");
+  chatNode.querySelector("form").addEventListener("submit",e=>{e.preventDefault();const i=chatNode.querySelector("input");const t=i.value.trim();if(!t)return;i.value="";cuser(t)});
+  const g=cadd("bot","Hello! This is I Zone's automated assistant. I can give you a quick cable estimate, book a site visit, or connect you to an engineer.");
+  const pv=document.createElement("small");pv.className="priv";pv.innerHTML="We keep this chat to answer your request and delete it after 12 months.<span>نحتفظ بهذه المحادثة للرد على طلبك ونحذفها بعد 12 شهرًا.</span>";g.appendChild(pv);
+  cadd("me","Need cable for a 45 kW AC unit, 60 m from the DB, in trench");
+  job=Object.assign({},cparse("45 kW 60 m trench"));cmode="est";cestimate();
+  cnote("Example above. Type your own job, or tap a button.");
+}
+function cadd(cls,text){const d=document.createElement("div");d.className="cm "+cls;d.textContent=text;clog.appendChild(d);cscroll();return d}
+function cnote(text){const d=document.createElement("div");d.className="cnote";d.textContent=text;clog.appendChild(d);cscroll()}
+function cchips(list){const d=document.createElement("div");d.className="cchips";list.forEach(t=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.onclick=()=>{d.remove();cuser(t)};d.appendChild(b)});clog.appendChild(d);cscroll()}
+function cscroll(){requestAnimationFrame(()=>{clog.scrollTop=clog.scrollHeight})}
+function cclear(){clog.querySelectorAll(".cchips").forEach(c=>c.remove())}
+function cparse(t){const s=t.toLowerCase(),o={};let m;
+  if(m=s.match(/(\d+(?:\.\d+)?)\s*(?:m|mtr|mtrs|metre|meter|meters|metres)\b/))o.len=+m[1];
+  if(m=s.match(/(\d+(?:\.\d+)?)\s*(?:mm2|mm²|mm|sq\s?mm|sqmm)/)){const v=+m[1];if(SIZES.includes(v))o.size=v}
+  if(m=s.match(/(\d+(?:\.\d+)?)\s*kw\b/))o.kw=+m[1];
+  if(m=s.match(/(\d+(?:\.\d+)?)\s*(?:a|amp|amps|ampere)\b/))o.amps=+m[1];
+  if(m=s.match(/(\d+)\s*(?:runs?|cables|nos)\b/))o.runs=+m[1];
+  if(/trench|underground|buried|ground/.test(s))o.method="trench";
+  else if(/tray|ladder/.test(s))o.method="tray";
+  else if(/conduit|in wall|pipe|concealed/.test(s))o.method="conduit";
+  else if(/clip|surface|on wall/.test(s))o.method="clipped";
+  if(/single|1\s?-?\s?phase|230\s?v/.test(s))o.phase=1;
+  else if(/three|3\s?-?\s?phase|400\s?v|415/.test(s))o.phase=3;
+  return o}
+function cuser(t){cclear();cadd("me",t);setTimeout(()=>creply(t),320)}
+function creply(t){
+  const s=t.toLowerCase();
+  if(cmode==="lead"){cmode="menu";LEADS.unshift({who:t,spec:clast?clast.summary:"Cable job",at:new Date()});
+    cadd("bot","Thank you. An I Zone engineer will call you to confirm the details and send the formal quote.");
+    cnote("The request is now in “Requests” for the engineer.");cchips(["New estimate","Book a site visit"]);syncNav();return}
+  if(cmode==="visit"){cmode="menu";LEADS.unshift({who:"Site visit request",spec:t,at:new Date()});
+    cadd("bot","Noted. The engineer will call you to fix the time.");cnote("The visit request is now in “Requests”.");cchips(["Cable estimate"]);syncNav();return}
+  if(/site visit|visit/.test(s)){cmode="visit";cadd("bot","Sure. Please send the location (area and building) and the day that suits you.");return}
+  if(/engineer|human|call me|talk/.test(s)&&!/send to engineer/.test(s)){cmode="lead";cadd("bot","Of course. Please send your name and mobile number and an engineer will call you.");return}
+  if(/send to engineer|formal quote/.test(s)){cmode="lead";cadd("bot","Please send your name and mobile number. The engineer will check the site and send the formal quote.");return}
+  if(/new estimate|cable estimate|estimate|price|quote|cost/.test(s)&&Object.keys(cparse(t)).length===0){
+    job={};cmode="est";cadd("bot","Tell me the job in one line, for example:\n“60 m, 45 kW AC unit, trench”\n“25 mm² 4-core, 120 m on cable tray”");return}
+  const p=cparse(t);
+  if(Object.keys(p).length){cmode="est";Object.assign(job,p);return cask()}
+  if(cmode==="est")return cask(true);
+  cadd("bot","I can give you a quick cable estimate, book a site visit, or put you through to an engineer.");
+  cchips(["Cable estimate","Book a site visit","Talk to an engineer"]);
+}
+function cask(confused){
+  if(confused)cadd("bot","Sorry, I didn't catch that.");
+  if(!job.len){cadd("bot","How many metres is the run, from the DB to the equipment?");return cchips(["25 m","50 m","100 m"])}
+  if(!job.kw&&!job.amps&&!job.size){cadd("bot","What will the cable power? Send the load in kW or amps, or the cable size if you already know it.");return cchips(["15 kW","45 kW","100 A","25 mm²"])}
+  if(!job.method){cadd("bot","How will the cable be laid?");return cchips(["Cable tray","Trench","Conduit","Clipped on wall"])}
+  cestimate()}
+function cestimate(){
+  const ph=job.phase||3,V=ph===3?400:230,runs=job.runs||1,L=job.len,meth=METHODS[job.method];
+  const Ia=job.amps||(job.kw?job.kw*1000/((ph===3?Math.sqrt(3)*400:230)*0.85):null);
+  const mvf=ph===3?1:1.15,lim=RT.other.vdlimit;
+  const vd=s=>Ia?MV[s]*mvf*Ia*L/1000/V*100:null;
+  let size=job.size,picked=!job.size;
+  if(!size){size=SIZES.find(s=>AMPS[s]*meth.f>=Ia&&vd(s)<=lim)||240}
+  const cores=ph===3?4:3,coreF=ph===3?1:0.8;
+  const supply=RT.cable[size]*coreF*L*runs,lab=RT.lab[job.method]*L*runs,term=termCost(size)*2*runs;
+  const sub=supply+lab+term+RT.other.testing+RT.other.mobilisation,vat=sub*RT.other.vat/100;
+  const v=vd(size),cap=AMPS[size]*meth.f;
+  const spec=`${size} mm² ${cores}-core Cu XLPE/SWA`;
+  const aed=n=>"AED "+Math.round(n).toLocaleString("en-US");
+  clast={summary:`${runs>1?runs+" × ":""}${L} m, ${spec}, ${meth.name.split(" (")[0].toLowerCase()}${Ia?`, ${Math.round(Ia)} A`:""} · guide ${aed(sub+vat)} incl. VAT`};
+  const okv=v!=null&&v<=lim&&cap>=Ia;
+  const c=document.createElement("div");c.className="est";
+  c.innerHTML=`<div class="eh"><h3>Guide estimate</h3><span class="chip ${v==null?"plain":okv?"good":"warn"}">${v==null?"Send the load to check":`Voltage drop ${v.toFixed(1)}%${okv?" · OK":" · go one size up"}`}</span></div>
+  <div class="big num">${aed(sub+vat)}<small style="display:block;font:500 12px var(--body);color:var(--muted);letter-spacing:0">incl. ${RT.other.vat}% VAT</small></div>
+  <div class="spec"><span>Cable</span><span>${spec}${picked?" (picked for you)":""}</span><span>Run</span><span>${runs>1?runs+" runs × ":""}${L} m, ${meth.name}</span>${Ia?`<span>Load</span><span>${job.kw?job.kw+" kW ≈ ":""}${Math.round(Ia)} A (cable ≈ ${Math.round(cap)} A as laid)</span>`:""}</div>
+  <table>
+    <tr><td>Cable supply (${(L*runs).toLocaleString()} m)</td><td class="r">${aed(supply)}</td></tr>
+    <tr><td>Laying labour</td><td class="r">${aed(lab)}</td></tr>
+    <tr><td>Glands, lugs &amp; terminations</td><td class="r">${aed(term)}</td></tr>
+    <tr><td>Testing, certificate, mobilisation</td><td class="r">${aed(RT.other.testing+RT.other.mobilisation)}</td></tr>
+    <tr class="tot"><td>Subtotal</td><td class="r">${aed(sub)}</td></tr>
+  </table>
+  <small>Guide price from I Zone's rate card. The engineer confirms after a site check.</small>`;
+  clog.appendChild(c);cscroll();cmode="menu";job={};
+  cchips(["Send to engineer for formal quote","New estimate","Talk to an engineer"]);
+}
+function cableChat(){
+  return`<div class="hello"><h1>Customer chat</h1><p>Customers type the job the way they talk: metres, kW or amps, how it's laid. The assistant picks the cable size, checks voltage drop and gives a guide price from your own rates, day or night.</p></div>
+  <div class="chatwrap"><div id="chatMount"></div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card"><h2>How it works</h2><div class="howto" style="margin-top:14px">
+        <div class="hs"><span class="k">1</span><div><b>The customer asks</b><span>On your WhatsApp or website, any time of day.</span></div></div>
+        <div class="hs"><span class="k">2</span><div><b>The assistant asks only what's missing</b><span>Length, load and how it's laid. Then it prices the job.</span></div></div>
+        <div class="hs"><span class="k">3</span><div><b>Your engineer gets a ready request</b><span>Full spec and the customer's number, ready to call and confirm.</span></div></div>
+      </div></div>
+      <div class="card"><h2>Try one</h2><p class="sub">Tap to send it in the chat.</p><div class="try">
+        <button data-try="80 m, 30 kW, cable tray">80 m, 30 kW, cable tray</button>
+        <button data-try="25 mm² 4-core, 120 m in conduit">25 mm², 120 m in conduit</button>
+        <button data-try="150 m, 200 A, trench">150 m, 200 A, trench</button>
+        <button data-try="Book a site visit">Book a site visit</button>
+      </div></div>
+    </div></div>`;
+}
+function cableRates(){
+  const f=(grp,key,label,val)=>`<label class="rf"><span style="font-size:12.5px;color:var(--muted)">${label}</span><input type="number" min="0" step="any" inputmode="decimal" data-rg="${grp}" data-rk="${key}" value="${val}"></label>`;
+  return`<div class="hello"><h1>Your price list</h1><p>The assistant prices every job from these numbers. Change one and the next estimate in the chat uses it.</p></div>
+  <div class="card"><h2>Cable supply</h2><p class="sub">4-core Cu XLPE/SWA, AED per metre</p>
+    <div class="rategrid">${SIZES.map(s=>f("cable",s,s+" mm²",RT.cable[s])).join("")}</div>
+    <h3 class="secth">Laying labour, AED per metre</h3>
+    <div class="rategrid">${Object.keys(METHODS).map(k=>f("lab",k,METHODS[k].name.split(" (")[0],RT.lab[k])).join("")}</div>
+    <h3 class="secth">Other</h3>
+    <div class="rategrid">${Object.keys(OTHER_LBL).map(k=>f("other",k,OTHER_LBL[k],RT.other[k])).join("")}</div>
+    <div class="row" style="margin-top:16px"><button class="btn ghost sm" id="rtReset">Restore sample prices</button><span class="status">Sample prices for the demo.</span></div>
+  </div>`;
+}
+function cableLeads(){
+  return`<div class="hello"><h1>Requests for your engineer</h1><p>Every customer who asks for a formal quote or a site visit lands here, with the full spec, ready to call.</p></div>
+  <div class="card">${LEADS.length?LEADS.map(l=>`<div class="lead"><div class="la">${esc((l.who.trim()[0]||"?").toUpperCase())}</div><div><b>${esc(l.who)}</b><span>${esc(l.spec)}</span></div><span class="chip warn">New · ${l.at.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}</span></div>`).join(""):`<div class="empty">No requests yet. In the customer chat, tap “Send to engineer for formal quote” and send any name and number.</div>`}
+  </div>`;
+}
+
+/* ================= DRAWING TO BOQ ================= */
+const CATS=["Distribution boards & switchgear","Cables & wiring","Containment (conduit, tray, trunking)","Wiring devices","Lighting","Earthing & lightning protection","Fire alarm & low current","HVAC equipment","Ductwork & grilles","Piping & insulation","Plumbing fixtures","Fire fighting","Testing, commissioning & sundries"];
+let myRates={};try{myRates=JSON.parse(localStorage.getItem("izone-my-rates")||"{}")||{}}catch(e){}
+const rkey=r=>(r.item+"|"+r.spec+"|"+r.unit).toLowerCase().replace(/\s+/g," ").trim();
+const saveMy=()=>{try{localStorage.setItem("izone-my-rates",JSON.stringify(myRates))}catch(e){}};
+const EXAMPLE={sheets:1,seconds:0,example:true,name:"Sample villa sheet E-101",rows:[
+ {sheet:"E-101",category:"Distribution boards & switchgear",item:"Distribution board, 3-phase",spec:"DB-G1, 24-way TPN, 100 A incomer",qty:1,unit:"no",source:"schedule",confidence:"high",rate:4200,basis:"DB schedule on sheet"},
+ {sheet:"E-101",category:"Distribution boards & switchgear",item:"MCB",spec:"6–32 A, B-curve",qty:22,unit:"no",source:"schedule",confidence:"high",rate:45,basis:"DB-G1 circuit list"},
+ {sheet:"E-101",category:"Distribution boards & switchgear",item:"RCBO",spec:"20 A, 30 mA",qty:6,unit:"no",source:"schedule",confidence:"high",rate:180,basis:"wet-area circuits"},
+ {sheet:"E-101",category:"Cables & wiring",item:"Sub-main cable Cu XLPE/SWA",spec:"4C × 25 mm²",qty:38,unit:"m",source:"measured",confidence:"medium",rate:115,basis:"MDB to DB-G1 at 1:100 + 10% allowance"},
+ {sheet:"E-101",category:"Cables & wiring",item:"LSZH single-core wire",spec:"2.5 mm² (power)",qty:640,unit:"m",source:"measured",confidence:"medium",rate:3.2,basis:"14 socket circuits, avg run × 3 cores"},
+ {sheet:"E-101",category:"Cables & wiring",item:"LSZH single-core wire",spec:"1.5 mm² (lighting)",qty:420,unit:"m",source:"measured",confidence:"medium",rate:2.4,basis:"8 lighting circuits"},
+ {sheet:"E-101",category:"Containment (conduit, tray, trunking)",item:"PVC conduit, concealed",spec:"25 mm",qty:310,unit:"m",source:"measured",confidence:"low",rate:14,basis:"follows circuit routes, scaled"},
+ {sheet:"E-101",category:"Wiring devices",item:"Twin switched socket",spec:"13 A",qty:34,unit:"no",source:"counted",confidence:"high",rate:95,basis:"legend symbol S2"},
+ {sheet:"E-101",category:"Wiring devices",item:"Light switch",spec:"1–3 gang",qty:21,unit:"no",source:"counted",confidence:"high",rate:70,basis:"legend symbols"},
+ {sheet:"E-101",category:"Wiring devices",item:"Isolator",spec:"20 A DP (AC units, water heater)",qty:7,unit:"no",source:"counted",confidence:"high",rate:120,basis:"legend symbol ISO"},
+ {sheet:"E-101",category:"Lighting",item:"LED downlight",spec:"12 W, IP44 in wet areas",qty:46,unit:"no",source:"counted",confidence:"high",rate:140,basis:"legend type L1"},
+ {sheet:"E-101",category:"Lighting",item:"Emergency light / exit sign",spec:"3 h maintained",qty:6,unit:"no",source:"counted",confidence:"high",rate:260,basis:"legend type EM"},
+ {sheet:"E-101",category:"Earthing & lightning protection",item:"Earth pit with rod",spec:"Copper bonded, inspection pit",qty:2,unit:"no",source:"assumed",confidence:"low",rate:1450,basis:"not shown; typical for villa"},
+ {sheet:"E-101",category:"Testing, commissioning & sundries",item:"Testing, ADDC/TAQA inspection support",spec:"Lot",qty:1,unit:"lot",source:"assumed",confidence:"medium",rate:2500,basis:"standard allowance"}],
+ assumptions:["Cable lengths scaled at 1:100 with 10% allowance for drops and terminations.","Conduit follows the circuit routes shown; concealed in block walls.","Earthing not drawn on this sheet; two earth pits allowed."],
+ questions:["Is the 25 mm² sub-main from the MDB in the client's scope or the main contractor's?","Downlight brand: client-supplied, or does I Zone supply?","Confirm wet areas need IP44 fittings and RCBO protection on every circuit."]};
+let DST=JSON.parse(JSON.stringify(EXAMPLE));
+DST.rows.forEach(r=>{if(myRates[rkey(r)]!=null){r.rate=myRates[rkey(r)];r.mine=true}});
+let margin=15;
+let sampleCap=null,downloadsCap=null,maxImages=0,capsChecked=false;
+(async()=>{
+  try{sampleCap=await window.claude?.use?.("sample")}catch(e){}
+  try{downloadsCap=await window.claude?.use?.("downloads")}catch(e){}
+  if(sampleCap){try{const l=await sampleCap.limits();maxImages=l?.images?.maxCount||0}catch(e){}}
+  capsChecked=true;if(S.app==="draw")render();
+})();
+let SHEETS=[],dropNode=null,dctl=null;
+function buildDrop(){
+  dropNode=document.createElement("div");dropNode.className="card";
+  dropNode.innerHTML=`<div class="drop" id="dDrop"><div class="di">${I.upload}</div><b>Drop a drawing here</b><small>A PDF drawing set, or photos of sheets. Electrical, HVAC, plumbing or fire.</small>
+    <input type="file" id="dFile" accept="application/pdf,image/png,image/jpeg,image/webp" multiple hidden>
+    <button class="btn" type="button" id="dPick">Choose a file</button></div>
+    <div id="dPicked" hidden>
+      <div class="row" style="margin-top:14px;justify-content:space-between"><span class="status" id="dInfo"></span>
+        <div class="row"><button class="btn" type="button" id="dRun">Read the selected sheets</button><button class="btn ghost" type="button" id="dStop" hidden>Stop</button></div></div>
+      <div class="sheets" id="dSheets"></div><div class="prog" id="dProg"></div></div>
+    <div id="dAvail" style="margin-top:12px"></div>`;
+  const q=s=>dropNode.querySelector(s);
+  q("#dPick").onclick=()=>q("#dFile").click();
+  q("#dFile").onchange=e=>intake([...e.target.files]);
+  const dz=q("#dDrop");
+  ["dragenter","dragover"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add("over")}));
+  ["dragleave","drop"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove("over")}));
+  dz.addEventListener("drop",e=>intake([...e.dataTransfer.files]));
+  q("#dStop").onclick=()=>dctl?.abort();
+  q("#dRun").onclick=runDrawing;
+}
+const dq=s=>dropNode.querySelector(s);
+async function intake(files){
+  if(!window.pdfjsLib){dq("#dInfo").textContent="The PDF reader did not load. Check the connection and try again.";dq("#dPicked").hidden=false;return}
+  pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  SHEETS=[];dq("#dSheets").replaceChildren();dq("#dProg").replaceChildren();dq("#dPicked").hidden=false;dq("#dInfo").textContent="Opening…";
+  for(const f of files){
+    try{
+      if(f.type==="application/pdf"||/\.pdf$/i.test(f.name)){
+        const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+        for(let p=1;p<=pdf.numPages;p++)SHEETS.push({name:`${f.name} · p${p}`,kind:"pdf",pdf,pageNo:p,on:p<=6});
+      }else if(f.type.startsWith("image/")){const img=await loadImg(f);SHEETS.push({name:f.name,kind:"img",img,on:true})}
+    }catch(e){dq("#dInfo").textContent="Could not open "+f.name+". Is it a PDF or an image?";return}
+  }
+  for(const s of SHEETS)await thumb(s);
+  pickInfo();
+}
+function loadImg(f){return new Promise((res,rej)=>{const u=URL.createObjectURL(f),i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=u})}
+function pickInfo(){const n=SHEETS.filter(s=>s.on).length;dq("#dInfo").textContent=`${SHEETS.length} sheet${SHEETS.length>1?"s":""} · ${n} selected · about ${Math.max(1,Math.ceil(n/2)*1.5)} min`;dq("#dRun").disabled=!n}
+async function thumb(s){
+  const d=document.createElement("div");d.className="sht"+(s.on?"":" off");
+  d.appendChild(await drawSheet(s,220));
+  const l=document.createElement("label");l.innerHTML=`<input type="checkbox" ${s.on?"checked":""}> <span></span>`;l.querySelector("span").textContent=s.name;d.appendChild(l);
+  l.querySelector("input").onchange=e=>{s.on=e.target.checked;d.classList.toggle("off",!s.on);pickInfo()};
+  dq("#dSheets").appendChild(d);
+}
+async function drawSheet(s,longest){
+  const c=document.createElement("canvas"),ctx=c.getContext("2d");
+  if(s.kind==="pdf"){const page=await s.pdf.getPage(s.pageNo),v1=page.getViewport({scale:1}),sc=longest/Math.max(v1.width,v1.height),vp=page.getViewport({scale:sc});
+    c.width=Math.round(vp.width);c.height=Math.round(vp.height);ctx.fillStyle="#fff";ctx.fillRect(0,0,c.width,c.height);await page.render({canvasContext:ctx,viewport:vp}).promise}
+  else{const sc=Math.min(1,longest/Math.max(s.img.width,s.img.height))||1;c.width=Math.round(s.img.width*sc);c.height=Math.round(s.img.height*sc);ctx.fillStyle="#fff";ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(s.img,0,0,c.width,c.height)}
+  return c;
+}
+async function textLayer(s){
+  if(s.kind!=="pdf")return "";
+  const page=await s.pdf.getPage(s.pageNo),v1=page.getViewport({scale:1}),tc=await page.getTextContent();
+  const lines=new Map();
+  for(const it of tc.items){const t=(it.str||"").trim();if(!t)continue;const[x,y]=v1.convertToViewportPoint(it.transform[4],it.transform[5]);
+    const yp=Math.round(y/v1.height*200)/2,xp=Math.round(x/v1.width*100);if(!lines.has(yp))lines.set(yp,[]);lines.get(yp).push([xp,t])}
+  const out=[...lines.keys()].sort((a,b)=>a-b).map(y=>`y${y}: `+lines.get(y).sort((a,b)=>a[0]-b[0]).map(([x,t])=>`[x${x}] ${t}`).join("  ")).join("\n");
+  return out.length>90000?out.slice(0,90000)+"\n…(text cut)":out;
+}
+const toBlob=c=>new Promise(r=>c.toBlob(r,"image/jpeg",0.88));
+async function tiles(s){
+  const budget=Math.max(1,maxImages-1);let cols=3,rows=3;while(cols*rows>budget){if(cols>=rows)cols--;else rows--}
+  const big=await drawSheet(s,1100*Math.max(cols,rows));
+  if(big.width<big.height){const t=cols;cols=Math.min(cols,rows);rows=Math.max(t,rows)}else{const t=cols;cols=Math.max(t,rows);rows=Math.min(t,rows)}
+  const out=[await toBlob(await drawSheet(s,1400))];const tw=Math.ceil(big.width/cols),th=Math.ceil(big.height/rows);
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const t=document.createElement("canvas");t.width=tw;t.height=th;const x=t.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,tw,th);x.drawImage(big,c*tw,r*th,tw,th,0,0,tw,th);out.push(await toBlob(t))}
+  return{blobs:out,cols,rows};
+}
+function dprompt(s,text,cols,rows){
+return `You are a senior MEP estimator at an Abu Dhabi contractor preparing a quantity take-off for pricing.
+You receive ONE drawing sheet ("${s.name}"):
+- Image 1 is the whole sheet (overview).
+- Images 2 onward are a ${cols}×${rows} grid of zoomed tiles of the same sheet, row by row from top-left, so small text and symbols are readable. Tiles do not overlap: an item on a tile edge appears once.
+${text?`- The PDF text layer is below. Each line is "yNN: [xNN] text" with x/y as % of the sheet from top-left. Use it to read schedules, legends, titles, scale and labels exactly.`:"- There is no text layer (photo or scan): read the images."}
+Do this:
+1. Identify the sheet: number, title, discipline, scale (or "unknown").
+2. List every item a contractor must price from this sheet. Prefer exact values from schedules and tables (DB schedules, cable schedules, equipment, fixture or BOQ tables). On layouts, count symbols using the legend. Measure cable, pipe, conduit or duct runs only if a scale or dimensions are given; add a sensible allowance and say so. Do not count the same thing twice (schedule and layout); prefer the schedule.
+3. For each item give a mid-range UAE 2026 supply-and-install unit rate in AED.
+4. List assumptions you made and questions an engineer must answer before pricing.
+Rules: categories must be one of: ${CATS.join("; ")}. source is "schedule", "counted", "measured" or "assumed". confidence is "high", "medium" or "low". Units: no, m, m2, set, lot. Keep "basis" under 12 words. If the sheet is not an MEP drawing (cover sheet, notes only), return an empty items list and say so in assumptions.
+Reply with only JSON in this shape:
+{"sheet":{"number":"E-101","title":"Ground floor power layout","discipline":"Electrical","scale":"1:100"},
+ "items":[{"category":"Wiring devices","item":"Twin switched socket","spec":"13 A","qty":34,"unit":"no","source":"counted","confidence":"high","rate":95,"basis":"legend symbol S2"}],
+ "assumptions":["..."],"questions":["..."]}
+${text?"\nPDF TEXT LAYER:\n"+text:""}`}
+async function runDrawing(){
+  if(!sampleCap||!maxImages){dq("#dAvail").innerHTML='<div class="warnbox">Reading your own drawings is switched on in the pilot. The example estimate works now.</div>';return}
+  const todo=SHEETS.filter(s=>s.on);if(!todo.length)return;
+  dctl=new AbortController();const sig=dctl.signal;
+  dq("#dRun").disabled=true;dq("#dStop").hidden=false;dq("#dProg").replaceChildren();
+  const t0=performance.now();
+  const lines=todo.map(s=>{const d=document.createElement("div");d.textContent=`${s.name}: waiting`;dq("#dProg").appendChild(d);return d});
+  const results=[];let next=0;
+  async function worker(){
+    while(next<todo.length&&!sig.aborted){
+      const i=next++,s=todo[i],ln=lines[i];
+      try{
+        ln.textContent=`${s.name}: preparing image tiles…`;
+        const[{blobs,cols,rows},text]=await Promise.all([tiles(s),textLayer(s)]);
+        const ts=performance.now();const tick=setInterval(()=>{ln.textContent=`${s.name}: reading the drawing… ${Math.round((performance.now()-ts)/1000)} s`},1000);
+        let j;try{j=await sampleCap.json(dprompt(s,text,cols,rows),{images:blobs,modelTier:"complex",signal:sig})}finally{clearInterval(tick)}
+        const n=(j&&Array.isArray(j.items))?j.items.length:0;
+        results[i]={s,j};ln.className="done";ln.textContent=`${s.name}: ${j?.sheet?.number||""} ${j?.sheet?.title||""}, ${n} lines`;
+      }catch(e){ln.className="err";
+        ln.textContent=`${s.name}: `+(e?.code==="cancelled"?"stopped":e?.code==="not_granted"?"Claude access was not allowed":e?.code==="rate_limited"?"usage limit reached, try later":e?.code==="invalid_json"?"could not read, try this sheet again":"failed ("+(e?.code||"error")+")")}
+    }}
+  await Promise.all([worker(),worker()]);
+  dq("#dRun").disabled=false;dq("#dStop").hidden=true;
+  const ok=results.filter(Boolean);if(!ok.length)return;
+  const rows=[],assumptions=[],questions=[];
+  ok.forEach(({s,j})=>{const sh=j.sheet?.number||s.name;
+    (j.items||[]).forEach(it=>{const r={sheet:sh,category:CATS.includes(it.category)?it.category:(it.category||"Testing, commissioning & sundries"),item:String(it.item||""),spec:String(it.spec||""),qty:+it.qty||0,unit:String(it.unit||"no"),
+      source:["schedule","counted","measured","assumed"].includes(it.source)?it.source:"assumed",confidence:["high","medium","low"].includes(it.confidence)?it.confidence:"low",rate:+it.rate||0,basis:String(it.basis||"")};
+      if(myRates[rkey(r)]!=null){r.rate=myRates[rkey(r)];r.mine=true}rows.push(r)});
+    (j.assumptions||[]).forEach(a=>assumptions.push(`${sh}: ${a}`));(j.questions||[]).forEach(q=>questions.push(`${sh}: ${q}`))});
+  DST={sheets:ok.length,seconds:(performance.now()-t0)/1000,example:false,name:ok.length===1?ok[0].s.name:ok.length+" sheets",rows,assumptions,questions};
+  go("boq");
+}
+function drawUpload(){
+  return`<div class="hello"><h1>Drawing to priced BOQ</h1><p>Upload an MEP drawing. The assistant reads the schedules, counts symbols against the legend, measures runs where a scale is given, and prices every line. Your estimator checks it instead of starting from zero.</p></div>
+  <div id="dropMount"></div>
+  <div class="cols">
+    <div class="card"><h2>What it reads</h2><div class="insights" style="margin-top:12px">
+      <div class="ins navy"><div class="ii">${I.table}</div><div><b>Schedules and tables</b>: DB schedules, cable schedules, equipment lists, exactly as written.</div></div>
+      <div class="ins navy"><div class="ii">${I.plan}</div><div><b>Layouts</b>: counts every symbol using the legend, measures runs at the drawing scale.</div></div>
+      <div class="ins navy"><div class="ii">${I.bulb}</div><div><b>Gaps</b>: lists its assumptions and the questions your engineer must answer.</div></div>
+    </div></div>
+    <div class="card"><h2>No drawing to hand?</h2><p class="sub">See the result for a sample villa sheet first.</p>
+      <div class="row" style="margin-top:14px"><button class="btn ghost" data-go="boq">See the example estimate</button></div></div>
+  </div>`;
+}
+function drawBoq(){
+  let direct=0;const body=[];
+  const cats=[...CATS,...new Set(DST.rows.map(r=>r.category).filter(c=>!CATS.includes(c)))];
+  cats.forEach(cat=>{const rows=DST.rows.filter(r=>r.category===cat);if(!rows.length)return;
+    body.push(`<tr class="cat"><td colspan="7">${esc(cat)}</td></tr>`);
+    rows.forEach(r=>{const i=DST.rows.indexOf(r),amt=(+r.qty||0)*(+r.rate||0);direct+=amt;
+      body.push(`<tr><td>${esc(r.item)}<span class="basis">${esc(r.basis)}</span></td><td>${esc(r.spec)}</td>
+        <td class="r"><input type="number" min="0" step="any" value="${+r.qty||0}" data-bq="${i}" aria-label="Quantity"> <span style="color:var(--faint)">${esc(r.unit)}</span></td>
+        <td><span class="src ${esc(r.source)}">${esc(r.source)}</span>${r.confidence==="low"?' <span class="conf-low">check</span>':""}</td>
+        <td class="r"><input type="number" min="0" step="any" value="${+r.rate||0}" data-br="${i}" aria-label="Rate"><span class="basis">${r.mine?'<span class="yours">your rate</span>':"guide"}</span></td>
+        <td class="r">${Math.round(amt).toLocaleString("en-US")}</td><td>${esc(r.sheet)}</td></tr>`)})});
+  const mg=direct*margin/100,vat=(direct+mg)*.05,total=direct+mg+vat;
+  const low=DST.rows.filter(r=>r.confidence==="low"||r.source==="assumed").length;
+  const fmtT=s=>s<60?Math.round(s)+" s":Math.floor(s/60)+" min "+Math.round(s%60)+" s";
+  return`<div class="hello"><h1>Estimate${DST.example?"":": "+esc(DST.name)}</h1><p>${DST.example?"Example result for a sample villa sheet, not a real I Zone job. Upload your own drawing to replace it.":"Read from your drawing. Change any quantity or rate; your rates are remembered for the next drawing."}</p></div>
+  <div class="card winner"><div><div class="lbl">Estimate incl. VAT${DST.example?" · example":""}</div><h2 class="num">${AED0(total)}</h2>
+    <div class="facts"><span><b>${DST.rows.length}</b> BOQ lines</span><span><b>${DST.sheets}</b> sheet${DST.sheets>1?"s":""} read</span><span><b>${low}</b> lines to check</span>${DST.seconds?`<span>Done in <b>${fmtT(DST.seconds)}</b></span>`:""}</div>
+    <div class="why">Green = read from a schedule or counted. Blue = measured at scale. Amber = assumed, check it.</div></div>
+    ${downloadsCap?`<button class="btn" id="bCsv">Download for Excel</button>`:`<button class="btn" data-go="upload">Upload a drawing</button>`}</div>
+  <div class="card boq"><h2>Bill of quantities</h2><div class="tablewrap"><table><thead><tr><th>Item</th><th>Spec / size</th><th class="r">Qty</th><th>Source</th><th class="r">Rate AED</th><th class="r">Amount AED</th><th>Sheet</th></tr></thead><tbody>${body.join("")}</tbody></table></div>
+    <div class="totals"><div><span>Direct cost</span><b class="num">${AED0(direct)}</b></div>
+      <div><span>Overheads &amp; profit <input type="number" min="0" step="1" value="${margin}" id="bMargin" aria-label="Margin percent"> %</span><b class="num">${AED0(mg)}</b></div>
+      <div><span>VAT 5%</span><b class="num">${AED0(vat)}</b></div><div class="g"><span>Total</span><span class="num">${AED0(total)}</span></div></div>
+    <p class="status" id="bMsg" style="margin-top:8px"></p></div>
+  <div class="cols">
+    <div class="card"><h2>Assumptions made</h2><div class="insights" style="margin-top:12px">${(DST.assumptions.length?DST.assumptions:["None."]).map(a=>`<div class="ins warn"><div class="ii">${I.x}</div><div>${esc(a)}</div></div>`).join("")}</div></div>
+    <div class="card"><h2>Questions for your engineer</h2><div class="insights" style="margin-top:12px">${(DST.questions.length?DST.questions:["None."]).map(a=>`<div class="ins navy"><div class="ii">${I.bulb}</div><div>${esc(a)}</div></div>`).join("")}</div></div>
+  </div>`;
+}
+async function boqCsv(){
+  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const out=[["Sheet","Category","Item","Spec","Qty","Unit","Rate AED","Amount AED","Source","Confidence","Basis"].map(q).join(",")];let direct=0;
+  DST.rows.forEach(r=>{const a=(+r.qty||0)*(+r.rate||0);direct+=a;out.push([r.sheet,r.category,r.item,r.spec,r.qty,r.unit,r.rate,Math.round(a),r.source,r.confidence,r.basis].map(q).join(","))});
+  const mg=direct*margin/100,vat=(direct+mg)*.05;
+  out.push("",[q("Direct cost"),"","","","","","",Math.round(direct)].join(","),[q(`Overheads & profit ${margin}%`),"","","","","","",Math.round(mg)].join(","),[q("VAT 5%"),"","","","","","",Math.round(vat)].join(","),[q("Total"),"","","","","","",Math.round(direct+mg+vat)].join(","));
+  try{await downloadsCap.save({filename:"I-Zone-estimate.csv",data:"﻿"+out.join("\r\n")});$("#bMsg").textContent="Saved."}
+  catch(e){$("#bMsg").textContent=e?.code==="declined"?"":"Download is not available here."}
+}
+
+/* ================= shell render ================= */
+const VIEWS={hub,"proc:home":procHome,"proc:request":procRequest,"proc:quotes":procQuotes,"proc:prices":procPrices,"proc:invoices":procInvoices,
+  "cable:chat":cableChat,"cable:rates":cableRates,"cable:leads":cableLeads,"draw:upload":drawUpload,"draw:boq":drawBoq};
+const cur=()=>S.app==="hub"?"hub":S.app+":"+S.page[S.app];
+function badge(app,page){
+  if(app==="proc"&&page==="invoices"){const n=badCount();return n?`<span class="count">${n}</span>`:""}
+  if(app==="cable"&&page==="leads"&&LEADS.length)return`<span class="count">${LEADS.length}</span>`;
+  return "";
+}
+function syncNav(){
+  let side=`<button data-app="hub" ${S.app==="hub"?'aria-current="page"':""}>${I.grid}<span>All tools</span></button><div class="grp">Tools</div>`;
+  for(const[id,a]of Object.entries(APPS)){
+    side+=`<button class="appbtn" data-app="${id}" data-on="${S.app===id?1:0}">${a.icon}<span>${a.name}</span></button>`;
+    if(S.app===id)side+=a.pages.map(([p,label])=>`<button class="sub" data-go="${p}" ${S.page[id]===p?'aria-current="page"':""}><span>${label}</span>${badge(id,p)}</button>`).join("");
+  }
+  $("#sideNav").innerHTML=side;
+  $("#botNav").innerHTML=S.app==="hub"?"":APPS[S.app].pages.map(([p,label,ic])=>`<button data-go="${p}" ${S.page[S.app]===p?'aria-current="page"':""}>${ic}<span>${label}</span>${badge(S.app,p)}</button>`).join("");
+  const a=S.app==="hub"?{name:"All tools",icon:I.grid}:APPS[S.app];
+  $("#appPill").innerHTML=`<span class="ai">${a.icon}</span>${a.name}<span class="chev">${I.chev}</span>`;
+  $("#crumb").textContent=S.app==="hub"?"I Zone / All tools":`I Zone / ${APPS[S.app].name} / ${APPS[S.app].pages.find(p=>p[0]===S.page[S.app])[1]}`;
+}
+function render(){
+  syncNav();
+  $("#view").innerHTML=`<div class="screen">${VIEWS[cur()]()}</div>`;
+  const cm=$("#chatMount");if(cm){if(!chatNode)buildChat();cm.replaceWith(chatNode)}
+  const dm=$("#dropMount");if(dm){if(!dropNode)buildDrop();dm.replaceWith(dropNode);
+    const av=dropNode.querySelector("#dAvail");av.innerHTML=capsChecked&&(!sampleCap||!maxImages)?'<div class="warnbox">Reading your own drawings is switched on in the pilot. The example estimate works now.</div>':""}
+  bind();
+}
+function go(p){S.page[S.app]=p;render();window.scrollTo({top:0,behavior:"smooth"});saveHash()}
+function goApp(a){S.app=a;closeSheet();render();window.scrollTo({top:0,behavior:"smooth"});saveHash()}
+function saveHash(){try{history.replaceState(null,"","#"+(S.app==="hub"?"hub":S.app+"-"+S.page[S.app]))}catch(e){}}
+document.addEventListener("click",e=>{
+  const ap=e.target.closest("[data-app]");if(ap){e.preventDefault();goApp(ap.dataset.app);return}
+  const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.dataset.go)}
+});
+function openSheet(){
+  const h=$("#sheetHost");
+  h.innerHTML=`<div class="sheetbg" id="sbg"><div class="sheetbox" role="dialog" aria-label="Switch tool"><div class="grab"></div><h3>Switch tool</h3>
+    <button class="swi" data-app="hub" aria-current="${S.app==="hub"}"><span class="ai">${I.grid}</span><div><b>All tools</b><span>Start page</span></div></button>
+    ${Object.entries(APPS).map(([id,a])=>`<button class="swi" data-app="${id}" aria-current="${S.app===id}"><span class="ai">${a.icon}</span><div><b>${a.name}</b><span>${a.line}</span></div></button>`).join("")}</div></div>`;
+  $("#sbg").addEventListener("click",e=>{if(e.target.id==="sbg")closeSheet()});
+}
+function closeSheet(){$("#sheetHost").innerHTML=""}
+$("#appPill").onclick=openSheet;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});
+function bind(){
+  document.querySelectorAll("[data-prio]").forEach(b=>b.onclick=()=>{S.prio=b.dataset.prio;S.lpo=null;S.lpoApproved=false;render()});
+  const ap=$("#appr");if(ap)ap.onchange=()=>{S.approvedOnly=ap.checked;S.lpo=null;S.lpoApproved=false;render()};
+  const mk=$("#mkLpo");if(mk)mk.onclick=()=>{S.lpo=ranking()[0].s;S.lpoApproved=false;$("#lpoBox").innerHTML=lpoHTML();bindLpo();$("#lpoBox").scrollIntoView({behavior:"smooth",block:"start"})};
+  bindLpo();
+  document.querySelectorAll("[data-item]").forEach(b=>b.addEventListener("click",()=>{S.item=b.dataset.item;if(cur()==="proc:prices")render()}));
+  const qg=$("#qgo");if(qg){qg.onclick=checkQuote;$("#qv").onkeydown=e=>{if(e.key==="Enter")checkQuote()};checkQuote()}
+  document.querySelectorAll("[data-inv]").forEach(b=>b.onclick=()=>{const i=+b.dataset.inv;S.openInv.has(i)?S.openInv.delete(i):S.openInv.add(i);render()});
+  document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{invDone.add(+b.dataset.act);render()});
+  const pa=$("#payAll");if(pa)pa.onclick=()=>{INV.forEach((i,ix)=>{if(invCheck(i).cls==="good")invDone.add(ix)});render()};
+  document.querySelectorAll("[data-try]").forEach(b=>b.onclick=()=>{cuser(b.dataset.try);chatNode.scrollIntoView({behavior:"smooth",block:"center"})});
+  document.querySelectorAll("[data-rg]").forEach(i=>i.addEventListener("input",()=>{const v=parseFloat(i.value);if(!isNaN(v)){RT[i.dataset.rg][i.dataset.rk]=v;saveRT()}}));
+  const rr=$("#rtReset");if(rr)rr.onclick=()=>{RT=JSON.parse(JSON.stringify(RSAMPLE));saveRT();render()};
+  document.querySelectorAll("[data-bq]").forEach(i=>i.onchange=()=>{DST.rows[+i.dataset.bq].qty=+i.value||0;render()});
+  document.querySelectorAll("[data-br]").forEach(i=>i.onchange=()=>{const r=DST.rows[+i.dataset.br];r.rate=+i.value||0;r.mine=true;myRates[rkey(r)]=r.rate;saveMy();render()});
+  const bm=$("#bMargin");if(bm)bm.onchange=()=>{margin=+bm.value||0;render()};
+  const bc=$("#bCsv");if(bc)bc.onclick=boqCsv;
+}
+function bindLpo(){const a=$("#apprLpo");if(a)a.onclick=()=>{S.lpoApproved=true;$("#lpoBox").innerHTML=lpoHTML()}}
+(()=>{const h=location.hash.slice(1);if(!h||h==="hub")return;const[a,p]=h.split("-");if(APPS[a]){S.app=a;if(p&&APPS[a].pages.some(x=>x[0]===p))S.page[a]=p}})();
+render();
+</script>
+
+</body></html>

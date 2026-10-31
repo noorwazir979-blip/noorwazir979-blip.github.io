@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /site-preview/
+Disallow: /demo/
 
 Sitemap: https://nooraiconcierge.com/sitemap.xml
