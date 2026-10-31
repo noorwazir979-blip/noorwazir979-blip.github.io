@@ -180,8 +180,9 @@ main{min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-ri
 .winner .facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:10px;color:#dfe6f5;font-size:14px}
 .winner .facts b{color:#fff}
 .winner .why{margin-top:10px;color:#b9c5e0;font-size:13.5px;max-width:60ch}
-.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px;flex-wrap:wrap}
-.seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--muted)}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px;flex-wrap:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--muted);white-space:nowrap}
+@media (max-width:420px){.seg button{padding:8px 10px;font-size:13px}}
 .seg button[aria-pressed="true"]{background:var(--navy);color:#fff;font-weight:600}
 .switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;font-weight:500}
 .switch input{appearance:none;-webkit-appearance:none;width:40px;height:24px;border-radius:999px;background:var(--line-2);position:relative;cursor:pointer;transition:background .2s;margin:0;flex:none}
@@ -625,6 +626,62 @@ function procRequest(){
       <div style="margin-top:6px">${REQ.map(([id,w,p,stg,c,m,late])=>`<div class="req"><b>${id} · ${esc(p)}</b><span class="chip ${c}">${stg}</span><div class="meta">${esc(w)}</div><div class="meta${late?" late":""}">${esc(m)}</div></div>`).join("")}</div></div>
   </div>`;
 }
+
+/* ===== his own supplier quotes: upload 2-4, read once, compared side by side ===== */
+let RQ=null,RQmsg="";
+function rqCard(){
+  if(RQ)return rqResult();
+  return`<div class="card"><div class="row" style="justify-content:space-between;gap:12px"><div><h2>Try it on your own quotes</h2><p class="sub">Upload 2 to 4 real supplier quotes for the same request (PDF or photo). Read once, never stored.</p></div>
+    <div class="row"><input type="file" id="rqFile" accept="application/pdf,image/png,image/jpeg,image/webp" multiple hidden><button class="btn" id="rqPick" type="button">Upload quotes</button></div></div>
+    <p class="status" id="rqMsg" style="margin-top:8px">${esc(RQmsg)}</p></div>`;
+}
+function rqResult(){
+  const sups=RQ.suppliers||[],items=RQ.items||[],names=sups.map(x=>String(x.name||"?"));
+  const best=RQ.best||{};
+  let tbl=`<table><thead><tr><th>Item</th><th class="r">Qty</th>${names.map(n=>`<th class="r">${esc(n)}</th>`).join("")}</tr></thead><tbody>`;
+  for(const it of items){const ps=names.map(n=>{const v=it.prices?.[n];return v==null||v===""||isNaN(+v)?null:+v});const ok=ps.filter(v=>v!=null),min=ok.length>1?Math.min(...ok):null;
+    tbl+=`<tr><td>${esc(String(it.item||""))}</td><td class="r">${esc(String(it.qty??""))} ${esc(String(it.unit||""))}</td>${ps.map(v=>v==null?`<td class="r na">—</td>`:`<td class="r ${v===min?"best":""}">${v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</td>`).join("")}</tr>`}
+  tbl+=`<tr><td><b>Total excl. VAT</b></td><td></td>${sups.map(x=>`<td class="r"><b>${x.total_excl_vat?AED0(+x.total_excl_vat):"—"}</b></td>`).join("")}</tr></tbody></table>`;
+  const terms=sups.map(x=>`<div class="offer${x.name===best.supplier?" best":""}">${x.name===best.supplier?'<span class="ribbon">Recommended</span>':""}<div class="offer-h"><b>${esc(String(x.name||""))}</b></div>
+    <div class="total num">${x.total_excl_vat?AED0(+x.total_excl_vat*1.05):"—"}<small>incl. 5% VAT</small></div>
+    <dl><dt>Delivery</dt><dd>${esc(String(x.delivery||"not stated"))}</dd><dt>Payment</dt><dd>${esc(String(x.payment||"not stated"))}</dd><dt>Valid</dt><dd>${esc(String(x.validity||"not stated"))}</dd></dl>
+    ${x.notes?`<div class="sub" style="margin-top:6px">${esc(String(x.notes))}</div>`:""}</div>`).join("");
+  return`<div class="card winner"><div><div class="lbl">Your quotes · read in ${Math.round(RQ.seconds||0)} s</div><h2>${esc(String(best.supplier||"See the comparison"))}</h2><div class="why">${esc(String(best.why||""))}</div></div>
+    <button class="btn ghost" id="rqClear" type="button">Try other quotes</button></div>
+  <div class="offers">${terms}</div>
+  <div class="cols"><div class="card"><h2>What the assistant noticed</h2><div class="insights" style="margin-top:12px">${(RQ.insights||[]).map(a=>`<div class="ins warn"><div class="ii">${I.bulb}</div><div>${esc(String(a))}</div></div>`).join("")||"None."}</div></div>
+  <div class="card"><h2>Line by line</h2><p class="sub">Green = cheapest price for that item.</p><div class="tablewrap">${tbl}</div></div></div>
+  <p class="sub" style="text-align:center">Below: the sample comparison with approved brands and your price history.</p>`;
+}
+async function rqRun(files){
+  const setMsg=t=>{RQmsg=t;const m=document.getElementById("rqMsg");if(m)m.textContent=t};
+  files=files.slice(0,4);if(files.length<2){setMsg("Choose at least 2 quotes.");return}
+  if(!sampleCap){setMsg("The reader is not available right now.");return}
+  try{
+    setMsg("Opening the quotes…");if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const blobs=[],parts=[];
+    for(const f of files){const start=blobs.length+1;let text="";
+      if(f.type==="application/pdf"||/.pdf$/i.test(f.name)){const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+        for(let p=1;p<=Math.min(pdf.numPages,2);p++){const sh={kind:"pdf",pdf,pageNo:p};blobs.push(await toBlob(await drawSheet(sh,1600)));text+=await textLayer(sh)}}
+      else{const img=await loadImg(f);blobs.push(await toBlob(await drawSheet({kind:"img",img},1600)))}
+      parts.push(`File "${f.name}": images ${start}-${blobs.length}${text?"\nPDF text:\n"+text.slice(0,15000):""}`)}
+    const prompt=`You are a procurement officer at an Abu Dhabi MEP contractor. The images are supplier quotations for the same material request, in this order:
+${parts.join("\n\n")}
+Compare them. Match the same item across suppliers even when worded differently. Use unit prices in AED excluding VAT (if a quote is in another currency, say so in notes). Use the supplier's company name from the quote; if none, use the file name.
+Reply with only JSON:
+{"suppliers":[{"name":"","total_excl_vat":0,"delivery":"","payment":"","validity":"","notes":"brands, missing items, conditions; under 20 words"}],
+ "items":[{"item":"","qty":0,"unit":"","prices":{"<exact supplier name>":0}}],
+ "best":{"supplier":"<exact supplier name>","why":"one sentence: price, missing items, delivery and payment terms"},
+ "insights":["3 to 5 short points a buyer must know: price gaps, missing items, terms, brands, risks"]}
+Use null for an item a supplier did not quote.`;
+    const t0=performance.now();const tick=setInterval(()=>setMsg(`Reading ${files.length} quotes… ${Math.round((performance.now()-t0)/1000)} s`),1000);
+    let j;try{j=await sampleCap.json(prompt,{images:blobs,modelTier:"complex"})}finally{clearInterval(tick)}
+    if(!j||!Array.isArray(j.suppliers))throw{code:"invalid_json"};
+    j.seconds=(performance.now()-t0)/1000;RQ=j;RQmsg="";render();
+  }catch(e){setMsg(e?.code==="rate_limited"?"Too many reads today, try tomorrow.":e?.code==="invalid_json"?"Could not read these files clearly. Try clearer PDFs or photos.":"Something went wrong. Try again.")}
+}
+document.addEventListener("click",e=>{if(e.target.closest("#rqPick"))document.getElementById("rqFile")?.click();if(e.target.closest("#rqClear")){RQ=null;render()}});
+document.addEventListener("change",e=>{if(e.target.id==="rqFile")rqRun([...e.target.files])});
 function procQuotes(){
   const rk=ranking(),w=rk[0],runner=rk.find(r=>!r.out&&r!==w);
   const seg=Object.entries(PRIO).map(([k,[n]])=>`<button data-prio="${k}" aria-pressed="${S.prio===k}">${n}</button>`).join("");
@@ -643,6 +700,7 @@ function procQuotes(){
   tbl+="</tbody></table>";
   const h95=stats("c95").last3,cT=supTotal("C").t;
   return`<div class="hello"><h1>Quotes for MR-0418</h1><p>Four suppliers answered in different formats: PDF, email, WhatsApp. Here they are side by side, with VAT, brands and your past prices checked.</p></div>
+  ${rqCard()}
   <div class="card winner">
     <div><div class="lbl">Best choice · ${PRIO[S.prio][0].toLowerCase()}</div><h2>${SUP[w.s].name} · ${AED0(w.t*1.05)}</h2>
       <div class="facts"><span>Delivery <b>${w.days} days</b></span><span>Payment <b>${termTxt(w.terms)}</b></span><span>Brands <b>all approved</b></span></div>
@@ -909,17 +967,29 @@ const EXAMPLE={sheets:1,seconds:0,example:true,name:"Sample villa sheet E-101",r
 let DST=JSON.parse(JSON.stringify(EXAMPLE));
 DST.rows.forEach(r=>{if(myRates[rkey(r)]!=null){r.rate=myRates[rkey(r)];r.mine=true}});
 let margin=15;
+/* outside claude.ai: drawings are read by Noor AI Concierge's own reader (read once, nothing stored) */
+const READER="https://noor-chat.silicon-sailboat.workers.dev/demo-read";
+const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(",")[1]);r.onerror=rej;r.readAsDataURL(b)});
+function webSample(){return{limits:async()=>({images:{maxCount:10}}),
+  json:async(prompt,{images=[],signal}={})=>{
+    let r;try{r=await fetch(READER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt,images:await Promise.all(images.map(b64))}),signal})}
+    catch(e){throw{code:e?.name==="AbortError"?"cancelled":"network"}}
+    if(!r.ok)throw{code:r.status===429?"rate_limited":"error"};
+    const t=await r.text();if(t.includes("#ERROR#")&&t.indexOf("{")<0)throw{code:"error"};
+    try{return JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1))}catch(e){throw{code:"invalid_json"}}}}}
 let sampleCap=null,downloadsCap=null,maxImages=0,capsChecked=false;
 (async()=>{
   try{sampleCap=await window.claude?.use?.("sample")}catch(e){}
   try{downloadsCap=await window.claude?.use?.("downloads")}catch(e){}
+  if(!sampleCap)sampleCap=webSample();
+  if(!downloadsCap)downloadsCap={save:async({filename,data})=>{const u=URL.createObjectURL(new Blob([data],{type:"text/csv;charset=utf-8"})),l=document.createElement("a");l.href=u;l.download=filename;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),2000)}};
   if(sampleCap){try{const l=await sampleCap.limits();maxImages=l?.images?.maxCount||0}catch(e){}}
   capsChecked=true;if(S.app==="draw")render();
 })();
 let SHEETS=[],dropNode=null,dctl=null;
 function buildDrop(){
   dropNode=document.createElement("div");dropNode.className="card";
-  dropNode.innerHTML=`<div class="drop" id="dDrop"><div class="di">${I.upload}</div><b>Drop a drawing here</b><small>A PDF drawing set, or photos of sheets. Electrical, HVAC, plumbing or fire.</small>
+  dropNode.innerHTML=`<div class="drop" id="dDrop"><div class="di">${I.upload}</div><b>Drop a drawing here</b><small>A PDF drawing set, or photos of sheets. Electrical, HVAC, plumbing or fire. Read once, never stored.</small>
     <input type="file" id="dFile" accept="application/pdf,image/png,image/jpeg,image/webp" multiple hidden>
     <button class="btn" type="button" id="dPick">Choose a file</button></div>
     <div id="dPicked" hidden>
@@ -1023,7 +1093,7 @@ async function runDrawing(){
         const n=(j&&Array.isArray(j.items))?j.items.length:0;
         results[i]={s,j};ln.className="done";ln.textContent=`${s.name}: ${j?.sheet?.number||""} ${j?.sheet?.title||""}, ${n} lines`;
       }catch(e){ln.className="err";
-        ln.textContent=`${s.name}: `+(e?.code==="cancelled"?"stopped":e?.code==="not_granted"?"Claude access was not allowed":e?.code==="rate_limited"?"usage limit reached, try later":e?.code==="invalid_json"?"could not read, try this sheet again":"failed ("+(e?.code||"error")+")")}
+        ln.textContent=`${s.name}: `+(e?.code==="cancelled"?"stopped":e?.code==="network"?"no connection, try again":e?.code==="rate_limited"?"usage limit reached, try later":e?.code==="invalid_json"?"could not read, try this sheet again":"failed ("+(e?.code||"error")+")")}
     }}
   await Promise.all([worker(),worker()]);
   dq("#dRun").disabled=false;dq("#dStop").hidden=true;
