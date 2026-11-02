@@ -309,11 +309,16 @@ if (askForm) {
   const local = (text) => { const [title, hours, steps] = P[jobKind(text)] || GEN; return { title, hours, steps, lang: AR ? "ar" : "en" }; };
 
   let lastJob = "", lastPlan = null;
+  const savedNote = $(".saved small"), savedDefault = savedNote ? savedNote.textContent : "";
   const show = (text, p, example) => {
     lastPlan = p;
     $("#said").textContent = (AR ? "«" : "“") + text + (AR ? "»" : "”");
     $("#tag").hidden = !example;
-    $("#planTitle").textContent = p.title; $("#hours").textContent = p.hours;
+    $("#planTitle").textContent = p.title;
+    if (p.kind === "company") { // a whole company: department map, and where we would start
+      $("#hours").textContent = (p.lang === "ar" ? "نبدأ بـ: " : "Start with: ") + p.start;
+      if (savedNote) savedNote.textContent = p.startWhy || "";
+    } else { $("#hours").textContent = p.hours; if (savedNote) savedNote.textContent = savedDefault; }
     ($(".plan") || $("#planTitle").parentElement).dir = p.lang === "ar" || p.lang === "ur" ? "rtl" : "ltr";
     const ol = $("#steps"); ol.classList.remove("reveal"); void ol.offsetWidth;
     ol.innerHTML = p.steps.map(([b, s]) => `<li><div><b>${esc(b)}</b><span>${esc(s)}</span></div></li>`).join("");
