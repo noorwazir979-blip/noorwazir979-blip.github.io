@@ -285,6 +285,10 @@ bdi{unicode-bidi:isolate}
 .legal{display:flex;gap:18px}
 @media (max-width:900px){.foot-top{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
 @media (max-width:520px){.foot-top{gap:36px 20px}.foot-col.two{grid-column:1/-1}.foot-col a{overflow-wrap:anywhere}.foot-bottom{flex-direction:column;align-items:flex-start}}
+.fc-contact .foot-alias{display:flex;flex-direction:column;gap:1px;font-size:.85rem;line-height:1.5}
+.fc-contact .foot-alias i{display:none}
+.fc-contact .foot-alias>span{white-space:nowrap}
+@media (max-width:520px){.fc-contact a{overflow-wrap:normal}.fc-contact>a[href^="mailto"]{font-size:.8rem}.fc-contact .foot-alias{font-size:.8rem}}
 
 /* corner button: one button, two choices */
 .fab{position:fixed;inset-inline-end:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
