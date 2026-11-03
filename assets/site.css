@@ -235,9 +235,27 @@ bdi{unicode-bidi:isolate}
 .person img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
 .person h2{font-size:clamp(1.5rem,3.4vw,2rem);margin-top:10px}
 .person p{color:var(--muted);margin-top:12px;max-width:52ch}
-.num{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
-.num b{font:600 1.05rem/1 var(--body);user-select:all}
-.num .btn{padding:10px 16px}
+/* Contact Noor card (3 Nov 2026) */
+.contact-card{margin-top:22px;max-width:28rem;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
+.cc-label{font:600 .78rem/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+:root[lang="ar"] .cc-label{letter-spacing:0;text-transform:none;font-size:.88rem}
+.cc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cc-actions .btn{padding:0 14px;min-height:46px;font-size:.97rem;white-space:nowrap}
+.cc-actions .btn.ghost{background:var(--surface)}
+.btn.wa{background:var(--wa);color:#fff}
+.btn.wa:hover{box-shadow:0 8px 24px -10px var(--wa)}
+.cc-phone{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+.cc-phone .cc-ic{width:18px;height:18px;color:var(--muted);flex:none}
+.cc-phone a{flex:1;font:600 1.05rem/1 var(--body);color:var(--ink);text-decoration:none;letter-spacing:.02em}
+:root[lang="ar"] .cc-phone a{text-align:right}
+.cc-copy{order:2;width:44px;height:44px;flex:none;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:border-color .2s,color .2s}
+.cc-copy:hover{border-color:var(--muted);color:var(--ink)}
+.cc-copy svg{width:20px;height:20px}
+.cc-copy .ok,.cc-copy.done .cp{display:none}
+.cc-copy.done .ok{display:block}
+.cc-copy.done{border-color:var(--wa);color:var(--wa)}
+.cc-msg{order:1;color:var(--wa);font-size:.88rem;font-weight:600}
+.cc-msg:empty{display:none}
 
 /* closing + footer */
 .end{background:var(--night);color:var(--night-ink);position:relative;overflow:hidden}
