@@ -409,21 +409,23 @@ bdi{unicode-bidi:isolate}
 .tools .rule{font-size:.93rem;border-inline-start:2px solid var(--accent);padding-inline-start:14px}
 
 .how{background:var(--surface);border-block:1px solid var(--line)}
-.how4{list-style:none;margin:40px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.4vw,32px);position:relative}
-.how4 li{display:grid;gap:10px;align-content:start;position:relative;padding-top:26px;border-top:2px solid var(--line)}
-.how4 li::before{content:"";position:absolute;top:-7px;inset-inline-start:0;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--accent-soft)}
-.how4 .n{font:700 .78rem/1 var(--display);color:var(--navy-text);letter-spacing:.08em;text-transform:uppercase}
-:root[lang="ar"] .how4 .n{letter-spacing:0;font-size:.88rem}
-.how4 h3{font-size:clamp(1.15rem,1.6vw,1.4rem);line-height:1.2}
-.how4 p{color:var(--muted);font-size:.97rem}
-.how4 .need{margin-top:4px;background:var(--paper);border-radius:12px;padding:12px 14px;color:var(--ink);font-size:.93rem}
-.how4 .need b{display:block;font:600 .74rem/1.2 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--navy-text);margin-bottom:6px}
-:root[lang="ar"] .how4 .need b{letter-spacing:0;font-size:.85rem}
-@media (max-width:1000px){.how4{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}}
-@media (max-width:600px){.how4{grid-template-columns:1fr;gap:0;margin-top:28px}
-  .how4 li{border-top:0;border-inline-start:2px solid var(--line);padding:0 0 28px;padding-inline-start:22px}
-  .how4 li:last-child{padding-bottom:0}
-  .how4 li::before{top:4px;inset-inline-start:-7px}}
+/* 4 compact steps (3 Nov 2026): number circle + title + one line; "what we need from you" folds into a <details> */
+.how4{list-style:none;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,32px)}
+.how4 li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;align-items:start}
+.how4 .n{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 .95rem/1 var(--display);background:var(--accent-soft);color:#8a5a12;border:1px solid color-mix(in srgb,var(--accent) 45%,transparent)}
+.how4 h3{font-size:clamp(1.12rem,1.5vw,1.3rem);line-height:1.2;margin-top:7px}
+.how4 p{color:var(--muted);font-size:.95rem;margin-top:6px}
+@media (max-width:1000px){.how4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.how4{grid-template-columns:1fr;gap:16px;margin-top:24px}.how4 h3{margin-top:8px}}
+details.need{margin-top:24px;max-width:60rem;background:var(--paper);border:1px solid var(--line);border-radius:14px}
+details.need summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;font-weight:600;min-height:48px}
+details.need summary::-webkit-details-marker{display:none}
+details.need summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px;transition:transform .2s var(--ease);flex:none}
+details.need[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+details.need dl{margin:0;padding:0 18px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:12px 24px}
+details.need dt{font:600 .74rem/1.2 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--navy-text)}
+:root[lang="ar"] details.need dt{letter-spacing:0;font-size:.85rem}
+details.need dd{margin:4px 0 0;font-size:.93rem}
 
 .now{padding-block:clamp(40px,6vw,64px);background:var(--accent-soft)}
 .now .wrap{display:grid;gap:12px;max-width:var(--wrap)}
@@ -474,3 +476,142 @@ bdi{unicode-bidi:isolate}
 @media (max-width:560px){.bigco-cta .btn{width:100%}}
 .foot-dl{color:inherit;text-decoration:underline;text-underline-offset:3px}
 @media (min-width:900px){.bigco-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ---------- 3 Nov 2026: shorter phone page (job tabs, compact companies strip, tighter mobile spacing) ---------- */
+.jtabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.jtabs[hidden]{display:none}
+.jtabs [role=tab]{font:600 .95rem/1 var(--body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 16px;min-height:42px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.jtabs [role=tab]:hover{border-color:var(--muted)}
+.jtabs [role=tab][aria-selected=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.jpanels{margin-top:36px}
+.jpanels .jobs{margin-top:0}
+.jpanels .jobs+.jobs{margin-top:14px}
+.jpanels .jobs[hidden]{display:none}
+.tabbed .jpanels{margin-top:16px}
+.tabbed .jobs .dept{display:none}
+@media (min-width:900px){.tabbed .jobs{grid-template-columns:repeat(auto-fill,minmax(min(100%,19rem),1fr))}.tabbed .job.wide{grid-column:span 2}}
+.tools{margin-top:24px;gap:10px}
+.tools ul{gap:6px}
+.tools li{padding:5px 11px;font-size:.85rem}
+.tools p{font-size:.95rem}
+
+/* larger companies: one compact dark strip on the home page */
+.bigco.strip{padding-block:clamp(40px,6vw,72px)}
+.strip .wrap{display:grid;gap:12px;justify-items:start}
+.strip h2{font-size:clamp(1.35rem,2.6vw,2.2rem);max-width:30ch}
+.strip>.wrap>p{color:var(--night-muted);max-width:60ch}
+.strip-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.btn.line{background:transparent;color:var(--night-ink);border:1px solid rgba(255,255,255,.28)}
+.btn.line:hover{box-shadow:none;border-color:var(--glow);color:var(--glow)}
+.strip .lic{font-size:.85rem;color:var(--night-muted);border-inline-start:2px solid var(--mint);padding-inline-start:10px}
+.co-page{margin-top:40px}
+
+/* phones: less empty space between sections, same content */
+@media (max-width:640px){
+  section{padding-block:44px}
+  .hero{padding-block:28px 0}
+  .hero .eyebrow{margin-bottom:14px}
+  .hero .lede{margin-top:12px;font-size:1rem}
+  .ask{margin-top:22px}
+  .ask textarea{min-height:80px}
+  .head{gap:10px}
+  #jobs .head .lede,.how .lede{font-size:.95rem}
+  .demo-steps{margin-top:22px;gap:10px}
+  .demo-steps .job{padding:14px 14px 16px}
+  .demo-steps .screen{padding:10px;border-radius:18px}
+  #demo .btn{margin-top:12px;padding:11px 18px;font-size:.92rem}
+  .demo .lede{font-size:.95rem}
+  .job{padding:16px 16px 18px;gap:6px}
+  .job .pain,.job .gain{font-size:.93rem}
+  .bigco.strip{padding-block:36px}
+  .strip-btns{display:grid;width:100%}
+  .strip-btns .btn{width:100%;padding:14px 18px}
+  .now{padding-block:32px}
+  .cards{margin-top:22px;gap:22px}
+  .card3{padding-top:16px;gap:8px}
+  .offer{margin-top:22px;gap:10px}
+  .ocard{padding:16px 18px 18px;gap:6px}
+  .checkf{padding:18px}
+  .person{grid-template-columns:72px minmax(0,1fr);gap:16px;align-items:start}
+  .person img{width:72px;height:72px;border-width:3px}
+  .person>div{display:contents}
+  .person .eyebrow{grid-column:2;align-self:end}
+  .person h2{grid-column:2;margin-top:0}
+  .person>div>p,.person .contact-card{grid-column:1/-1;margin-top:0}
+  .person img{grid-row:1/span 2}
+  .contact-card{padding:14px;gap:10px}
+  .end h2{font-size:1.5rem}
+  .end .btn{margin-top:20px}
+  .foot .wrap{padding-block:36px 22px}
+  .foot-top{gap:26px 20px}
+  .foot-brand p{margin-top:12px}
+  .foot-brand .btn{margin-top:14px}
+  .foot-col{gap:8px}
+  .foot-col h3{margin-bottom:10px}
+  .foot-col.two{gap:8px 20px}
+  .foot-bottom{margin-top:28px;padding-top:18px;gap:14px}
+}
+@media (max-width:640px){
+  section{padding-block:36px}
+  .ask textarea{min-height:68px;padding-top:10px}
+  .demo-steps .screen{gap:6px}
+  .demo-steps .sheet div{padding:4px 0}
+  .demo-steps .b{padding:8px 11px;font-size:.85rem}
+  .demo-steps .note{padding:8px 10px}
+  #dDo{gap:6px}
+  #dDo .gain{font-size:.93rem}
+  .offer{grid-template-columns:1fr 1fr}
+  .ocard{padding:14px 14px 16px}
+  .ocard .big{font-size:1.25rem}
+  .ocard p:last-child{font-size:.9rem;line-height:1.45}
+  .card3 p,.person p{font-size:.95rem;line-height:1.55}
+  .foot-col.two{grid-template-columns:1fr 1fr 1fr;gap:8px 14px;font-size:.9rem}
+}
+@media (max-width:640px){
+  section{padding-block:32px}
+  .head h2,.strip h2{font-size:1.45rem}
+  .jtabs{margin-top:20px;gap:6px}
+  .jtabs [role=tab]{padding:9px 13px;min-height:40px;font-size:.9rem}
+  .tools{margin-top:18px}
+  .tools li{padding:4px 9px;font-size:.8rem}
+  .how4{gap:12px}
+  .how4 h3{font-size:1.08rem}
+  .how4 p{margin-top:3px;font-size:.93rem;line-height:1.5}
+  details.need{margin-top:18px}
+  .demo-steps .job{padding:12px}
+  .demo-steps .screen{padding:8px;border-radius:16px}
+  .act{margin-top:2px}
+  .act i{width:32px;height:32px}
+  .now .wrap{gap:8px}
+  .now p{font-size:.97rem;line-height:1.55}
+  .more-prices{margin-top:12px;font-size:.9rem}
+  .contact-card{margin-top:4px}
+  .foot-brand p{font-size:.9rem}
+  .foot-top{gap:22px 18px}
+}
+@media (max-width:640px){
+  .foot .wrap{padding-block:30px 20px}
+  .foot-col{gap:6px;font-size:.92rem}
+  .foot-col h3{margin-bottom:8px}
+  .foot-bottom{margin-top:22px;padding-top:16px;gap:12px}
+  .hero .eyebrow{font-size:.72rem;letter-spacing:.08em}
+  .end h2{max-width:none}
+  .end p{margin-top:10px}
+  .person>div>p+p{margin-top:-6px}
+}
+.co-page+.end{border-top:1px solid var(--night-line)}
+
+/* 3 Nov 2026: job tabs as one-row icon segmented control */
+.jtabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:5px;max-width:720px;background:rgba(20,26,45,.06);border-radius:20px}
+.jtabs [role=tab]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:68px;padding:10px 4px;border:0;border-radius:15px;background:transparent;color:var(--ink);font:600 .86rem/1.15 var(--body);text-align:center}
+.jtabs [role=tab]:hover{background:rgba(255,255,255,.7)}
+.jtabs [role=tab][aria-selected=true]{background:var(--ink);color:#fff;box-shadow:0 8px 18px -10px rgba(10,14,30,.55)}
+.jtabs [role=tab] svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.jtabs [role=tab][aria-selected=true] svg{opacity:1}
+.jtabs .ts{display:none}
+@media (max-width:640px){
+  .jtabs{gap:2px;padding:4px;border-radius:18px}
+  .jtabs [role=tab]{min-height:62px;padding:9px 2px;font-size:.74rem;gap:6px}
+  .jtabs [role=tab] svg{width:20px;height:20px}
+  .jtabs .tl{display:none}.jtabs .ts{display:block}
+}

@@ -328,6 +328,7 @@ if (askForm) {
   async function ask(text) {
     text = text.trim(); if (!text) { job.focus(); return; }
     lastJob = text;
+    $("#bench").hidden = false; // "Your plan" stays hidden until the visitor uses the box (3 Nov 2026: shorter phone page)
     $("#bench").scrollIntoView({ behavior: calm ? "auto" : "smooth" });
     $("#steps").innerHTML = `<li class="thinking">${T.thinking}</li>`;
     const t0 = Date.now();
@@ -350,6 +351,27 @@ if (askForm) {
     catch { busy(btn, false); note.textContent = ""; const a = document.createElement("a"); a.href = waLink(); a.target = "_blank"; a.rel = "noopener"; a.textContent = T.sendFail; note.appendChild(a); return; }
     form.replaceChildren(sentCard(wa));
   });
+}
+
+/* ---------- "What we automate" tabs (3 Nov 2026). Without JS every card shows; with JS one department at a time.
+   Arrow keys move between tabs (mirrored in Arabic), Home/End jump to the first/last. ---------- */
+const jtabs = $(".jtabs");
+if (jtabs) {
+  const tabs = $$("[role=tab]", jtabs);
+  const pick = (t, focus) => {
+    tabs.forEach((x) => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; $("#" + x.getAttribute("aria-controls")).hidden = !on; });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => pick(t));
+    t.addEventListener("keydown", (e) => {
+      const fwd = AR ? "ArrowLeft" : "ArrowRight", back = AR ? "ArrowRight" : "ArrowLeft";
+      const j = e.key === fwd ? (i + 1) % tabs.length : e.key === back ? (i - 1 + tabs.length) % tabs.length : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : -1;
+      if (j < 0) return; e.preventDefault(); pick(tabs[j], true);
+    });
+  });
+  jtabs.hidden = false; $("#jobs").classList.add("tabbed");
+  pick(tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0]);
 }
 
 /* ---------- scroll story: the step crossing the middle of the screen is active ---------- */
@@ -384,7 +406,7 @@ if (checkF) checkF.addEventListener("submit", async (e) => {
   e.preventDefault();
   const btn = $("button", checkF); if (btn.disabled) return;
   const inp = $("#checkWa"), wa = inp.value.trim(), note = $("#checkNote");
-  if (wa.replace(/D/g, "").length < 9) { note.textContent = T.waBad; inp.focus(); return; }
+  if (wa.replace(/\D/g, "").length < 9) { note.textContent = T.waBad; inp.focus(); return; }
   busy(btn, true);
   post("/lead", { job: "Free 20-minute check (prices section)", plan: "free check" }).catch(() => {});
   try { await mail("New request: free 20-minute check", { whatsapp: wa, from: "prices section" }); }

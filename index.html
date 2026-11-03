@@ -24,7 +24,7 @@
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=11">
+<link rel="stylesheet" href="assets/site.css?v=13">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Noor AI Concierge","url":"https://nooraiconcierge.com","logo":"https://nooraiconcierge.com/assets/brand/logo-line.svg","telephone":"+971589358857","email":"noor@nooraiconcierge.com","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"founder":{"@type":"Person","name":"Noor Zaman","jobTitle":"Founder","image":"https://nooraiconcierge.com/media/noor.jpg","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"sameAs":["https://www.linkedin.com/in/noor-zaman-615b32300/","https://www.tiktok.com/@imnoorzaman","https://x.com/ImNoorzaman","https://www.facebook.com/noor.hamdard.526"]},"sameAs":["https://www.facebook.com/nooraiconcierge","https://www.instagram.com/nooraiconcierge/","https://www.linkedin.com/company/noor-ai-concierge/","https://x.com/nooraiconcierge","https://www.tiktok.com/@imnoorzaman","https://www.google.com/maps?cid=4371601908040004547"]}</script>
 </head>
 <body data-page="en/home">
@@ -51,7 +51,7 @@
       </form>
     </div>
 
-    <div class="bench" id="bench">
+    <div class="bench" id="bench" hidden>
       <div class="wrap">
         <div class="grid">
           <div class="side">
@@ -106,18 +106,35 @@
         <h2>The office jobs that eat your week, done for you.</h2>
         <p class="lede">Each one works on its own, so you can start with the job that hurts most.</p>
       </div>
-      <div class="jobs">
-        <article class="job"><span class="dept">Sales</span><h3>Lead and quote follow-up</h3><p class="pain">Quotes go out and nobody chases them, so customers drift to whoever replied last.</p><p class="gain">Every new enquiry and open quote gets a polite follow-up on time, and you see who is still interested.</p></article>
-        <article class="job"><span class="dept">Sales</span><h3>Quotes from your price list</h3><p class="pain">Someone retypes the same prices into a quote template many times a day.</p><p class="gain">A neat quote in your own format within minutes. A person checks it before it goes out.</p></article>
-        <article class="job"><span class="dept">Accounts</span><h3>Payment reminders</h3><p class="pain">Chasing unpaid invoices feels awkward, so it waits until cash gets tight.</p><p class="gain">Polite reminders go out at the right times, and each morning you see who owes what.</p></article>
-        <article class="job"><span class="dept">Accounts</span><h3>Bills into your accounting</h3><p class="pain">Supplier bills arrive by email and WhatsApp, and someone types them in by hand.</p><p class="gain">They are read and entered into your accounting software as drafts, ready for your accountant to approve.</p></article>
-        <article class="job"><span class="dept">Accounts</span><h3>E-invoicing readiness</h3><p class="pain">Customer records are missing tax numbers and addresses that e-invoicing will require.</p><p class="gain">We clean your customer and supplier data and check your invoice details, ready for the provider you choose.</p></article>
-        <article class="job"><span class="dept">Accounts</span><h3>Weekly owner report</h3><p class="pain">You only find out how the month went once the books are closed.</p><p class="gain">One short message every week: sales, cash received, open quotes and overdue payments.</p></article>
-        <article class="job"><span class="dept">Operations</span><h3>Supplier price comparison</h3><p class="pain">Asking five suppliers for prices and comparing their replies takes a day of emails.</p><p class="gain">Requests go out together, replies land in one side-by-side table, and a draft purchase order waits for approval.</p></article>
-        <article class="job"><span class="dept">Operations</span><h3>Site and job reports from WhatsApp</h3><p class="pain">Updates from the field arrive as scattered photos and voice notes.</p><p class="gain">Your team keeps sending them on WhatsApp. You receive one clear daily report for each job.</p></article>
-        <article class="job"><span class="dept">HR and admin</span><h3>Document and expiry tracking</h3><p class="pain">A trade licence, visa or insurance policy expires and nobody noticed in time.</p><p class="gain">Every expiry date sits in one list, with reminders well before each deadline.</p></article>
-        <article class="job"><span class="dept">HR and admin</span><h3>Timesheets to payroll</h3><p class="pain">Every month someone adds up attendance sheets by hand before salaries are paid.</p><p class="gain">Hours become a payroll summary and a ready salary file for the UAE wage system (WPS). Your accountant submits it.</p></article>
-        <article class="job wide"><span class="dept">Customer service</span><h3>An assistant that answers your customers</h3><p class="pain">Customers message after hours or on busy days, wait for a reply, and go elsewhere.</p><p class="gain">It answers WhatsApp, website chat and email in seconds from your real information, books appointments, says it is automated, and passes serious enquiries to your team. Phone answering can be added.</p></article>
+      <div class="jtabs" role="tablist" aria-label="Jobs by department" hidden>
+        <button type="button" role="tab" id="jt-sales" aria-controls="jp-sales" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span class="tl">Sales</span><span class="ts" aria-hidden="true">Sales</span></button>
+        <button type="button" role="tab" id="jt-acc" aria-controls="jp-acc" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg><span class="tl">Accounts</span><span class="ts" aria-hidden="true">Accounts</span></button>
+        <button type="button" role="tab" id="jt-ops" aria-controls="jp-ops" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v3H9z"/><path d="M7 4.5H5V21h14V4.5h-2"/><path d="M9 14l2 2 4-4"/></svg><span class="tl">Operations</span><span class="ts" aria-hidden="true">Operations</span></button>
+        <button type="button" role="tab" id="jt-hr" aria-controls="jp-hr" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c1.8.8 3 2.6 3.5 5.2"/></svg><span class="tl">HR &amp; Admin</span><span class="ts" aria-hidden="true">HR</span></button>
+        <button type="button" role="tab" id="jt-cs" aria-controls="jp-cs" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></svg><span class="tl">Customers</span><span class="ts" aria-hidden="true">Customers</span></button>
+      </div>
+      <div class="jpanels">
+        <div class="jobs" id="jp-sales" role="tabpanel" aria-labelledby="jt-sales">
+          <article class="job"><span class="dept">Sales</span><h3>Lead and quote follow-up</h3><p class="pain">Quotes go out and nobody chases them, so customers drift to whoever replied last.</p><p class="gain">Every new enquiry and open quote gets a polite follow-up on time, and you see who is still interested.</p></article>
+          <article class="job"><span class="dept">Sales</span><h3>Quotes from your price list</h3><p class="pain">Someone retypes the same prices into a quote template many times a day.</p><p class="gain">A neat quote in your own format within minutes. A person checks it before it goes out.</p></article>
+        </div>
+        <div class="jobs" id="jp-acc" role="tabpanel" aria-labelledby="jt-acc">
+          <article class="job"><span class="dept">Accounts</span><h3>Payment reminders</h3><p class="pain">Chasing unpaid invoices feels awkward, so it waits until cash gets tight.</p><p class="gain">Polite reminders go out at the right times, and each morning you see who owes what.</p></article>
+          <article class="job"><span class="dept">Accounts</span><h3>Bills into your accounting</h3><p class="pain">Supplier bills arrive by email and WhatsApp, and someone types them in by hand.</p><p class="gain">They are read and entered into your accounting software as drafts, ready for your accountant to approve.</p></article>
+          <article class="job"><span class="dept">Accounts</span><h3>E-invoicing readiness</h3><p class="pain">Customer records are missing tax numbers and addresses that e-invoicing will require.</p><p class="gain">We clean your customer and supplier data and check your invoice details, ready for the provider you choose.</p></article>
+          <article class="job"><span class="dept">Accounts</span><h3>Weekly owner report</h3><p class="pain">You only find out how the month went once the books are closed.</p><p class="gain">One short message every week: sales, cash received, open quotes and overdue payments.</p></article>
+        </div>
+        <div class="jobs" id="jp-ops" role="tabpanel" aria-labelledby="jt-ops">
+          <article class="job"><span class="dept">Operations</span><h3>Supplier price comparison</h3><p class="pain">Asking five suppliers for prices and comparing their replies takes a day of emails.</p><p class="gain">Requests go out together, replies land in one side-by-side table, and a draft purchase order waits for approval.</p></article>
+          <article class="job"><span class="dept">Operations</span><h3>Site and job reports from WhatsApp</h3><p class="pain">Updates from the field arrive as scattered photos and voice notes.</p><p class="gain">Your team keeps sending them on WhatsApp. You receive one clear daily report for each job.</p></article>
+        </div>
+        <div class="jobs" id="jp-hr" role="tabpanel" aria-labelledby="jt-hr">
+          <article class="job"><span class="dept">HR and admin</span><h3>Document and expiry tracking</h3><p class="pain">A trade licence, visa or insurance policy expires and nobody noticed in time.</p><p class="gain">Every expiry date sits in one list, with reminders well before each deadline.</p></article>
+          <article class="job"><span class="dept">HR and admin</span><h3>Timesheets to payroll</h3><p class="pain">Every month someone adds up attendance sheets by hand before salaries are paid.</p><p class="gain">Hours become a payroll summary and a ready salary file for the UAE wage system (WPS). Your accountant submits it.</p></article>
+        </div>
+        <div class="jobs" id="jp-cs" role="tabpanel" aria-labelledby="jt-cs">
+          <article class="job wide"><span class="dept">Customer service</span><h3>An assistant that answers your customers</h3><p class="pain">Customers message after hours or on busy days, wait for a reply, and go elsewhere.</p><p class="gain">It answers WhatsApp, website chat and email in seconds from your real information, books appointments, says it is automated, and passes serious enquiries to your team. Phone answering can be added.</p></article>
+        </div>
       </div>
       <div class="tools">
         <p><b>Works with the tools you already use.</b> No new software for your team to learn.</p>
@@ -135,38 +152,32 @@
         <p class="lede">You always know what happens next, and what we need from you.</p>
       </div>
       <ol class="how4">
-        <li><span class="n">Step 1</span><h3>Free 20-minute check</h3><p>You show us one job your team repeats, on a call or at your office. We tell you honestly whether automation will help.</p><p class="need"><b>We need from you</b>One real sample, such as a quote, an invoice or a WhatsApp chat.</p></li>
-        <li><span class="n">Step 2</span><h3>Fixed quote in 48 hours</h3><p>You receive a written plan and a fixed price within 48 hours. No surprises after.</p><p class="need"><b>We need from you</b>Your questions, then your yes. You pay nothing until you agree.</p></li>
-        <li><span class="n">Step 3</span><h3>We build and connect it</h3><p>We set it up inside the tools you already use: Gmail or Outlook, WhatsApp Business, Excel or Google Sheets, and Zoho Books, QuickBooks, Tally or Odoo.</p><p class="need"><b>We need from you</b>A staff account we can use, your price list and templates, and the name of the person who approves.</p></li>
-        <li><span class="n">Step 4</span><h3>Test, go live, see the hours saved</h3><p>Your team tests it on real work first. Then it goes live, and every month you get a short report of the hours it saved.</p><p class="need"><b>We need from you</b>Honest feedback in the first weeks. Monthly plans can be stopped at any time.</p></li>
+        <li><span class="n">1</span><div><h3>Check</h3><p>A free 20-minute look at one job your team repeats, on a call or at your office. We tell you honestly whether automation will help.</p></div></li>
+        <li><span class="n">2</span><div><h3>Quote</h3><p>A written plan and a fixed price within 48 hours. No surprises after.</p></div></li>
+        <li><span class="n">3</span><div><h3>Build</h3><p>We set it up and connect it inside the tools you already use.</p></div></li>
+        <li><span class="n">4</span><div><h3>Go live</h3><p>Your team tests it on real work first. Then it goes live, with a short monthly report of the hours saved.</p></div></li>
       </ol>
+      <details class="need">
+        <summary>See what we need from you</summary>
+        <dl>
+          <div><dt>Check</dt><dd>One real sample, such as a quote, an invoice or a WhatsApp chat.</dd></div>
+          <div><dt>Quote</dt><dd>Your questions, then your yes. You pay nothing until you agree.</dd></div>
+          <div><dt>Build</dt><dd>A staff account we can use, your price list and templates, and the name of the person who approves.</dd></div>
+          <div><dt>Go live</dt><dd>Honest feedback in the first weeks. Monthly plans can be stopped at any time.</dd></div>
+        </dl>
+      </details>
     </div>
   </section>
 
-  <section id="companies" class="bigco" aria-labelledby="bigcoTitle">
+  <section id="companies" class="bigco strip" aria-labelledby="bigcoTitle">
     <div class="wrap">
-      <div class="head">
-        <span class="eyebrow">For larger companies</span>
-        <h2 id="bigcoTitle">One department at a time, across the whole company.</h2>
-        <p class="lede">Every department repeats the same paperwork each day. We start with one job in one department as a fixed-price pilot, then grow from there.</p>
+      <h2 id="bigcoTitle">Running a larger company? We work one department at a time.</h2>
+      <p>We start with one job in one department as a fixed-price pilot, then grow from there.</p>
+      <div class="strip-btns">
+        <a class="btn" href="companies.html">See how it works for companies</a>
+        <a class="btn line" href="company-profile.pdf" download="Noor-Ai-Concierge-FZE-Company-Profile.pdf"><svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.4l3.3 3.3V4a1 1 0 0 1 1-1zM5 19h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2z"/></svg>Download company profile</a>
       </div>
-      <div class="bigco-grid">
-        <article><span class="dept">Procurement</span><h3>From request to purchase order</h3><p>Requests turned into RFQs, supplier quotes compared side by side, and draft purchase orders ready for approval.</p></article>
-        <article><span class="dept">Finance</span><h3>Invoices, matching and collections</h3><p>Supplier invoices entered and checked against the PO, payment reminders, statements and e-invoicing data.</p></article>
-        <article><span class="dept">Sales and service</span><h3>Every enquiry answered on time</h3><p>Replies on WhatsApp, email and chat, quotes from your price list, and follow-ups on open quotes.</p></article>
-        <article><span class="dept">Operations</span><h3>Field updates into clear reports</h3><p>Site photos and voice notes become daily job reports, requests become work orders, monthly client reports.</p></article>
-        <article><span class="dept">HR and admin</span><h3>Documents, visas and payroll prep</h3><p>Every licence, visa and permit expiry tracked, and timesheets summarised for payroll.</p></article>
-        <article><span class="dept">Management</span><h3>One clear view every week</h3><p>Sales, cash received, open quotes, overdue payments and the decisions waiting for you.</p></article>
-      </div>
-      <ul class="bigco-facts">
-        <li><b>Works with your systems</b>Outlook, Excel, SharePoint, SAP, Oracle, Dynamics, Odoo and more.</li>
-        <li><b>We prepare, your people approve</b>Money, legal filings and promises to customers always go to a person.</li>
-        <li><b>Licensed in the UAE</b>Noor Ai Concierge FZE, SPC Free Zone. Ready for vendor registration.</li>
-      </ul>
-      <div class="bigco-cta">
-        <p><b>Company profile</b><span>Our services, how we work, security and full company details. PDF, 2 pages.</span></p>
-        <a class="btn" href="company-profile.pdf" download="Noor-Ai-Concierge-FZE-Company-Profile.pdf"><svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.4l3.3 3.3V4a1 1 0 0 1 1-1zM5 19h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2z"/></svg>Download company profile</a>
-      </div>
+      <p class="lic">Licensed in the UAE: Noor Ai Concierge FZE, SPC Free Zone. Ready for vendor registration.</p>
     </div>
   </section>
 
@@ -268,7 +279,7 @@
         <a class="btn" href="https://wa.me/971589358857" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1c-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.5-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.8.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.6-.4M12 21.8a9.9 9.9 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.7-.2-.4A9.9 9.9 0 1 1 12 21.8m8.4-18.3A11.8 11.8 0 0 0 .2 11.9c0 2.1.5 4.1 1.6 6L.1 24l6.3-1.7a11.9 11.9 0 0 0 5.7 1.5c6.5 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4"/></svg>WhatsApp Noor</a>
       </div>
       <nav class="foot-col two" aria-label="Made for"><h3>Made for</h3><a href="ai-receptionist-clinics-abu-dhabi.html">Clinics</a><a href="ai-assistant-garages-musaffah.html">Garages</a><a href="ai-receptionist-salons-spas-abu-dhabi.html">Salons and spas</a><a href="ai-assistant-restaurants-cafes-abu-dhabi.html">Restaurants</a><a href="ai-assistant-real-estate-abu-dhabi.html">Real estate</a><a href="ai-automation-construction-contracting-abu-dhabi.html">Construction</a><a href="ai-assistant-maintenance-cleaning-abu-dhabi.html">Maintenance</a><a href="ai-automation-trading-logistics-abu-dhabi.html">Trading</a></nav>
-      <nav class="foot-col" aria-label="Company"><h3>Company</h3><a href="#jobs">What we automate</a><a href="#how">How it works</a><a href="#price">Prices</a><a href="websites.html">Websites</a><a href="ar/" lang="ar">العربية</a></nav>
+      <nav class="foot-col" aria-label="Company"><h3>Company</h3><a href="#jobs">What we automate</a><a href="#how">How it works</a><a href="#price">Prices</a><a href="companies.html">For companies</a><a href="websites.html">Websites</a><a href="ar/" lang="ar">العربية</a></nav>
       <div class="foot-col"><h3>Contact</h3><a href="https://wa.me/971589358857" target="_blank" rel="noopener" dir="ltr">058 935 8857</a><a href="mailto:noor@nooraiconcierge.com">noor@nooraiconcierge.com</a><span>Based in Abu Dhabi, serving all of the UAE</span></div>
     </div>
     <div class="foot-bottom">
@@ -278,6 +289,6 @@
     </div>
   </div>
 </footer>
-<script src="assets/site.js?v=12" defer></script>
+<script src="assets/site.js?v=13" defer></script>
 </body>
 </html>

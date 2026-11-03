@@ -23,7 +23,7 @@
 <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=11">
+<link rel="stylesheet" href="../assets/site.css?v=13">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Noor AI Concierge","url":"https://nooraiconcierge.com/ar/","logo":"https://nooraiconcierge.com/assets/brand/logo-line.svg","telephone":"+971589358857","email":"noor@nooraiconcierge.com","inLanguage":"ar","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"founder":{"@type":"Person","name":"Noor Zaman","jobTitle":"Founder"},"sameAs":["https://www.facebook.com/nooraiconcierge","https://www.instagram.com/nooraiconcierge/","https://www.linkedin.com/company/noor-ai-concierge/","https://x.com/nooraiconcierge","https://www.tiktok.com/@imnoorzaman","https://www.google.com/maps?cid=4371601908040004547"]}</script>
 </head>
 <body data-page="ar/home">
@@ -50,7 +50,7 @@
       </form>
     </div>
 
-    <div class="bench" id="bench">
+    <div class="bench" id="bench" hidden>
       <div class="wrap">
         <div class="grid">
           <div class="side">
@@ -105,18 +105,35 @@
         <h2>الأعمال المكتبية التي تستهلك أسبوعك، ننجزها عنك.</h2>
         <p class="lede">كل عمل منها يعمل بمفرده، فيمكنك أن تبدأ بالعمل الذي يتعبك أكثر.</p>
       </div>
-      <div class="jobs">
-        <article class="job"><span class="dept">المبيعات</span><h3>متابعة العملاء المحتملين وعروض الأسعار</h3><p class="pain">تُرسَل عروض الأسعار ولا أحد يتابعها، فيذهب العملاء إلى من ردّ عليهم آخراً.</p><p class="gain">يصل كل استفسار جديد وكل عرض سعر مفتوح متابعة مهذبة في وقتها، وترى من لا يزال مهتماً.</p></article>
-        <article class="job"><span class="dept">المبيعات</span><h3>عروض أسعار من قائمة أسعارك</h3><p class="pain">يعيد أحدهم كتابة الأسعار نفسها في نموذج عرض السعر مرات كثيرة كل يوم.</p><p class="gain">عرض سعر أنيق بتنسيقك الخاص خلال دقائق. ويراجعه شخص قبل إرساله.</p></article>
-        <article class="job"><span class="dept">الحسابات</span><h3>تذكيرات الدفع</h3><p class="pain">مطالبة العملاء بالفواتير غير المسددة محرجة، فتؤجَّل حتى تضيق السيولة.</p><p class="gain">تُرسَل تذكيرات مهذبة في الأوقات المناسبة، وترى كل صباح من عليه كم.</p></article>
-        <article class="job"><span class="dept">الحسابات</span><h3>فواتير الموردين إلى نظامك المحاسبي</h3><p class="pain">تصل فواتير الموردين بالبريد وعلى واتساب، ويدخلها أحدهم يدوياً.</p><p class="gain">تُقرأ وتُدخَل في برنامج المحاسبة كمسودات، جاهزة لموافقة محاسبك.</p></article>
-        <article class="job"><span class="dept">الحسابات</span><h3>الجاهزية للفوترة الإلكترونية</h3><p class="pain">تنقص سجلات العملاء أرقام ضريبية وعناوين ستشترطها الفوترة الإلكترونية.</p><p class="gain">ننظّف بيانات عملائك وموردّيك ونراجع تفاصيل فواتيرك، جاهزة للمزوّد الذي تختاره.</p></article>
-        <article class="job"><span class="dept">الحسابات</span><h3>تقرير أسبوعي للمالك</h3><p class="pain">لا تعرف كيف سار الشهر إلا بعد إقفال الدفاتر.</p><p class="gain">رسالة قصيرة واحدة كل أسبوع: المبيعات، والمبالغ المستلمة، وعروض الأسعار المفتوحة، والدفعات المتأخرة.</p></article>
-        <article class="job"><span class="dept">العمليات</span><h3>مقارنة أسعار الموردين</h3><p class="pain">طلب الأسعار من خمسة موردين ومقارنة ردودهم يستغرق يوماً كاملاً من الرسائل.</p><p class="gain">تُرسَل الطلبات معاً، وتصل الردود في جدول واحد متجاور، وينتظر أمر شراء مسودة موافقتك.</p></article>
-        <article class="job"><span class="dept">العمليات</span><h3>تقارير المواقع والأعمال من واتساب</h3><p class="pain">تصل تحديثات الميدان صوراً ورسائل صوتية متفرقة.</p><p class="gain">يواصل فريقك إرسالها على واتساب، ويصلك كل يوم تقرير واحد واضح لكل عمل.</p></article>
-        <article class="job"><span class="dept">الموارد البشرية والإدارة</span><h3>متابعة الوثائق وتواريخ الانتهاء</h3><p class="pain">تنتهي رخصة تجارية أو تأشيرة أو وثيقة تأمين ولا ينتبه أحد في الوقت المناسب.</p><p class="gain">كل تواريخ الانتهاء في قائمة واحدة، مع تذكيرات قبل كل موعد بوقت كافٍ.</p></article>
-        <article class="job"><span class="dept">الموارد البشرية والإدارة</span><h3>من كشوف الدوام إلى الرواتب</h3><p class="pain">كل شهر يجمع أحدهم كشوف الحضور يدوياً قبل دفع الرواتب.</p><p class="gain">تتحول الساعات إلى ملخص للرواتب وملف رواتب جاهز لنظام حماية الأجور (WPS) في الإمارات. ويقدّمه محاسبك.</p></article>
-        <article class="job wide"><span class="dept">خدمة العملاء</span><h3>مساعد يردّ على عملائك</h3><p class="pain">يراسلك العملاء بعد انتهاء الدوام أو في أوقات الازدحام، وينتظرون الرد، ثم يذهبون إلى غيرك.</p><p class="gain">يردّ على واتساب ومحادثة الموقع والبريد الإلكتروني خلال ثوانٍ من معلوماتك الحقيقية، ويحجز المواعيد، ويذكر أنه آلي، ويحوّل الاستفسارات الجادة إلى فريقك. ويمكن إضافة الرد على المكالمات الهاتفية.</p></article>
+      <div class="jtabs" role="tablist" aria-label="الأعمال حسب القسم" hidden>
+        <button type="button" role="tab" id="jt-sales" aria-controls="jp-sales" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span class="tl">المبيعات</span><span class="ts" aria-hidden="true">المبيعات</span></button>
+        <button type="button" role="tab" id="jt-acc" aria-controls="jp-acc" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg><span class="tl">الحسابات</span><span class="ts" aria-hidden="true">الحسابات</span></button>
+        <button type="button" role="tab" id="jt-ops" aria-controls="jp-ops" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v3H9z"/><path d="M7 4.5H5V21h14V4.5h-2"/><path d="M9 14l2 2 4-4"/></svg><span class="tl">العمليات</span><span class="ts" aria-hidden="true">العمليات</span></button>
+        <button type="button" role="tab" id="jt-hr" aria-controls="jp-hr" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c1.8.8 3 2.6 3.5 5.2"/></svg><span class="tl">الموارد البشرية والإدارة</span><span class="ts" aria-hidden="true">الموظفون</span></button>
+        <button type="button" role="tab" id="jt-cs" aria-controls="jp-cs" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></svg><span class="tl">خدمة العملاء</span><span class="ts" aria-hidden="true">العملاء</span></button>
+      </div>
+      <div class="jpanels">
+        <div class="jobs" id="jp-sales" role="tabpanel" aria-labelledby="jt-sales">
+          <article class="job"><span class="dept">المبيعات</span><h3>متابعة العملاء المحتملين وعروض الأسعار</h3><p class="pain">تُرسَل عروض الأسعار ولا أحد يتابعها، فيذهب العملاء إلى من ردّ عليهم آخراً.</p><p class="gain">يصل كل استفسار جديد وكل عرض سعر مفتوح متابعة مهذبة في وقتها، وترى من لا يزال مهتماً.</p></article>
+          <article class="job"><span class="dept">المبيعات</span><h3>عروض أسعار من قائمة أسعارك</h3><p class="pain">يعيد أحدهم كتابة الأسعار نفسها في نموذج عرض السعر مرات كثيرة كل يوم.</p><p class="gain">عرض سعر أنيق بتنسيقك الخاص خلال دقائق. ويراجعه شخص قبل إرساله.</p></article>
+        </div>
+        <div class="jobs" id="jp-acc" role="tabpanel" aria-labelledby="jt-acc">
+          <article class="job"><span class="dept">الحسابات</span><h3>تذكيرات الدفع</h3><p class="pain">مطالبة العملاء بالفواتير غير المسددة محرجة، فتؤجَّل حتى تضيق السيولة.</p><p class="gain">تُرسَل تذكيرات مهذبة في الأوقات المناسبة، وترى كل صباح من عليه كم.</p></article>
+          <article class="job"><span class="dept">الحسابات</span><h3>فواتير الموردين إلى نظامك المحاسبي</h3><p class="pain">تصل فواتير الموردين بالبريد وعلى واتساب، ويدخلها أحدهم يدوياً.</p><p class="gain">تُقرأ وتُدخَل في برنامج المحاسبة كمسودات، جاهزة لموافقة محاسبك.</p></article>
+          <article class="job"><span class="dept">الحسابات</span><h3>الجاهزية للفوترة الإلكترونية</h3><p class="pain">تنقص سجلات العملاء أرقام ضريبية وعناوين ستشترطها الفوترة الإلكترونية.</p><p class="gain">ننظّف بيانات عملائك وموردّيك ونراجع تفاصيل فواتيرك، جاهزة للمزوّد الذي تختاره.</p></article>
+          <article class="job"><span class="dept">الحسابات</span><h3>تقرير أسبوعي للمالك</h3><p class="pain">لا تعرف كيف سار الشهر إلا بعد إقفال الدفاتر.</p><p class="gain">رسالة قصيرة واحدة كل أسبوع: المبيعات، والمبالغ المستلمة، وعروض الأسعار المفتوحة، والدفعات المتأخرة.</p></article>
+        </div>
+        <div class="jobs" id="jp-ops" role="tabpanel" aria-labelledby="jt-ops">
+          <article class="job"><span class="dept">العمليات</span><h3>مقارنة أسعار الموردين</h3><p class="pain">طلب الأسعار من خمسة موردين ومقارنة ردودهم يستغرق يوماً كاملاً من الرسائل.</p><p class="gain">تُرسَل الطلبات معاً، وتصل الردود في جدول واحد متجاور، وينتظر أمر شراء مسودة موافقتك.</p></article>
+          <article class="job"><span class="dept">العمليات</span><h3>تقارير المواقع والأعمال من واتساب</h3><p class="pain">تصل تحديثات الميدان صوراً ورسائل صوتية متفرقة.</p><p class="gain">يواصل فريقك إرسالها على واتساب، ويصلك كل يوم تقرير واحد واضح لكل عمل.</p></article>
+        </div>
+        <div class="jobs" id="jp-hr" role="tabpanel" aria-labelledby="jt-hr">
+          <article class="job"><span class="dept">الموارد البشرية والإدارة</span><h3>متابعة الوثائق وتواريخ الانتهاء</h3><p class="pain">تنتهي رخصة تجارية أو تأشيرة أو وثيقة تأمين ولا ينتبه أحد في الوقت المناسب.</p><p class="gain">كل تواريخ الانتهاء في قائمة واحدة، مع تذكيرات قبل كل موعد بوقت كافٍ.</p></article>
+          <article class="job"><span class="dept">الموارد البشرية والإدارة</span><h3>من كشوف الدوام إلى الرواتب</h3><p class="pain">كل شهر يجمع أحدهم كشوف الحضور يدوياً قبل دفع الرواتب.</p><p class="gain">تتحول الساعات إلى ملخص للرواتب وملف رواتب جاهز لنظام حماية الأجور (WPS) في الإمارات. ويقدّمه محاسبك.</p></article>
+        </div>
+        <div class="jobs" id="jp-cs" role="tabpanel" aria-labelledby="jt-cs">
+          <article class="job wide"><span class="dept">خدمة العملاء</span><h3>مساعد يردّ على عملائك</h3><p class="pain">يراسلك العملاء بعد انتهاء الدوام أو في أوقات الازدحام، وينتظرون الرد، ثم يذهبون إلى غيرك.</p><p class="gain">يردّ على واتساب ومحادثة الموقع والبريد الإلكتروني خلال ثوانٍ من معلوماتك الحقيقية، ويحجز المواعيد، ويذكر أنه آلي، ويحوّل الاستفسارات الجادة إلى فريقك. ويمكن إضافة الرد على المكالمات الهاتفية.</p></article>
+        </div>
       </div>
       <div class="tools">
         <p><b>يعمل مع الأدوات التي تستخدمها اليوم.</b> لا برنامج جديد يتعلمه فريقك.</p>
@@ -134,38 +151,32 @@
         <p class="lede">تعرف دائماً ما الذي سيحدث بعد ذلك، وما الذي نحتاجه منك.</p>
       </div>
       <ol class="how4">
-        <li><span class="n">الخطوة 1</span><h3>فحص مجاني لمدة 20 دقيقة</h3><p>تُرينا عملاً واحداً يكرره فريقك، في مكالمة أو في مكتبك. ونخبرك بصدق إن كانت الأتمتة ستفيدك.</p><p class="need"><b>ما نحتاجه منك</b>نموذج حقيقي واحد، مثل عرض سعر أو فاتورة أو محادثة على واتساب.</p></li>
-        <li><span class="n">الخطوة 2</span><h3>عرض سعر ثابت خلال 48 ساعة</h3><p>تصلك خطة مكتوبة وسعر ثابت خلال 48 ساعة. بلا مفاجآت بعد ذلك.</p><p class="need"><b>ما نحتاجه منك</b>أسئلتك، ثم موافقتك. لا تدفع شيئاً حتى توافق.</p></li>
-        <li><span class="n">الخطوة 3</span><h3>نبنيه ونربطه بأدواتك</h3><p>نُعدّه داخل الأدوات التي تستخدمها: <bdi dir="ltr">Gmail</bdi> أو <bdi dir="ltr">Outlook</bdi>، وواتساب للأعمال، وإكسل أو <bdi dir="ltr">Google Sheets</bdi>، و<bdi dir="ltr">Zoho Books</bdi> أو <bdi dir="ltr">QuickBooks</bdi> أو <bdi dir="ltr">Tally</bdi> أو <bdi dir="ltr">Odoo</bdi>.</p><p class="need"><b>ما نحتاجه منك</b>حساب موظف يمكننا استخدامه، وقائمة أسعارك ونماذجك، واسم الشخص الذي يعتمد.</p></li>
-        <li><span class="n">الخطوة 4</span><h3>تجربة، ثم تشغيل، ثم ترى الساعات الموفَّرة</h3><p>يجرّبه فريقك على عمل حقيقي أولاً. ثم يبدأ العمل الفعلي، وكل شهر يصلك تقرير قصير بالساعات التي وفّرها.</p><p class="need"><b>ما نحتاجه منك</b>ملاحظات صريحة في الأسابيع الأولى. ويمكن إيقاف الاشتراكات الشهرية في أي وقت.</p></li>
+        <li><span class="n">1</span><div><h3>الفحص</h3><p>نظرة مجانية لمدة 20 دقيقة على عمل واحد يكرره فريقك، في مكالمة أو في مكتبك. ونخبرك بصدق إن كانت الأتمتة ستفيدك.</p></div></li>
+        <li><span class="n">2</span><div><h3>عرض السعر</h3><p>خطة مكتوبة وسعر ثابت خلال 48 ساعة. بلا مفاجآت بعد ذلك.</p></div></li>
+        <li><span class="n">3</span><div><h3>البناء</h3><p>نُعدّه ونربطه داخل الأدوات التي تستخدمها اليوم.</p></div></li>
+        <li><span class="n">4</span><div><h3>التشغيل</h3><p>يجرّبه فريقك على عمل حقيقي أولاً. ثم يبدأ العمل الفعلي، مع تقرير شهري قصير بالساعات التي وفّرها.</p></div></li>
       </ol>
+      <details class="need">
+        <summary>ما الذي نحتاجه منك</summary>
+        <dl>
+          <div><dt>الفحص</dt><dd>نموذج حقيقي واحد، مثل عرض سعر أو فاتورة أو محادثة على واتساب.</dd></div>
+          <div><dt>عرض السعر</dt><dd>أسئلتك، ثم موافقتك. لا تدفع شيئاً حتى توافق.</dd></div>
+          <div><dt>البناء</dt><dd>حساب موظف يمكننا استخدامه، وقائمة أسعارك ونماذجك، واسم الشخص الذي يعتمد.</dd></div>
+          <div><dt>التشغيل</dt><dd>ملاحظات صريحة في الأسابيع الأولى. ويمكن إيقاف الاشتراكات الشهرية في أي وقت.</dd></div>
+        </dl>
+      </details>
     </div>
   </section>
 
-  <section id="companies" class="bigco" aria-labelledby="bigcoTitle">
+  <section id="companies" class="bigco strip" aria-labelledby="bigcoTitle">
     <div class="wrap">
-      <div class="head">
-        <span class="eyebrow">للشركات الكبيرة</span>
-        <h2 id="bigcoTitle">قسم بعد قسم، في الشركة كلها.</h2>
-        <p class="lede">كل قسم يكرر الأعمال الورقية نفسها كل يوم. نبدأ بمهمة واحدة في قسم واحد كتجربة بسعر ثابت، ثم نتوسع خطوة بخطوة.</p>
+      <h2 id="bigcoTitle">تدير شركة كبيرة؟ نعمل معك قسماً بعد قسم.</h2>
+      <p>نبدأ بمهمة واحدة في قسم واحد كتجربة بسعر ثابت، ثم نتوسع خطوة بخطوة.</p>
+      <div class="strip-btns">
+        <a class="btn" href="../companies.html" hreflang="en">كيف نعمل مع الشركات (بالإنجليزية)</a>
+        <a class="btn line" href="../company-profile.pdf" download="Noor-Ai-Concierge-FZE-Company-Profile.pdf"><svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.4l3.3 3.3V4a1 1 0 0 1 1-1zM5 19h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2z"/></svg>تحميل ملف الشركة (PDF بالإنجليزية)</a>
       </div>
-      <div class="bigco-grid">
-        <article><span class="dept">المشتريات</span><h3>من الطلب إلى أمر الشراء</h3><p>تحويل الطلبات إلى طلبات عروض أسعار، ومقارنة عروض الموردين جنبًا إلى جنب، وتجهيز مسودات أوامر الشراء للاعتماد.</p></article>
-        <article><span class="dept">المالية</span><h3>الفواتير والمطابقة والتحصيل</h3><p>إدخال فواتير الموردين ومطابقتها مع أمر الشراء، وتذكيرات الدفع، وكشوف الحساب، وتجهيز بيانات الفوترة الإلكترونية.</p></article>
-        <article><span class="dept">المبيعات وخدمة العملاء</span><h3>رد في الوقت المناسب على كل استفسار</h3><p>ردود على واتساب والبريد والدردشة، وعروض أسعار من قائمة أسعاركم، ومتابعة العروض المفتوحة.</p></article>
-        <article><span class="dept">العمليات</span><h3>تقارير واضحة من الموقع</h3><p>صور المواقع والرسائل الصوتية تتحول إلى تقارير يومية، والطلبات إلى أوامر عمل، مع تقارير شهرية للعملاء.</p></article>
-        <article><span class="dept">الموارد البشرية والإدارة</span><h3>المستندات والتأشيرات والرواتب</h3><p>متابعة انتهاء كل رخصة وتأشيرة وتصريح، وتلخيص سجلات الدوام لإعداد الرواتب.</p></article>
-        <article><span class="dept">الإدارة العليا</span><h3>صورة واضحة كل أسبوع</h3><p>المبيعات، والمبالغ المحصلة، والعروض المفتوحة، والمدفوعات المتأخرة، والقرارات التي تنتظركم.</p></article>
-      </div>
-      <ul class="bigco-facts">
-        <li><b>يعمل مع أنظمتكم</b>Outlook وExcel وSharePoint وSAP وOracle وDynamics وOdoo وغيرها.</li>
-        <li><b>نحن نجهّز، وفريقكم يعتمد</b>كل ما يخص المال أو الإجراءات القانونية أو الوعود للعملاء يذهب إلى شخص أولًا.</li>
-        <li><b>مرخّصون في الإمارات</b>Noor Ai Concierge FZE، المنطقة الحرة SPC. جاهزون للتسجيل كمورّد.</li>
-      </ul>
-      <div class="bigco-cta">
-        <p><b>ملف الشركة</b><span>خدماتنا وطريقة عملنا والأمان وبيانات الشركة كاملة. ملف PDF من صفحتين باللغة الإنجليزية.</span></p>
-        <a class="btn" href="../company-profile.pdf" download="Noor-Ai-Concierge-FZE-Company-Profile.pdf"><svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.4l3.3 3.3V4a1 1 0 0 1 1-1zM5 19h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2z"/></svg>تحميل ملف الشركة</a>
-      </div>
+      <p class="lic">مرخّصون في الإمارات: <bdi dir="ltr">Noor Ai Concierge FZE</bdi>، المنطقة الحرة SPC. جاهزون للتسجيل كمورّد.</p>
     </div>
   </section>
 
@@ -267,7 +278,7 @@
         <a class="btn" href="https://wa.me/971589358857" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1c-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.5-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.8.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.6-.4M12 21.8a9.9 9.9 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.7-.2-.4A9.9 9.9 0 1 1 12 21.8m8.4-18.3A11.8 11.8 0 0 0 .2 11.9c0 2.1.5 4.1 1.6 6L.1 24l6.3-1.7a11.9 11.9 0 0 0 5.7 1.5c6.5 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4"/></svg>راسل نور على واتساب</a>
       </div>
       <nav class="foot-col two" aria-label="مصمم لـ"><h3>مصمم لـ</h3><a href="../ai-receptionist-clinics-abu-dhabi.html">العيادات</a><a href="../ai-assistant-garages-musaffah.html">الكراجات</a><a href="../ai-receptionist-salons-spas-abu-dhabi.html">الصالونات</a><a href="../ai-assistant-restaurants-cafes-abu-dhabi.html">المطاعم</a><a href="../ai-assistant-real-estate-abu-dhabi.html">العقارات</a><a href="../ai-automation-construction-contracting-abu-dhabi.html">المقاولات</a><a href="../ai-assistant-maintenance-cleaning-abu-dhabi.html">الصيانة</a><a href="../ai-automation-trading-logistics-abu-dhabi.html">التجارة</a></nav>
-      <nav class="foot-col" aria-label="الشركة"><h3>الشركة</h3><a href="#jobs">ما نُنجزه آلياً</a><a href="#how">كيف نعمل</a><a href="#price">الأسعار</a><a href="../websites.html">المواقع</a><a href="../" lang="en">English</a></nav>
+      <nav class="foot-col" aria-label="الشركة"><h3>الشركة</h3><a href="#jobs">ما نُنجزه آلياً</a><a href="#how">كيف نعمل</a><a href="#price">الأسعار</a><a href="../companies.html" hreflang="en">للشركات الكبيرة</a><a href="../websites.html">المواقع</a><a href="../" lang="en">English</a></nav>
       <div class="foot-col"><h3>تواصل</h3><a href="https://wa.me/971589358857" target="_blank" rel="noopener" dir="ltr">058 935 8857</a><a href="mailto:noor@nooraiconcierge.com">noor@nooraiconcierge.com</a><span>مقرنا أبوظبي، ونخدم كل الإمارات</span></div>
     </div>
     <div class="foot-bottom">
@@ -277,6 +288,6 @@
     </div>
   </div>
 </footer>
-<script src="../assets/site.js?v=12" defer></script>
+<script src="../assets/site.js?v=13" defer></script>
 </body>
 </html>
