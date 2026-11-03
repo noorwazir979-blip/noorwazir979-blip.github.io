@@ -255,7 +255,7 @@ if (askForm) {
     let i = 0, c = 0, del = false; const pre = AR ? "مثال: " : "e.g. ";
     (function tick() {
       if (document.activeElement === job || job.value) { setTimeout(tick, 600); return; }
-      const t = EX[i]; c += del ? -1 : 1; job.placeholder = pre + t.slice(0, c);
+      const t = EX[i]; c += del ? -1 : 1; job.placeholder = pre + t.slice(0, c) + (del || c < t.length ? "▏" : "");
       let wait = del ? 18 : 42;
       if (!del && c === t.length) { del = true; wait = 2200; } else if (del && c === 0) { del = false; i = (i + 1) % EX.length; wait = 350; }
       setTimeout(tick, wait);
@@ -338,6 +338,18 @@ if (askForm) {
   }
   askForm.addEventListener("submit", (e) => { e.preventDefault(); ask(job.value); });
   job.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(job.value); } });
+  // example chips (3 Nov 2026 c): a tap fills the box with a full example and runs it, the same path as typing
+  const chips = $$(".ask-try [data-job]", askForm);
+  chips.forEach((b) => b.addEventListener("click", () => {
+    chips.forEach((x) => x.classList.toggle("on", x === b));
+    job.value = b.dataset.job; ask(job.value);
+  }));
+  // phones: the round chat button waits until the job box has scrolled away, so it never covers the hero
+  if (matchMedia("(max-width:640px)").matches && "IntersectionObserver" in window) {
+    fab.classList.add("tuck");
+    new IntersectionObserver((es) => fab.classList.toggle("tuck", es[es.length - 1].isIntersecting && !fab.classList.contains("open")),
+      { rootMargin: "0px 0px -80px 0px" }).observe(askForm);
+  }
 
   $("#leadForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -355,13 +367,62 @@ if (askForm) {
 
 /* ---------- "What we automate" tabs (3 Nov 2026). Without JS every card shows; with JS one department at a time.
    Arrow keys move between tabs (mirrored in Arabic), Home/End jump to the first/last. ---------- */
+/* 3 Nov 2026 (c): a highlight pill glides to the chosen tab; the cards slide in from the direction of travel
+   (mirrored in Arabic) while the box height eases to the new size; on phones a sideways swipe on the cards changes
+   tab (vertical scrolling stays with the browser: touch-action pan-y). Reduced motion: plain switch, no slide. */
 const jtabs = $(".jtabs");
 if (jtabs) {
-  const tabs = $$("[role=tab]", jtabs);
-  const pick = (t, focus) => {
-    tabs.forEach((x) => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; $("#" + x.getAttribute("aria-controls")).hidden = !on; });
-    if (focus) t.focus();
+  const tabs = $$("[role=tab]", jtabs), box = $(".jpanels");
+  const panelOf = (t) => $("#" + t.getAttribute("aria-controls"));
+  const pill = document.createElement("span"); pill.className = "jt-pill"; pill.setAttribute("aria-hidden", "true");
+  jtabs.prepend(pill); jtabs.classList.add("has-pill");
+  const EASE = "cubic-bezier(.22,.75,.2,1)", DUR = 320, SHIFT = 56;
+  let cur = -1, run = 0, anim = [];
+  const place = () => { const t = tabs[cur]; if (!t) return; pill.style.width = t.offsetWidth + "px"; pill.style.height = t.offsetHeight + "px"; pill.style.transform = `translate(${t.offsetLeft}px,${t.offsetTop}px)`; };
+  const settle = () => { // end any running slide at once and show only the current panel
+    anim.forEach((a) => a.cancel()); anim = []; box.classList.remove("moving");
+    tabs.forEach((x, k) => { const p = panelOf(x); p.classList.remove("leaving"); p.style.transform = p.style.opacity = ""; p.hidden = k !== cur; });
   };
+  const snapBack = () => {
+    const p = cur >= 0 && panelOf(tabs[cur]); if (!p || !p.style.transform) return;
+    const from = p.style.transform, op = p.style.opacity || 1; p.style.transform = p.style.opacity = "";
+    if (!calm && p.animate) p.animate([{ transform: from, opacity: op }, { transform: "none", opacity: 1 }], { duration: 260, easing: EASE });
+  };
+  const pick = (t, focus, drag = 0) => {
+    const i = tabs.indexOf(t), prev = cur;
+    tabs.forEach((x) => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; });
+    if (focus) t.focus();
+    if (i === prev) { snapBack(); return; }
+    settle(); cur = i; place();
+    const inP = panelOf(t), outP = prev >= 0 ? panelOf(tabs[prev]) : null;
+    if (calm || !outP || !inP.animate) { settle(); return; }
+    const my = ++run, dir = (i > prev ? 1 : -1) * (AR ? -1 : 1); // 1 = the new cards come in from the right
+    const h0 = box.offsetHeight;
+    outP.classList.add("leaving"); inP.hidden = false; box.classList.add("moving");
+    const h1 = box.offsetHeight;
+    anim.push(outP.animate([{ transform: `translateX(${drag}px)`, opacity: outP.style.opacity || 1 }, { transform: `translateX(${-dir * SHIFT}px)`, opacity: 0 }], { duration: DUR * 0.75, easing: EASE, fill: "forwards" }));
+    anim.push(inP.animate([{ transform: `translateX(${dir * SHIFT}px)`, opacity: 0 }, { transform: "none", opacity: 1 }], { duration: DUR, delay: 40, easing: EASE, fill: "backwards" }));
+    if (Math.abs(h1 - h0) > 1) anim.push(box.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: DUR + 40, easing: EASE }));
+    Promise.all(anim.map((a) => a.finished)).then(() => { if (my === run) settle(); }, () => {});
+  };
+  // swipe on the cards (phones). Decide direction after 10px; sideways only if clearly more sideways than down.
+  const target = (dx) => { const j = cur + ((AR ? dx > 0 : dx < 0) ? 1 : -1); return j >= 0 && j < tabs.length ? j : -1; };
+  let sx = 0, sy = 0, lock = 0, follow = 0;
+  box.addEventListener("touchstart", (e) => { if (e.touches.length !== 1) { lock = -1; return; } sx = e.touches[0].clientX; sy = e.touches[0].clientY; lock = 0; follow = 0; }, { passive: true });
+  box.addEventListener("touchmove", (e) => {
+    const dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
+    if (!lock && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) lock = Math.abs(dx) > Math.abs(dy) * 1.3 ? 1 : -1;
+    if (lock !== 1 || calm) return;
+    const p = panelOf(tabs[cur]); follow = dx * (target(dx) < 0 ? 0.18 : 0.45); // rubber band at the first/last tab
+    p.style.transform = `translateX(${follow}px)`; p.style.opacity = String(1 - Math.min(0.35, Math.abs(follow) / 500));
+  }, { passive: true });
+  box.addEventListener("touchend", (e) => {
+    if (lock !== 1) return; lock = 0;
+    const dx = e.changedTouches[0].clientX - sx, j = target(dx);
+    if (Math.abs(dx) > 50 && j >= 0) pick(tabs[j], false, follow); else snapBack();
+  });
+  box.addEventListener("touchcancel", () => { lock = 0; snapBack(); });
+  if ("ResizeObserver" in window) new ResizeObserver(place).observe(jtabs); else addEventListener("resize", place);
   tabs.forEach((t, i) => {
     t.addEventListener("click", () => pick(t));
     t.addEventListener("keydown", (e) => {
@@ -372,6 +433,17 @@ if (jtabs) {
   });
   jtabs.hidden = false; $("#jobs").classList.add("tabbed");
   pick(tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0]);
+  requestAnimationFrame(() => requestAnimationFrame(() => jtabs.classList.add("pill-ready"))); // no glide on first paint
+}
+
+/* ---------- "Works with the tools you already use": one slow, endless row. The copy is for the loop only
+   (hidden from screen readers). Reduced motion: no copy, the row simply scrolls sideways by hand. ---------- */
+const mq = $(".mq-track");
+if (mq && !calm) {
+  [...mq.children].forEach((li) => { const c = li.cloneNode(true); c.setAttribute("aria-hidden", "true"); mq.appendChild(c); });
+  mq.parentElement.classList.add("run");
+  const m = mq.parentElement, hold = (on) => () => m.classList.toggle("hold", on); // a finger on the row pauses it
+  m.addEventListener("touchstart", hold(true), { passive: true }); m.addEventListener("touchend", hold(false)); m.addEventListener("touchcancel", hold(false));
 }
 
 /* ---------- scroll story: the step crossing the middle of the screen is active ---------- */

@@ -23,7 +23,7 @@
 <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=13">
+<link rel="stylesheet" href="../assets/site.css?v=15">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Noor AI Concierge","url":"https://nooraiconcierge.com/ar/","logo":"https://nooraiconcierge.com/assets/brand/logo-line.svg","telephone":"+971589358857","email":"noor@nooraiconcierge.com","inLanguage":"ar","address":{"@type":"PostalAddress","addressLocality":"Abu Dhabi","addressCountry":"AE"},"founder":{"@type":"Person","name":"Noor Zaman","jobTitle":"Founder"},"sameAs":["https://www.facebook.com/nooraiconcierge","https://www.instagram.com/nooraiconcierge/","https://www.linkedin.com/company/noor-ai-concierge/","https://x.com/nooraiconcierge","https://www.tiktok.com/@imnoorzaman","https://www.google.com/maps?cid=4371601908040004547"]}</script>
 </head>
 <body data-page="ar/home">
@@ -37,17 +37,23 @@
 <main id="top">
   <section class="hero">
     <div class="wrap">
-      <span class="eyebrow">أتمتة المكاتب ومساعدون بالذكاء الاصطناعي في أنحاء الإمارات</span>
+      <span class="eyebrow pill-eyebrow"><i aria-hidden="true"></i>ذكاء اصطناعي لمكاتب الإمارات</span>
       <h1>ما العمل الذي يكرره فريقك <em>يدوياً</em> كل يوم؟</h1>
-      <p class="lede">نرفع الأعمال المكتبية المتكررة عن فريقك، من عروض الأسعار وتذكيرات الدفع إلى إدخال البيانات والتقارير، داخل الأدوات التي تستخدمها اليوم. صف عملاً واحداً، وشاهد خلال 10 ثوانٍ تقريباً كيف يمكن أن يعمل وحده.</p>
+      <p class="lede">نرفع الأعمال المكتبية المتكررة عن فريقك. صف عملاً واحداً أدناه وشاهد كيف.</p>
       <form class="ask" id="askForm">
         <label class="sr" for="job">صف العمل</label>
-        <textarea id="job" rows="3" maxlength="500" placeholder="مثال: كل مساء ندخل فواتير الموردين يدوياً في إكسل"></textarea>
+        <textarea id="job" rows="2" maxlength="500" placeholder="مثال: كل مساء ندخل فواتير الموردين يدوياً في إكسل"></textarea>
         <div class="ask-row">
-          <small>مجاناً · بدون تسجيل · بالعربية أو الإنجليزية أو الأردية</small>
-          <button class="btn" type="submit">أرني كيف</button>
+          <div class="ask-try" role="group" aria-label="جرّب مثالاً">
+            <button type="button" data-job="كل مساء ندخل فواتير الموردين يدوياً في إكسل">الفواتير إلى إكسل</button>
+            <button type="button" data-job="نلاحق العملاء الذين لم يدفعوا فواتيرهم">متابعة المدفوعات</button>
+            <button type="button" data-job="نردّ على نفس أسئلة واتساب طوال اليوم">ردود واتساب</button>
+            <button type="button" data-job="نجهّز تقرير المبيعات الأسبوعي">التقرير الأسبوعي</button>
+          </div>
+          <button class="btn" type="submit">أرني كيف<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </form>
+      <p class="ask-trust"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>مجاناً · بدون تسجيل · بالعربية أو الإنجليزية أو الأردية</p>
     </div>
 
     <div class="bench" id="bench" hidden>
@@ -136,9 +142,12 @@
         </div>
       </div>
       <div class="tools">
-        <p><b>يعمل مع الأدوات التي تستخدمها اليوم.</b> لا برنامج جديد يتعلمه فريقك.</p>
-        <ul aria-label="الأدوات التي نربط بها"><li dir="ltr">Gmail</li><li dir="ltr">Outlook</li><li dir="ltr">WhatsApp Business</li><li dir="ltr">Excel</li><li dir="ltr">Google Sheets</li><li dir="ltr">Zoho Books</li><li dir="ltr">QuickBooks</li><li dir="ltr">Tally</li><li dir="ltr">Odoo</li></ul>
-        <p class="rule">نحن نجهّز وفريقك يعتمد. أي أمر يتعلق بالمال أو بإجراء قانوني أو بوعد لعميل يذهب إلى شخص أولاً. لا نقدّم أي طلب رسمي ولا ندفع ولا نوقّع عنك.</p>
+        <p class="tools-head"><b>يعمل مع الأدوات التي تستخدمها اليوم.</b> لا برنامج جديد يتعلمه فريقك.</p>
+        <div class="marquee"><ul class="mq-track" aria-label="الأدوات التي نربط بها"><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h17v11h-17z"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>Gmail</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h17v11h-17z"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>Outlook</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>WhatsApp Business</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 10h16M4 15h16M10 4v16"/></svg>Excel</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 10h16M4 15h16M10 4v16"/></svg>Google Sheets</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Zoho Books</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>QuickBooks</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Tally</li><li dir="ltr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Odoo</li></ul></div>
+        <div class="trust">
+          <span class="trust-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.6 12.2l2.4 2.4 4.4-4.6"/></svg></span>
+          <p><b>نحن نجهّز، وفريقك يعتمد.</b> <span>أي أمر يتعلق بالمال أو بإجراء قانوني أو بوعد لعميل يذهب إلى شخص أولاً. لا نقدّم أي طلب رسمي ولا ندفع ولا نوقّع عنك.</span></p>
+        </div>
       </div>
     </div>
   </section>
@@ -288,6 +297,6 @@
     </div>
   </div>
 </footer>
-<script src="../assets/site.js?v=13" defer></script>
+<script src="../assets/site.js?v=14" defer></script>
 </body>
 </html>
