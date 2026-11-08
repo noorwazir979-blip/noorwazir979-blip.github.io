@@ -63,3 +63,8 @@ figure.phone .b{margin:0}
   .faq{grid-template-columns:1fr}
   .btn.big{width:100%}
 }
+
+/* Steps list on a light band (new UAE pages) */
+.band .steps li{color:var(--ink)}
+.band .steps li::before{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.band .steps span{color:var(--muted)}
