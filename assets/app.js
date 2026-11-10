@@ -204,7 +204,7 @@ function calc() {
   $("#c1v").textContent = a; $("#c2v").textContent = "AED " + v.toLocaleString("en-US");
   segs($("#segMoney"), Math.min(m, 999999), 6); segs($("#segJobs"), Math.min(jobs, 999), 3);
   $("#perDay").textContent = "≈ AED " + Math.round(m / 30).toLocaleString("en-US") + " a day";
-  $("#verdict").textContent = m >= 999 ? "That's more than the AED 999 plan, which is about AED 33 a day." : "At these numbers it may not pay for itself yet. Message Noor for an honest answer.";
+  $("#verdict").textContent = m >= 499 ? "That's more than an AED 499 assistant, which is about AED 16 a day." : "At these numbers it may not pay for itself yet. Message Noor for an honest answer.";
 }
 $$(".sliders input").forEach((i) => i.addEventListener("input", calc)); calc();
 
