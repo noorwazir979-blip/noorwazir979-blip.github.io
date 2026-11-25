@@ -65,26 +65,65 @@ function busy(btn, on) {
   else { btn.disabled = false; btn.classList.remove("busy"); btn.textContent = btn.dataset.label; }
 }
 
-/* top bar border once scrolled */
+/* ---------- 25 Nov 2026 craft pass: a tiny spring (Apple-style parameters: response in seconds, damping ratio,
+   1 = no overshoot). It always moves from its live value and keeps its velocity when the target changes, so any
+   open/close can be reversed mid-flight without a jump. ---------- */
+function Spring(o) {
+  this.x = o.from || 0; this.v = 0; this.target = this.x; this.onUpdate = o.onUpdate; this.onRest = o.onRest || null;
+  this.precision = o.precision || 0.001; this.raf = 0; this.tune(o.response || 0.35, o.damping == null ? 1 : o.damping);
+  this.step = this.step.bind(this);
+}
+Spring.prototype.tune = function (response, damping) { const w = 2 * Math.PI / response; this.k = w * w; this.c = 2 * damping * w; };
+Spring.prototype.set = function (x) { if (this.raf) { cancelAnimationFrame(this.raf); this.raf = 0; } this.x = this.target = x; this.v = 0; this.onUpdate(x); if (this.onRest) this.onRest(x); };
+Spring.prototype.to = function (t) { this.target = t; if (!this.raf) { this.last = performance.now(); this.raf = requestAnimationFrame(this.step); } };
+Spring.prototype.step = function (now) {
+  const dt = Math.min(0.064, (now - this.last) / 1000); this.last = now;
+  const n = Math.max(1, Math.ceil(dt / (1 / 240))), h = dt / n;
+  for (let i = 0; i < n; i++) { const a = -this.k * (this.x - this.target) - this.c * this.v; this.v += a * h; this.x += this.v * h; }
+  if (Math.abs(this.x - this.target) < this.precision && Math.abs(this.v) < this.precision * 10) {
+    this.x = this.target; this.v = 0; this.raf = 0; this.onUpdate(this.x); if (this.onRest) this.onRest(this.x); return;
+  }
+  this.onUpdate(this.x); this.raf = requestAnimationFrame(this.step);
+};
+/* a floating surface that grows out of an anchor (the round button) and shrinks back into it */
+function grower(el, anchor, open = 0.34, close = 0.26) {
+  let want = false;
+  const origin = () => { // the anchor's centre, measured in the element's own box (transforms ignored)
+    const keep = el.style.transform; el.style.transform = "none";
+    const r = el.getBoundingClientRect(), a = anchor.getBoundingClientRect(); el.style.transform = keep;
+    el.style.setProperty("--ox", (a.left + a.width / 2 - r.left) + "px"); el.style.setProperty("--oy", (a.top + a.height / 2 - r.top) + "px");
+  };
+  const paint = (v) => {
+    el.style.opacity = Math.max(0, Math.min(1, v * 1.5));
+    el.style.transform = calm ? "" : `scale(${0.35 + 0.65 * v})`;
+    el.style.visibility = v > 0.001 ? "" : "hidden";
+  };
+  const sp = new Spring({ from: 0, response: open, precision: 0.0005, onUpdate: paint,
+    onRest: (v) => { if (v === 0 && !want) el.hidden = true; if (v === 1) el.style.transform = ""; } });
+  const api = (on) => {
+    want = on; el.inert = !on; el.style.pointerEvents = on ? "" : "none";
+    if (on && el.hidden) { el.hidden = false; paint(sp.x); }
+    if (on) origin();
+    if (calm) { sp.set(on ? 1 : 0); return; } // reduced motion: no scale, it simply appears and goes
+    sp.tune(on ? open : close, 1); sp.to(on ? 1 : 0); // input is never locked: a second tap re-targets mid-flight
+  };
+  api.spring = sp;
+  return api;
+}
+
+/* top bar: scroll-edge fade once content is under it */
 const topBar = $(".top");
-if (topBar) addEventListener("scroll", () => topBar.classList.toggle("scrolled", scrollY > 8), { passive: true });
+if (topBar) { const edge = () => topBar.classList.toggle("scrolled", scrollY > 8); addEventListener("scroll", edge, { passive: true }); edge(); }
 
 /* ---------- corner button: one button, two choices ---------- */
 const fab = document.createElement("div");
 fab.className = "fab";
-fab.innerHTML = `<div class="fab-menu" role="menu">
+fab.innerHTML = `<div class="fab-menu" role="menu" hidden>
   <button type="button" data-chat role="menuitem"><span class="ic">${ICON.chat}</span><span>${T.menuChat}<small>${T.menuChatSub}</small></span></button>
   <a href="${waLink()}" target="_blank" rel="noopener" role="menuitem"><span class="ic wa">${ICON.wa}</span><span>${T.menuWa}<small>${T.menuWaSub}</small></span></a>
 </div><button class="fab-btn" type="button" aria-expanded="false" aria-label="${T.menuChat} / ${T.menuWa}"><span class="c">${ICON.chat}</span><span class="x">${ICON.x}</span></button>`;
 document.body.appendChild(fab);
-const fabBtn = $(".fab-btn", fab);
-const closeFab = () => { fab.classList.remove("open"); fabBtn.setAttribute("aria-expanded", "false"); };
-fabBtn.addEventListener("click", () => {
-  if (!chat.hidden) { chat.hidden = true; closeFab(); return; }
-  const open = fab.classList.toggle("open"); fabBtn.setAttribute("aria-expanded", String(open));
-});
-document.addEventListener("click", (e) => { if (!fab.contains(e.target) && !chat.contains(e.target)) closeFab(); });
-$$("[data-open-chat]").forEach((b) => b.addEventListener("click", (e) => { e.preventDefault(); openChat(); }));
+const fabBtn = $(".fab-btn", fab), fabMenu = $(".fab-menu", fab);
 
 /* ---------- chat panel ---------- */
 const chat = document.createElement("section");
@@ -95,15 +134,25 @@ chat.innerHTML = `<div class="chat-head"><span class="dot"></span><div><b>${T.ch
 document.body.appendChild(chat);
 const logEl = $(".chat-log", chat), hist = [];
 const bubble = (who, text) => { const d = document.createElement("div"); d.className = "msg " + who; d.textContent = text; logEl.appendChild(d); logEl.scrollTop = logEl.scrollHeight; return d; };
+
+/* open/close state: the menu and the chat both grow out of the round button (same path in and out) */
+const growMenu = grower(fabMenu, fabBtn), growChat = grower(chat, fabBtn, 0.36, 0.28);
+let menuOpen = false, chatOpen = false;
+const sync = () => { const on = menuOpen || chatOpen; fab.classList.toggle("open", on); fabBtn.setAttribute("aria-expanded", String(on)); };
+const setMenu = (on) => { if (on === menuOpen) return; menuOpen = on; growMenu(on); sync(); };
+const setChat = (on) => { if (on === chatOpen) return; chatOpen = on; growChat(on); sync(); };
+const closeFab = () => setMenu(false);
 function openChat() {
-  closeFab(); chat.hidden = false; fab.classList.add("open"); fabBtn.setAttribute("aria-expanded", "true");
-  $(".fab-menu", fab).style.display = "none";
+  setMenu(false); setChat(true);
   if (!logEl.children.length) bubble("bot", T.hi);
-  setTimeout(() => $("#chatIn").focus(), 50);
+  setTimeout(() => $("#chatIn").focus({ preventScroll: true }), 50);
 }
-$(".chat-head button", chat).addEventListener("click", () => { chat.hidden = true; $(".fab-menu", fab).style.display = ""; closeFab(); });
+fabBtn.addEventListener("click", () => { if (chatOpen) { setChat(false); return; } setMenu(!menuOpen); });
+document.addEventListener("click", (e) => { if (!fab.contains(e.target) && !chat.contains(e.target)) closeFab(); });
+document.addEventListener("keydown", (e) => { if (e.key !== "Escape" || !(menuOpen || chatOpen)) return; setChat(false); setMenu(false); fabBtn.focus(); });
+$$("[data-open-chat]").forEach((b) => b.addEventListener("click", (e) => { e.preventDefault(); openChat(); }));
+$(".chat-head button", chat).addEventListener("click", () => { setChat(false); fabBtn.focus({ preventScroll: true }); });
 $("[data-chat]", fab).addEventListener("click", openChat);
-fabBtn.addEventListener("click", () => { if (chat.hidden) $(".fab-menu", fab).style.display = ""; });
 $(".chat-form", chat).addEventListener("submit", async (e) => {
   e.preventDefault();
   const inp = $("#chatIn"), q = inp.value.trim(); if (!q) return;
@@ -252,12 +301,13 @@ if (askForm) {
   const EX = job.dataset.examples ? job.dataset.examples.split("|") : AR ? ["كل مساء ندخل فواتير الموردين يدوياً في إكسل", "نجهّز 20 عرض سعر يومياً باليد", "نلاحق العملاء الذين لم يدفعوا", "نردّ على نفس أسئلة واتساب طوال اليوم", "نجهّز تقرير المبيعات الأسبوعي", "تفوتنا المكالمات عندما ينشغل الفريق"]
     : ["Every evening someone types supplier invoices into Excel", "We make 20 price quotes a day by hand", "Chasing customers who haven't paid", "Answering the same WhatsApp questions all day", "Putting together the weekly sales report", "Missing calls when the team is busy"];
   if (!calm) (function () { // the examples type themselves inside the box, and stop once the visitor starts
-    let i = 0, c = 0, del = false; const pre = AR ? "مثال: " : "e.g. ";
+    let i = 0, c = 0, del = false, laps = 0; const pre = AR ? "مثال: " : "e.g. ";
     (function tick() {
+      if (laps) { job.placeholder = pre + EX[0]; return; } // 25 Nov craft pass: one pass through the list, then rest
       if (document.activeElement === job || job.value) { setTimeout(tick, 600); return; }
       const t = EX[i]; c += del ? -1 : 1; job.placeholder = pre + t.slice(0, c) + (del || c < t.length ? "▏" : "");
       let wait = del ? 18 : 42;
-      if (!del && c === t.length) { del = true; wait = 2200; } else if (del && c === 0) { del = false; i = (i + 1) % EX.length; wait = 350; }
+      if (!del && c === t.length) { del = true; wait = 2200; } else if (del && c === 0) { del = false; i = (i + 1) % EX.length; if (!i) laps++; wait = 350; }
       setTimeout(tick, wait);
     })();
   })();
@@ -331,10 +381,9 @@ if (askForm) {
     $("#bench").hidden = false; // "Your plan" stays hidden until the visitor uses the box (3 Nov 2026: shorter phone page)
     $("#bench").scrollIntoView({ behavior: calm ? "auto" : "smooth" });
     $("#steps").innerHTML = `<li class="thinking">${T.thinking}</li>`;
-    const t0 = Date.now();
     let p;
     try { p = await post("/plan", { job: text }); if (!p.steps) throw 0; } catch { p = local(text); }
-    setTimeout(() => { show(text, p, false); demoSet(jobKind(text)); }, Math.max(0, 600 - (Date.now() - t0)));
+    show(text, p, false); demoSet(jobKind(text)); // 25 Nov craft pass: shown the moment it is ready (was held for at least 600 ms)
   }
   askForm.addEventListener("submit", (e) => { e.preventDefault(); ask(job.value); });
   job.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(job.value); } });
@@ -492,4 +541,61 @@ if (copy) copy.addEventListener("click", async () => {
   try { await navigator.clipboard.writeText("0589358857"); copy.textContent = T.copied; }
   catch { const r = document.createRange(); r.selectNodeContents($("#phone")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
 });
+
+/* ---------- 25 Nov 2026 craft pass: wayfinding and gentle reveals ---------- */
+// iOS Safari only shows :active press states when a touch listener exists
+document.addEventListener("touchstart", () => {}, { passive: true });
+
+/* Wayfinding: the nav marks the section you are in. On phones the section links come back as a compact row
+   under the logo, and the row keeps the current one in view. */
+if (topBar) {
+  const navEl = $("nav", topBar), main = $$("a.hide-s", navEl || topBar);
+  if (main.length >= 2) {
+    const sub = document.createElement("nav");
+    sub.className = "subnav"; sub.setAttribute("aria-label", AR ? "أقسام الصفحة" : "Sections");
+    main.forEach((a) => { const c = a.cloneNode(true); c.classList.remove("hide-s"); sub.appendChild(c); });
+    topBar.appendChild(sub);
+  }
+  const links = $$("nav a", topBar).filter((a) => !a.classList.contains("lang") && !a.hreflang);
+  const here = location.pathname.replace(/index\.html$/, "");
+  const targets = [];
+  links.forEach((a) => {
+    const u = new URL(a.href, location.href), same = u.pathname.replace(/index\.html$/, "") === here;
+    if (same && u.hash.length > 1) { const t = document.getElementById(decodeURIComponent(u.hash.slice(1))); if (t) targets.push([t, a]); }
+    else if (same && !u.hash) a.setAttribute("aria-current", "page");
+  });
+  if (targets.length) {
+    let cur = null, ticking = false;
+    const mark = () => {
+      ticking = false;
+      const line = innerHeight * 0.35; let hit = null;
+      targets.forEach(([t]) => { const r = t.getBoundingClientRect(); if (r.top <= line && r.bottom > line && !t.hidden) hit = t; });
+      if (hit === cur) return; cur = hit;
+      targets.forEach(([t, a]) => { if (t === hit) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+      const sub = $(".subnav", topBar), on = sub && $("a[aria-current]", sub);
+      if (on && sub.scrollWidth > sub.clientWidth) {
+        const r = on.getBoundingClientRect(), c = sub.getBoundingClientRect();
+        if (r.left < c.left + 8 || r.right > c.right - 24) sub.scrollBy({ left: r.left - c.left - 16, behavior: calm ? "auto" : "smooth" });
+      }
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(mark); } }, { passive: true });
+    addEventListener("resize", mark); mark();
+  }
+}
+
+/* Gentle reveals: opacity + a small rise, once, stagger capped at 3 steps. Anything already on screen at load is
+   shown at once (no entrance on the first frame). Reduced motion: none. */
+if (!calm && "IntersectionObserver" in window) {
+  const els = $$("main section > .wrap > .head, .s > .wrap > h2, .cards > *, .how4 > li, .offer > *, .person, .missed > *, .isteps > li, .faq > *, .plans > *, .tiers > *, .bigco-grid > *, .bigco-facts > li, .tools, .now .wrap");
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+  els.forEach((el) => {
+    el.classList.add("reveal");
+    const sibs = [...el.parentElement.children].filter((c) => els.includes(c));
+    el.style.setProperty("--d", Math.min(3, sibs.indexOf(el)));
+    const r = el.getBoundingClientRect();
+    if (r.top < innerHeight && r.bottom > 0) el.classList.add("in"); else io.observe(el);
+  });
+  document.documentElement.classList.add("rv");
+}
+
 })();

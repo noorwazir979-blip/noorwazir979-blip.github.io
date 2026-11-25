@@ -127,3 +127,49 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   .grid { grid-template-columns: 1fr 1fr; gap: 8px; } .f { padding: 14px; border-radius: 16px; } .f h3 { font-size: 15.5px; } .f p { font-size: 13px; }
   .langs button { padding: 0 10px; font-size: 14px; min-height: 36px; }
 }
+
+
+/* =====================================================================================================
+   25 Nov 2026 craft pass (apple-design skill). Spekly keeps its own dark product look (it is the Spekly app's
+   design system, not the Noor AI Concierge brand). Feel, type and accessibility only.
+   ===================================================================================================== */
+html { -webkit-tap-highlight-color: transparent; }
+/* response: instant press on real links and buttons only (the gold buttons keep their physical "push down") */
+.gbtn, .langs button, .back, .mic, .brand { transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .2s, background-color .2s, color .2s; }
+.gbtn:active { transition-duration: .1s; }
+.langs button:active, .back:active, .mic:active, .brand:active, .gbtn.ghost:active { transform: scale(.97); transition-duration: .1s; }
+/* feature cards are not links: no hover lift that suggests they can be pressed */
+.f:hover { transform: none; }
+/* typography: size-specific tracking and leading */
+h2 { letter-spacing: -.032em; line-height: 1.06; }
+h3, .f h3 { letter-spacing: -.012em; line-height: 1.25; }
+.hero h1 { font-optical-sizing: auto; }
+.sub, .end-cta p, .f p { letter-spacing: 0; line-height: 1.55; }
+.note, .msg, footer { letter-spacing: .01em; }
+/* the endless mic ring stops after a few beats */
+.mic.on::after { animation-iteration-count: 4; }
+@media (prefers-reduced-motion: reduce) {
+  .langs button:active, .back:active, .mic:active, .brand:active, .gbtn:active { transform: none !important; filter: brightness(.9); }
+  html { scroll-behavior: auto; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .top .bar { background: var(--el); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --muted: #c9c4ba; --line: rgba(255,255,255,.35); --line2: rgba(255,255,255,.5); }
+  .glass, .top .bar { background: var(--el); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* --- 26 Nov 2026: Spekly on the site's type scale and button shape. Keeps its own dark product look and gold.
+       Heading at most ~56 px on desktop, 28 px on phones; the hero no longer fills a whole screen, so the next
+       section starts on the first screen. Buttons are pills like the rest of the site. --- */
+.hero { min-height: auto; padding: clamp(96px, 9vw, 120px) 0 clamp(32px, 5vw, 64px); }
+.hero h1 { font-size: clamp(40px, 3.3vw, 56px); line-height: 1.04; letter-spacing: -.034em; margin: 14px 0 14px; }
+.hero h1.ur { font-size: clamp(30px, 2.8vw, 44px); line-height: 1.8; }
+.gbtn { border-radius: 999px; }
+.gbtn.sm { border-radius: 999px; }
+@media (max-width: 860px) {
+  .hero h1 { font-size: 28px; margin: 10px 0; text-wrap: balance; }
+  .hero h1.ur { font-size: 24px; }
+}
+h2 { font-size: clamp(26px, 3.2vw, 48px); }

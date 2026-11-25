@@ -57,7 +57,7 @@ bdi{unicode-bidi:isolate}
 @media (max-width:640px){.top nav .hide-s{display:none}}
 
 /* hero: centred, like the familiar "ask AI" box */
-.hero{padding-block:clamp(48px,10vw,120px) 0}
+.hero{padding-block:clamp(32px,5vw,64px) 0}
 .hero>.wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
 .hero .eyebrow{margin-bottom:22px}
 .hero h1{font-size:clamp(1.9rem,4.6vw,4.4rem);max-width:17ch}
@@ -355,9 +355,9 @@ bdi{unicode-bidi:isolate}
 @media (min-width:1400px){.foot-brand img{height:34px}}
 /* wide screens: the hero question on two lines, bigger, and a bigger job box (it is the main thing to do on the page) */
 @media (min-width:1100px){
-  .hero h1{max-width:24ch;font-size:clamp(3rem,4.4vw,5.4rem)}
+  .hero h1{max-width:24ch;font-size:clamp(2.5rem,3.3vw,3.5rem)}
   .hero .lede{font-size:1.2rem;max-width:62ch}
-  .ask{max-width:60rem;margin-top:42px;padding:14px;border-radius:26px}
+  .ask{max-width:60rem;margin-top:28px;padding:14px;border-radius:26px}
   .ask textarea{min-height:128px;font-size:1.3rem;padding:18px 18px 8px}
   .ask-row{padding:8px 8px 6px 18px}
   .ask-row small{font-size:.92rem}
@@ -640,8 +640,8 @@ details.need dd{margin:4px 0 0;font-size:.93rem}
 @media (max-width:640px){
   .hero{padding-block:24px 0}
   .hero .pill-eyebrow{margin-bottom:16px;font-size:.68rem;letter-spacing:.1em}
-  .hero h1{font-size:2rem}
-  :root[lang="ar"] .hero h1{font-size:1.75rem}
+  .hero h1{font-size:1.7rem;max-width:none;text-wrap:balance}
+  :root[lang="ar"] .hero h1{font-size:1.5rem}
   .hero .lede{margin-top:12px;font-size:.98rem;line-height:1.5;max-width:none;letter-spacing:-.005em}
   .ask{margin-top:20px;padding:6px;border-radius:20px}
   .ask textarea{min-height:0;height:62px;font-size:1.05rem;padding:11px 11px 2px}
@@ -722,3 +722,157 @@ details.need dd{margin:4px 0 0;font-size:.93rem}
   .ask-try{display:flex;flex-wrap:wrap;gap:5px}
   .ask-try button{padding:6px 9px;font-size:.72rem;text-align:start}
 }
+
+/* =====================================================================================================
+   25 Nov 2026 craft pass (apple-design skill). One layer on top of everything above, so it can be reviewed
+   and ported as a block. Feel and timing only: no copy, price or structure change.
+   ===================================================================================================== */
+:root{
+  --tint:color-mix(in srgb,var(--paper) 72%,transparent);
+  --press:cubic-bezier(.2,.8,.2,1);            /* fast out, soft settle: close to a critically damped spring */
+  --gutter:clamp(1.25rem,4vw,4rem);           /* same 20-64 px, now in rem so it grows with the user's text size */
+  --sh-1:0 1px 2px rgba(17,26,46,.05);        /* thin: chips and cards */
+  --sh-2:0 1px 0 var(--line),0 24px 60px -30px rgba(17,26,46,.35);   /* thick: the job box, forms */
+  --sh-3:0 30px 80px -20px rgba(12,19,36,.5); /* heaviest: floating chat panel and menu */
+}
+html{-webkit-tap-highlight-color:transparent;scroll-padding-top:5.5rem}
+
+/* --- Response (skill 1, 10): press-in on real links and buttons only, in 100 ms; release in about 220 ms --- */
+.btn,.act,.ask-try button,.jtabs [role=tab],.fab-btn,.fab-menu a,.fab-menu button,.cc-copy,.chat-form button,
+.chat-head button,.top nav a,.subnav a,.back,.social a,.brand{
+  transition:transform .22s var(--press),box-shadow .25s var(--ease),background-color .2s,border-color .2s,color .2s,opacity .2s}
+:is(.btn,.act,.ask-try button,.jtabs [role=tab],.fab-btn,.fab-menu a,.fab-menu button,.cc-copy,.chat-form button,
+.chat-head button,.top nav a,.subnav a,.back,.social a,.brand):active:not([disabled]):not(.busy){transform:scale(.97);transition-duration:.1s}
+.btn:hover,.fab-btn:hover{transform:none}                  /* no hover lift: it fought the press and stuck on touch */
+@media (hover:hover){.btn:not(.ghost):not(.line):hover{box-shadow:0 8px 24px -10px var(--accent)}}
+.rows label:active{background:color-mix(in srgb,var(--paper) 70%,var(--surface))}   /* answer rows: tone, not scale */
+.foot a:active,.doc a:active,.lede a:active,.more-prices a:active{opacity:.55}       /* inline text links: tone */
+
+/* --- Materials (skill 12): translucent header, scroll-edge fade instead of a hard 1 px border --- */
+.top{background:var(--tint);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);border-bottom:0}
+.top::after{content:"";position:absolute;inset-inline:0;top:100%;height:.875rem;pointer-events:none;
+  background:linear-gradient(var(--tint),transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  -webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent);opacity:0;transition:opacity .25s var(--ease)}
+.top.scrolled::after{opacity:1}
+.top .wrap{padding-block:.75rem}
+.top nav{gap:1.25rem}
+/* wayfinding (skill 16): the nav marks where you are */
+.top nav a[aria-current]{color:var(--ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.55em}
+/* phones: the section links come back as a compact row under the logo (the "local nav" pattern) */
+.top .subnav{display:none}   /* 26 Nov fix: ".top nav{display:flex}" was winning, so the phone row also showed on desktop */
+@media (max-width:640px){
+  html{scroll-padding-top:6.5rem}
+  .top .subnav{display:flex;gap:.125rem;overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--gutter) - .5rem) .5rem;margin-top:-.375rem;
+    -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  :root[dir="rtl"] .subnav{-webkit-mask-image:linear-gradient(270deg,#000 88%,transparent);mask-image:linear-gradient(270deg,#000 88%,transparent)}
+  .subnav::-webkit-scrollbar{display:none}
+  .subnav a{flex:none;font:500 .78rem/1 var(--body);letter-spacing:.005em;color:var(--muted);text-decoration:none;padding:.4375rem .625rem;border-radius:999px;white-space:nowrap}
+  .subnav a[aria-current]{background:var(--ink);color:#fff}
+  :root[lang="ar"] .subnav a{font-size:.85rem;letter-spacing:0}
+}
+
+/* --- Typography (skill 15): size-specific tracking and leading; body at 0; spacing in rem --- */
+h1,h2,h3{font-optical-sizing:auto}
+h2{line-height:1.1;letter-spacing:-.026em}
+h3{line-height:1.25;letter-spacing:-.012em}
+.hero h1{line-height:1.04;letter-spacing:-.034em}
+.page-head h1{line-height:1.06;letter-spacing:-.032em}
+.beat h3,.q h3,.result h3,.person h2,.strip h2,.now h2{line-height:1.15;letter-spacing:-.02em}
+.amount,.saved strong,.ocard .big,.pcard .price,.tier .amount{letter-spacing:-.025em}
+.lede{line-height:1.55;letter-spacing:0}
+.ask-row small,.chat-note,.tag,.cc-msg,.lead small,.checkf small,.foot-bottom{letter-spacing:.01em}
+:root[lang="ar"] :is(h1,h2,h3,.amount,.saved strong,.ocard .big,.pcard .price,.lede,.subnav a){letter-spacing:0}
+:root[lang="ar"] h2{line-height:1.3}
+:root[lang="ar"] h3{line-height:1.4}
+:root[lang="ar"] .hero h1{line-height:1.3}
+section{padding-block:clamp(4rem,10vw,7.5rem)}
+.s{padding-block:clamp(3.5rem,8vw,6rem)}
+.head{gap:.875rem}
+@media (max-width:640px){section,.s{padding-block:2rem}.head{gap:.625rem}}
+
+/* --- Kill latency (skill 1): the hero is there on the first frame; loops stop after a few passes --- */
+.hero .eyebrow,.hero h1,.hero .lede,.ask,.ask-trust{animation:none}
+.pill-eyebrow i,.hint::after{animation-iteration-count:3}
+.q.on{animation-duration:.3s}
+
+/* --- Spatial consistency (skill 3, 4, 7): menu and chat grow out of the round button and shrink back into it.
+       site.js drives them with a critically damped spring and sets the origin to the button centre. --- */
+.fab-menu{display:grid;gap:4px;animation:none;transform-origin:var(--ox,100%) var(--oy,100%);box-shadow:var(--sh-3)}
+.fab-menu[hidden]{display:none}
+.chat{animation:none;transform-origin:var(--ox,100%) var(--oy,100%);box-shadow:var(--sh-3)}
+.fab-btn{display:grid}
+.fab-btn>span{grid-area:1/1;display:grid!important;place-items:center;transition:transform .32s var(--press),opacity .2s var(--ease)}
+.fab-btn .x{opacity:0;transform:rotate(-90deg) scale(.6)}
+.fab.open .fab-btn .x{opacity:1;transform:none}
+.fab.open .fab-btn .c{opacity:0;transform:rotate(90deg) scale(.6)}
+
+/* --- Restraint: ONE bold dark section per page. The closing band (.end / .closing) stays night; the plan band,
+       the companies strip/page, the free-check card and the footer become light by re-pointing the night tokens. --- */
+.bench,.bigco:not(.end),.checkf,.foot{--night-ink:var(--ink);--night-muted:var(--muted);--night-line:var(--line);--night-2:var(--surface);--glow:#8a5a12;--mint:#1f7a4d}
+.bench{background:var(--surface);border-block:1px solid var(--line)}
+.bench::before{opacity:.55}
+.bench::after,.bigco::before{display:none}
+.bench .eyebrow,.bigco .eyebrow{color:var(--navy-text)}
+.bench .lead input,.checkf input{background:var(--paper)}
+#leadNote a{color:#a3261c}
+.bench .sent,.checkf .sent{background:#e8f7f1;border-color:#9fdcc6}
+.bigco{background:var(--paper)}
+.bigco.strip{background:var(--surface);border-block:1px solid var(--line)}
+.bigco-grid article{background:var(--surface);border-color:var(--line);box-shadow:var(--sh-1)}
+.btn.line{color:var(--ink);border-color:var(--line)}
+@media (hover:hover){.btn.line:hover{border-color:var(--muted);color:var(--ink)}}
+.checkf{background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-2)}
+.foot{background:var(--paper);border-top:1px solid var(--line)}
+.foot a:hover{color:var(--ink)}
+.social a:hover{background:var(--surface);border-color:var(--muted);color:var(--ink)}
+.co-page+.end{border-top:0}
+/* depth: three shadow weights by surface size (skill 12) */
+.job,.ocard,.contact-card,.tools{box-shadow:var(--sh-1)}
+.ask{box-shadow:var(--sh-2)}
+
+/* phones: the four price cards stack (two narrow columns broke the words) */
+@media (max-width:520px){.offer{grid-template-columns:1fr}.ocard .big{font-size:1.5rem}}
+
+/* --- Gentle reveals (restraint): opacity + a 0.75 rem rise, once, stagger capped at 3 x 60 ms. Uses the
+       translate property so it never fights the press scale. Only when JS is on and motion is allowed. --- */
+.rv .reveal{opacity:0;translate:0 .75rem;transition:opacity .5s var(--press) calc(var(--d,0) * 60ms),translate .6s var(--press) calc(var(--d,0) * 60ms)}
+.rv .reveal.in{opacity:1;translate:none}
+
+/* --- Accessibility (skill 14) --- */
+@media (prefers-reduced-motion:reduce){
+  :is(.btn,.act,.ask-try button,.jtabs [role=tab],.fab-btn,.fab-menu a,.fab-menu button,.cc-copy,.chat-form button,.chat-head button,.top nav a,.subnav a,.back,.social a,.brand):active{transform:none!important;filter:brightness(.92)}
+  .rv .reveal{opacity:1;translate:none}
+  .fab-btn>span{transform:none!important}
+  html{scroll-behavior:auto}
+}
+@media (prefers-reduced-transparency:reduce){
+  .top{background:var(--paper);-webkit-backdrop-filter:none;backdrop-filter:none}
+  .top::after{display:none}
+  .top.scrolled{box-shadow:0 1px 0 var(--line)}
+}
+@media (prefers-contrast:more){
+  :root{--muted:#384057;--line:#8f99ad}
+  .top{background:var(--paper);-webkit-backdrop-filter:none;backdrop-filter:none}
+  .top::after{display:none}
+  .top.scrolled{box-shadow:0 1px 0 var(--ink)}
+  .job,.ocard,.ask,.tools,.contact-card,.checkf,.fab-menu,.chat,.bigco-grid article{border:1px solid var(--ink)}
+  .subnav a[aria-current],.top nav a[aria-current]{outline:1px solid var(--ink)}
+}
+
+/* --- 26 Nov 2026: one type scale on every page. Inner pages (companies, websites, privacy, terms, Spekly legal)
+       use the home hero's heading size and top space, so the first screen shows the heading, the action and the
+       start of the next section. Mid-size screens get a smooth step up to the desktop size (no jump at 1100 px). --- */
+@media (min-width:641px) and (max-width:1099px){.hero h1{font-size:clamp(1.9rem,3.8vw,3.5rem)}}
+.page-head{padding-block:clamp(32px,5vw,64px) 0}
+.page-head h1{font-size:clamp(1.9rem,3.8vw,3.5rem);max-width:24ch}
+.page-head .lede{max-width:62ch}
+.page-head+section,.page-head+.doc{padding-top:clamp(2rem,4vw,3.5rem)}
+@media (min-width:1100px){.page-head h1{font-size:clamp(2.5rem,3.3vw,3.5rem)}}
+@media (max-width:640px){
+  .page-head{padding-block:24px 0}
+  .page-head h1{font-size:1.7rem;max-width:none;text-wrap:balance;margin-top:12px}
+  .page-head .lede{margin-top:12px;font-size:.98rem;line-height:1.5}
+  .page-head+section,.page-head+.doc{padding-top:1.75rem}
+}
+.page-head+section.co-page{margin-top:0}
+.page-head+section>.wrap>.tiers:first-child,.page-head+section .tiers{margin-top:0}
